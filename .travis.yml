@@ -45,7 +45,7 @@ deploy:
   bucket_path: staff-picks-development
   on:
     repo: NYPL/staff-picks
-    branch: development
+    branch: deploy-feature-branch
 after_deploy: echo 'Successfully executed deploy trigger for Staff Picks on AWS'
 env:
   global:
