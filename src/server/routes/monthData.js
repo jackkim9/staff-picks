@@ -2,9 +2,9 @@ import nyplApiClient from '../helper/nyplApiClient.js';
 import config from '../../../appConfig';
 
 const getLatestSeason = () => {
-  //this function should return the latest season by current month
+  // this function should return the latest season by current month
   return '';
-}
+};
 
 const nyplApiClientGet = (endpoint) =>
   nyplApiClient().then(client => client.get(endpoint, { cache: false }));
@@ -20,12 +20,13 @@ function currentMonthData(req, res, next) {
     .then(data => {
       res.locals.data = {
         BookStore: {
+          listType: 'staff-picks',
           filters: [],
           currentPicks: data,
           selectableFilters: [],
           isJsEnabled: false,
           currentSeason: getLatestSeason(),
-          currentAudience: 'adult',
+          currentAudience: 'Adult',
         },
         pageTitle: '',
         metaTags: [],
@@ -38,12 +39,13 @@ function currentMonthData(req, res, next) {
 
       res.locals.data = {
         BookStore: {
+          listType: 'staff-picks',
           filters: [],
           currentPicks: {},
           selectableFilters: [],
           isJsEnabled: false,
           currentSeason: getLatestSeason(),
-          currentAudience: 'adult',
+          currentAudience: 'Adult',
         },
       };
 
@@ -58,16 +60,13 @@ function selectMonthData(req, res, next) {
   // Checks if the URL input fits season's convention
   const seasonMatches = req.params.month.match(/^(\d{4})\-(\d{2})\-(\d{2})$/);
   // Default audience list is the adult list
-  let audience = 'adult';
-  let requestedAudience = '';
+  let audience = 'Adult';
   let requestedSeason = '';
 
   // Checks if req.query.audience exists and equals to one of the three values
-  if (['adult', 'ya', 'children'].includes(req.query.audience)) {
+  if (['Adult', 'YA', 'Children'].includes(req.query.audience)) {
     // If so, updates the selected audience list value
     audience = req.query.audience;
-    // And, constructs audience query
-    requestedAudience = `?audience=${audience}`;
   }
 
   // If the param does not fit season's convention, throws an error
@@ -76,12 +75,13 @@ function selectMonthData(req, res, next) {
 
     res.locals.data = {
       BookStore: {
+        listType: 'staff-picks',
         filters: [],
         currentPicks: {},
         selectableFilters: [],
         isJsEnabled: false,
         currentSeason: getLatestSeason(),
-        currentAudience: 'adult',
+        currentAudience: 'Adult',
       },
     };
 
@@ -94,10 +94,11 @@ function selectMonthData(req, res, next) {
   // Now the audience query seems to have no influence to the API,
   // as it will always throw the adult lists
   // But we should show the audience we choose on the URL and selected value on the list
-  nyplApiClientGet(`/book-lists/staff-picks/${requestedSeason}${requestedAudience}`)
+  nyplApiClientGet(`/book-lists/staff-picks/${requestedSeason}`)
     .then(data => {
       res.locals.data = {
         BookStore: {
+          listType: 'staff-picks',
           filters: [],
           currentPicks: data,
           selectableFilters: [],
@@ -116,12 +117,13 @@ function selectMonthData(req, res, next) {
 
       res.locals.data = {
         BookStore: {
+          listType: 'staff-picks',
           filters: [],
           currentPicks: {},
           selectableFilters: [],
           isJsEnabled: false,
           currentSeason: getLatestSeason(),
-          currentAudience: 'adult',
+          currentAudience: 'Adult',
         },
       };
 
@@ -135,13 +137,6 @@ function selectMonthData(req, res, next) {
  */
 function selectClientMonthData(req, res) {
   const seasonMatches = req.params.month.match(/^(\d{4})\-(\d{2})$/);
-  let audienceQuery = '';
-
-  // Checks if req.query.audience exists and equals to one of the three values
-  if (['adult', 'ya', 'children'].includes(req.query.audience)) {
-    // If so, constructs the audience query
-    audienceQuery = `?audience=${req.query.audience}`;
-  }
 
   if (!seasonMatches) {
     console.error('Status Code: 400, Error Message: Invalid season.');
@@ -152,7 +147,7 @@ function selectClientMonthData(req, res) {
     });
   }
 
-  nyplApiClientGet(`/book-lists/staff-picks/${req.params.month}${audienceQuery}`)
+  nyplApiClientGet(`/book-lists/staff-picks/${req.params.month}`)
     .then(data => {
       res.json({
         title: data.title,
@@ -187,6 +182,7 @@ function selectClientMonthDataPost(req, res) {
     );
   }
 
+  // Redirects and calls selectMonthData() to make server side request for the season/audience list
   res.redirect(
     `${config.baseMonthUrl}${season}${audience}`
   );

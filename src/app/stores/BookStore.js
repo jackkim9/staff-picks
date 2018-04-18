@@ -5,6 +5,7 @@ import BookActions from '../actions/BookActions';
 class BookStore {
   constructor() {
     this.bindListeners({
+      updateListType: BookActions.UPDATE_LIST_TYPE,
       updatePicks: BookActions.UPDATE_PICKS,
       updateFilters: BookActions.UPDATE_FILTERS,
       updateCurrentSeason: BookActions.UPDATE_CURRENT_SEASON,
@@ -14,6 +15,7 @@ class BookStore {
     });
 
     this.state = {
+      listType: '',
       filters: [],
       currentPicks: {},
       isJsEnabled: false,
@@ -21,6 +23,10 @@ class BookStore {
       currentSeason: '',
       currentAudience: '',
     };
+  }
+
+  updateListType(listType) {
+    this.setState({ listType });
   }
 
   updatePicks(currentPicks) {

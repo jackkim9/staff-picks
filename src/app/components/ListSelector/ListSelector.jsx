@@ -49,12 +49,20 @@ class ListSelector extends React.Component {
    * @param {array} filters
    * @param {array} selectedFilters
    */
-  updateBookStore(picks = {}, currentSeason = '', currentAudience = 'adult', filters = [], selectedFilters = []) {
+  updateBookStore(
+    picks = {},
+    currentSeason = '',
+    currentAudience = 'adult',
+    listType = 'staff-picks',
+    filters = [],
+    selectedFilters = []
+  ) {
     BookActions.updatePicks(picks);
     BookActions.updateCurrentSeason(currentSeason);
     BookActions.updateCurrentAudience(currentAudience);
     BookActions.updateFilters(filters);
     BookActions.setSelectableFilters(selectedFilters);
+    BookActions.updateListType(listType);
   }
 
   /**
@@ -66,7 +74,6 @@ class ListSelector extends React.Component {
   submitFormRequest(listType, submitValue) {
     let seasonValue = this.props.fieldsetProps.season.currentValue;
     let audienceValue = this.props.fieldsetProps.audience.currentValue;
-    let audienceQuery = `?audience=${audienceValue}`;
 
     if (listType === 'season') {
       seasonValue = submitValue;
@@ -74,11 +81,11 @@ class ListSelector extends React.Component {
 
     if (listType === 'audience') {
       audienceValue = submitValue;
-      audienceQuery =`?audience=${audienceValue}`;
+      audienceQuery = `?audience=${audienceValue}`;
     }
 
     // this function will be replaced by submiting to endpoint
-    axios.get(`${config.baseApiUrl}${seasonValue}${audienceQuery}`)
+    axios.get(`${config.baseApiUrl}${seasonValue}`)
       .then(response => {
         // Catch the error from API, and update BookStore back to the default
         if (response.data.statusCode >= 400) {
@@ -90,7 +97,12 @@ class ListSelector extends React.Component {
           this.updateHistory('/books-music-dvds/recommendations/staff-picks/404');
         } else {
           // For valid API response, update BookStore for the new list
-          this.updateBookStore(response.data.currentPicks, seasonValue, audienceValue);
+          this.updateBookStore(
+            response.data.currentPicks,
+            seasonValue,
+            audienceValue,
+            'staff-picks'
+          );
           // Update and transit to the match URL
           this.updateHistory(
             `/books-music-dvds/recommendations/staff-picks/${seasonValue}-01/`

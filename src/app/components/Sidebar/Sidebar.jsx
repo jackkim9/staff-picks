@@ -23,20 +23,20 @@ const fieldsetProps = {
     fieldsetName: 'audience',
     currentValue: '',
     options: [
-      { name: 'Adult', value: 'adult', disabled: false },
-      { name: 'Teen', value: 'ya', disabled: false },
-      { name: 'Children', value: 'children', disabled: false },
+      { name: 'Adult', value: 'Adult', disabled: false },
+      { name: 'Teen', value: 'YA', disabled: false },
+      { name: 'Children', value: 'Children', disabled: false },
     ],
   },
 };
 
 const Sidebar = (props) => {
   const updateCurrentListSelectorValue = (data) => {
-    fieldsetProps.season.currentValue =  data.currentSeason;
-    fieldsetProps.audience.currentValue =  data.currentAudience;
+    fieldsetProps.season.currentValue = data.currentSeason;
+    fieldsetProps.audience.currentValue = data.currentAudience;
 
     return fieldsetProps;
-  }
+  };
 
   const renderBookFilters = (shouldDisplay) => {
     if (!shouldDisplay) {

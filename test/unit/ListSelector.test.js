@@ -21,11 +21,11 @@ const fieldsetProps = {
   },
   audience: {
     fieldsetName: 'audience',
-    currentValue: 'adult',
+    currentValue: 'Adult',
     options: [
-      { name: 'Adult', value: 'adult' },
-      { name: 'Teen', value: 'ya' },
-      { name: 'Children', value: 'children' },
+      { name: 'Adult', value: 'Adult' },
+      { name: 'Teen', value: 'YA' },
+      { name: 'Children', value: 'Children' },
     ],
   },
 };
@@ -108,7 +108,7 @@ describe('ListSelector', () => {
           statusText: 'Undefined error',
           status: 500,
         })
-        .onGet(`${config.baseApiUrl}2017-01?audience=adult`)
+        .onGet(`${config.baseApiUrl}2017-01`)
         .reply(200, mockBookListResponse);
     });
 
@@ -164,7 +164,7 @@ describe('ListSelector', () => {
         () => {
           expect(updateBookStore.called).to.equal(true);
           expect(updateBookStore.getCall(0).args).to.deep.equal(
-            [mockBookListResponse.currentPicks, '2017-01', 'adult']
+            [mockBookListResponse.currentPicks, '2017-01', 'Adult', "staff-picks"]
           );
 
           done();

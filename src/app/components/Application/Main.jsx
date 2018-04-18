@@ -22,9 +22,6 @@ class Main extends React.Component {
   }
 
   componentWillReceiveProps() {
-    // Temperorily logging for development
-    console.log('update new props!');
-
     // Update the props to reflect the latest updates from client side API responses
     this.setState({
       selectableFilters: this.props.selectableFilters,
@@ -110,6 +107,34 @@ class Main extends React.Component {
     });
   }
 
+  /**
+   * extractAudienceGroup(picks, audience)
+   * Picks up the items from the selected age/audience group
+   * @param {array} picks
+   * @param {string} audience
+   */
+  extractAudienceGroup(picks, audience) {
+    console.log(this.props.listType);
+
+    // Only applies the check for staff-picks lists
+    if (this.props.listType !== 'staff-picks') {
+      // skips the checks and returns the original picks
+      return picks;
+    }
+
+    const audienceGroup = [];
+
+    if (Array.isArray(picks) && picks.length) {
+      picks.map((item) => {
+        if (item.ageGroup === audience) {
+          audienceGroup.push(item);
+        }
+      });
+    }
+
+    return audienceGroup;
+  }
+
   render() {
     return (
       <div className="nypl-row">
@@ -126,7 +151,7 @@ class Main extends React.Component {
         />
 
         <BookList
-          picks={this.state.picks}
+          picks={this.extractAudienceGroup(this.state.picks, this.props.currentAudience)}
           isJsEnabled={this.props.isJsEnabled}
           listType={this.props.params.type}
         />
@@ -141,6 +166,9 @@ Main.propTypes = {
   currentPicks: PropTypes.object,
   isJsEnabled: PropTypes.bool,
   params: PropTypes.object,
+  listType: PropTypes.string,
+  currentSeason: PropTypes.string,
+  currentAudience: PropTypes.string,
 };
 
 Main.defaultProps = {

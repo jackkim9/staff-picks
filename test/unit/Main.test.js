@@ -173,5 +173,9 @@ describe('Main', () => {
         expect(component.state('picks')).to.eql([]);
       });
     });
+
+    describe('extractAudienceGroup', () => {
+      it('should return specific audience/age group based on the props', () => {});
+    });
   });
 });
