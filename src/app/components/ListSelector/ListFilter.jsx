@@ -9,7 +9,7 @@ const ListFilter = ({ fieldsetProps, listType, handleChange }) => {
   // const defaultValue = (fieldsetProps.options.length && fieldsetProps.options[0].value) ?
   //   fieldsetProps.options[0].value : '';
   const optionList = (fieldsetProps.options.length) ? fieldsetProps.options.map(
-    (opt) => <option value={opt.value} key={opt.value}>{opt.name}</option>
+    (opt) => <option value={opt.value} disabled={opt.disabled} key={opt.value}>{opt.name}</option>
   ) : null;
 
   if (fieldsetProps.currentValue) {

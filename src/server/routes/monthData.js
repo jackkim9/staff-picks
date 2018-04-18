@@ -13,9 +13,10 @@ const nyplApiClientGet = (endpoint) =>
  * Get the default/latest monthly staff pick list.
  */
 function currentMonthData(req, res, next) {
-  // only 2017-01 works currently. Comment out the dynamice API link below
-  // nyplApiClientGet(`/book-lists/staff-picks/${req.params.month}`)
-  nyplApiClientGet('/book-lists/staff-picks/2017-01')
+  // should get the latest list from the function getLatestSeason()
+  // It will always be adult for default audience list
+  // After the API is ready, we can specify the audience query below
+  nyplApiClientGet('/book-lists/staff-picks/2018-01')
     .then(data => {
       res.locals.data = {
         BookStore: {
@@ -56,11 +57,20 @@ function currentMonthData(req, res, next) {
 function selectMonthData(req, res, next) {
   // Checks if the URL input fits season's convention
   const seasonMatches = req.params.month.match(/^(\d{4})\-(\d{2})\-(\d{2})$/);
-  const audience = req.query.audience;
+  // Default audience list is the adult list
+  let audience = 'adult';
+  let requestedAudience = '';
+  let requestedSeason = '';
 
-  // should add a check for req.query.audience here
+  // Checks if req.query.audience exists and equals to one of the three values
+  if (['adult', 'ya', 'children'].includes(req.query.audience)) {
+    // If so, updates the selected audience list value
+    audience = req.query.audience;
+    // And, constructs audience query
+    requestedAudience = `?audience=${audience}`;
+  }
 
-  // If no, throw an error
+  // If the param does not fit season's convention, throws an error
   if (!seasonMatches) {
     console.error('Status Code: 400, Error Message: Invalid season.');
 
@@ -76,11 +86,15 @@ function selectMonthData(req, res, next) {
     };
 
     next();
+  } else {
+    // If the param fits season's convention, constructs the request param
+    requestedSeason = `${seasonMatches[1]}-${seasonMatches[2]}`;
   }
 
-  // only 2017-01 works currently. Comment out the dynamice API link below
-  // nyplApiClientGet(`/book-lists/staff-picks/${req.params.month}`)
-  nyplApiClientGet(`/book-lists/staff-picks/2017-01?audience=${audience}`)
+  // Now the audience query seems to have no influence to the API,
+  // as it will always throw the adult lists
+  // But we should show the audience we choose on the URL and selected value on the list
+  nyplApiClientGet(`/book-lists/staff-picks/${requestedSeason}${requestedAudience}`)
     .then(data => {
       res.locals.data = {
         BookStore: {
@@ -88,7 +102,7 @@ function selectMonthData(req, res, next) {
           currentPicks: data,
           selectableFilters: [],
           isJsEnabled: false,
-          currentSeason: `${seasonMatches[1]}-${seasonMatches[2]}`,
+          currentSeason: requestedSeason,
           currentAudience: audience,
         },
         pageTitle: '',
@@ -120,9 +134,25 @@ function selectMonthData(req, res, next) {
  * Gets a specific month's or season's staff pick list on the client side.
  */
 function selectClientMonthData(req, res) {
-  // only 2017-01 works currently. Comment out the dynamice API link below
-  // nyplApiClientGet(`/book-lists/staff-picks/${req.params.month}`)
-  nyplApiClientGet('/book-lists/staff-picks/2017-01')
+  const seasonMatches = req.params.month.match(/^(\d{4})\-(\d{2})$/);
+  let audienceQuery = '';
+
+  // Checks if req.query.audience exists and equals to one of the three values
+  if (['adult', 'ya', 'children'].includes(req.query.audience)) {
+    // If so, constructs the audience query
+    audienceQuery = `?audience=${req.query.audience}`;
+  }
+
+  if (!seasonMatches) {
+    console.error('Status Code: 400, Error Message: Invalid season.');
+
+    res.json({
+      statusCode: 400,
+      errorMessage: 'Invalid season.',
+    });
+  }
+
+  nyplApiClientGet(`/book-lists/staff-picks/${req.params.month}${audienceQuery}`)
     .then(data => {
       res.json({
         title: data.title,
