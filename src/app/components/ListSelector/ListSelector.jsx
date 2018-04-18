@@ -49,20 +49,36 @@ class ListSelector extends React.Component {
    * @param {array} filters
    * @param {array} selectedFilters
    */
-  updateBookStore(picks = {}, filters = [], selectedFilters = []) {
+  updateBookStore(picks = {}, currentSeason = '', currentAudience = 'adult', filters = [], selectedFilters = []) {
     BookActions.updatePicks(picks);
+    BookActions.updateCurrentSeason(currentSeason);
+    BookActions.updateCurrentAudience(currentAudience);
     BookActions.updateFilters(filters);
     BookActions.setSelectableFilters(selectedFilters);
   }
 
   /**
-   * submitFormRequest(submitValue)
+   * submitFormRequest(listType, submitValue)
    * Submits the request for a new list to the internal server
+   * @param {string} listType
    * @param {string} submitValue
    */
-  submitFormRequest(submitValue) {
+  submitFormRequest(listType, submitValue) {
+    let seasonValue = this.props.fieldsetProps.season.currentValue;
+    let audienceValue = this.props.fieldsetProps.audience.currentValue;
+    let audienceQuery = `?audience=${audienceValue}`;
+
+    if (listType === 'season') {
+      seasonValue = submitValue;
+    }
+
+    if (listType === 'audience') {
+      audienceValue = submitValue;
+      audienceQuery =`?audience=${audienceValue}`;
+    }
+
     // this function will be replaced by submiting to endpoint
-    axios.get(`${config.baseApiUrl}${submitValue}`)
+    axios.get(`${config.baseApiUrl}${seasonValue}${audienceQuery}`)
       .then(response => {
         // Catch the error from API, and update BookStore back to the default
         if (response.data.statusCode >= 400) {
@@ -74,10 +90,10 @@ class ListSelector extends React.Component {
           this.updateHistory('/books-music-dvds/recommendations/staff-picks/404');
         } else {
           // For valid API response, update BookStore for the new list
-          this.updateBookStore(response.data.currentPicks);
+          this.updateBookStore(response.data.currentPicks, seasonValue, audienceValue);
           // Update and transit to the match URL
           this.updateHistory(
-            `/books-music-dvds/recommendations/staff-picks/${submitValue}-01/`
+            `/books-music-dvds/recommendations/staff-picks/${seasonValue}-01/`
           );
         }
       })
@@ -99,12 +115,13 @@ class ListSelector extends React.Component {
   }
 
   /**
-   * handleChange(e)
+   * handleChange(listType, e)
    * Triggers to submit requests when the selected value changed on the season or audience lists
+   * @param {string} listType
    * @param {DOM event} e
    */
-  handleChange(e) {
-    this.submitFormRequest(e.target.value);
+  handleChange(listType, e) {
+    this.submitFormRequest(listType, e.target.value);
   }
 
   /**
@@ -117,8 +134,14 @@ class ListSelector extends React.Component {
       return null;
     }
 
+    const listType = fieldsetProps.fieldsetName;
+
     return (
-      <ListFilter fieldsetProps={fieldsetProps} handleChange={this.handleChange} />
+      <ListFilter
+        fieldsetProps={fieldsetProps}
+        handleChange={this.handleChange}
+        listType={listType}
+      />
     );
   }
 

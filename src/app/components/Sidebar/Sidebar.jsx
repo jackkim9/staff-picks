@@ -10,6 +10,7 @@ import config from '../../../../appConfig';
 const fieldsetProps = {
   season: {
     fieldsetName: 'season',
+    currentValue: '',
     options: [
       { name: '2018 Winter', value: '2018-01' },
       { name: '2017 Fall', value: '2017-09' },
@@ -19,6 +20,7 @@ const fieldsetProps = {
   },
   audience: {
     fieldsetName: 'audience',
+    currentValue: '',
     options: [
       { name: 'Adult', value: 'adult' },
       { name: 'Teen', value: 'ya' },
@@ -28,6 +30,13 @@ const fieldsetProps = {
 };
 
 const Sidebar = (props) => {
+  const updateCurrentListSelectorValue = (data) => {
+    fieldsetProps.season.currentValue =  data.currentSeason;
+    fieldsetProps.audience.currentValue =  data.currentAudience;
+
+    return fieldsetProps;
+  }
+
   const renderBookFilters = (shouldDisplay) => {
     if (!shouldDisplay) {
       return null;
@@ -46,7 +55,10 @@ const Sidebar = (props) => {
   };
 
   const renderListSelector = (data) =>
-    <ListSelector fieldsetProps={data} isJsEnabled={props.isJsEnabled} />;
+    <ListSelector
+      fieldsetProps={data}
+      isJsEnabled={props.isJsEnabled}
+    />;
 
   return (
     <div className="sidebar nypl-column-one-quarter">
@@ -57,7 +69,7 @@ const Sidebar = (props) => {
           {config.recommendationsLink.label}
         </a>
       </nav>
-      {renderListSelector(fieldsetProps)}
+      {renderListSelector(updateCurrentListSelectorValue(props))}
       {renderBookFilters(props.isJsEnabled)}
     </div>
   );

@@ -121,6 +121,8 @@ class Main extends React.Component {
           isJsEnabled={this.props.isJsEnabled}
           selectedFilters={this.state.selectedFilters}
           picksCount={this.state.picks.length}
+          currentSeason={this.props.currentSeason}
+          currentAudience={this.props.currentAudience}
         />
 
         <BookList

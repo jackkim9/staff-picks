@@ -2,14 +2,22 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-const ListFilter = ({ fieldsetProps, handleChange }) => {
+const ListFilter = ({ fieldsetProps, listType, handleChange }) => {
   const selectName = fieldsetProps.fieldsetName;
   const selectId = `${selectName}-input`;
-  const defaultValue = (fieldsetProps.options.length && fieldsetProps.options[0].value) ?
-    fieldsetProps.options[0].value : '';
+  let defaultValue;
+  // const defaultValue = (fieldsetProps.options.length && fieldsetProps.options[0].value) ?
+  //   fieldsetProps.options[0].value : '';
   const optionList = (fieldsetProps.options.length) ? fieldsetProps.options.map(
     (opt) => <option value={opt.value} key={opt.value}>{opt.name}</option>
   ) : null;
+
+  if (fieldsetProps.currentValue) {
+    defaultValue = fieldsetProps.currentValue;
+  } else {
+    defaultValue = (fieldsetProps.options.length && fieldsetProps.options[0].value) ?
+      fieldsetProps.options[0].value : '';
+  }
 
   return (
     <fieldset>
@@ -18,7 +26,7 @@ const ListFilter = ({ fieldsetProps, handleChange }) => {
         id={selectId}
         name={selectName}
         defaultValue={defaultValue}
-        onChange={handleChange}
+        onChange={(e) => { handleChange(listType, e); }}
       >
        {optionList}
       </select>

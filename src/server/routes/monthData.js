@@ -1,6 +1,11 @@
 import nyplApiClient from '../helper/nyplApiClient.js';
 import config from '../../../appConfig';
 
+const getLatestSeason = () => {
+  //this function should return the latest season by current month
+  return '';
+}
+
 const nyplApiClientGet = (endpoint) =>
   nyplApiClient().then(client => client.get(endpoint, { cache: false }));
 
@@ -18,6 +23,8 @@ function currentMonthData(req, res, next) {
           currentPicks: data,
           selectableFilters: [],
           isJsEnabled: false,
+          currentSeason: getLatestSeason(),
+          currentAudience: 'adult',
         },
         pageTitle: '',
         metaTags: [],
@@ -34,6 +41,8 @@ function currentMonthData(req, res, next) {
           currentPicks: {},
           selectableFilters: [],
           isJsEnabled: false,
+          currentSeason: getLatestSeason(),
+          currentAudience: 'adult',
         },
       };
 
@@ -45,9 +54,33 @@ function currentMonthData(req, res, next) {
  * Get a specific month's or season's staff pick list.
  */
 function selectMonthData(req, res, next) {
+  // Checks if the URL input fits season's convention
+  const seasonMatches = req.params.month.match(/^(\d{4})\-(\d{2})\-(\d{2})$/);
+  const audience = req.query.audience;
+
+  // should add a check for req.query.audience here
+
+  // If no, throw an error
+  if (!seasonMatches) {
+    console.error('Status Code: 400, Error Message: Invalid season.');
+
+    res.locals.data = {
+      BookStore: {
+        filters: [],
+        currentPicks: {},
+        selectableFilters: [],
+        isJsEnabled: false,
+        currentSeason: getLatestSeason(),
+        currentAudience: 'adult',
+      },
+    };
+
+    next();
+  }
+
   // only 2017-01 works currently. Comment out the dynamice API link below
   // nyplApiClientGet(`/book-lists/staff-picks/${req.params.month}`)
-  nyplApiClientGet('/book-lists/staff-picks/2017-01')
+  nyplApiClientGet(`/book-lists/staff-picks/2017-01?audience=${audience}`)
     .then(data => {
       res.locals.data = {
         BookStore: {
@@ -55,6 +88,8 @@ function selectMonthData(req, res, next) {
           currentPicks: data,
           selectableFilters: [],
           isJsEnabled: false,
+          currentSeason: `${seasonMatches[1]}-${seasonMatches[2]}`,
+          currentAudience: audience,
         },
         pageTitle: '',
         metaTags: [],
@@ -71,6 +106,8 @@ function selectMonthData(req, res, next) {
           currentPicks: {},
           selectableFilters: [],
           isJsEnabled: false,
+          currentSeason: getLatestSeason(),
+          currentAudience: 'adult',
         },
       };
 
@@ -112,7 +149,7 @@ function selectClientMonthData(req, res) {
  */
 function selectClientMonthDataPost(req, res) {
   const season = (req.body.season) ? `${req.body.season}-01` : '';
-  const audience = req.body.audience;
+  const audience = (req.body.audience) ? `?audience=${req.body.audience}` : '';
 
   if (!season || !audience) {
     console.log(
@@ -121,7 +158,7 @@ function selectClientMonthDataPost(req, res) {
   }
 
   res.redirect(
-    `${config.baseMonthUrl}${season}`
+    `${config.baseMonthUrl}${season}${audience}`
   );
 }
 

@@ -117,7 +117,7 @@ By using the `aws-cli`, developers can deploy the application to the AWS applica
 | AWS Profile | Application Name | Environment |
 |---|---|---|
 | `nypl-digital-dev` | `nypl-staff-picks-app` | **QA**: `staff-picks-qa` <br><br> **Production**: `staff-picks-production` |
-| `nypl-sandbox` | `nypl-staff-picks-app` | **Development**: `staff-picks-dev`
+| `nypl-sandbox` | `nypl-staff-picks-app` | **Development**: `staff-picks-development`
 
 > Note: All QA and Development servers should be configured with only 1 instance. Production servers are typically setup with auto-scaling supporting 2 or more instances.
 

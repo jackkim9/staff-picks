@@ -10,6 +10,14 @@ class Actions {
     return filters;
   }
 
+  updateCurrentSeason(season) {
+    return season;
+  }
+
+  updateCurrentAudience(audience) {
+    return audience;
+  }
+
   setIsJsEnabled(bool) {
     return bool;
   }
