@@ -18,7 +18,7 @@ router
 
 router
   .route(`${appConfig.baseApiUrl}`)
-  .post(monthData.selectClientMonthDataPost);
+  .post(monthData.selectMonthDataFormPost);
 
 // The route for client side API request of Staff Picks
 router

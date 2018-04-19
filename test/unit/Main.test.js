@@ -1,5 +1,6 @@
 /* eslint-env mocha */
 import React from 'react';
+import sinon from 'sinon';
 import { expect } from 'chai';
 import { shallow, mount } from 'enzyme';
 
@@ -7,15 +8,21 @@ import Main from '../../src/app/components/Application/Main';
 
 const picks = [
   {
-    title: 'first book title',
+    book: {
+      title: 'first book title',
+    },
     tags: ['funny', 'horror'],
   },
   {
-    title: 'second book title',
+    book: {
+      title: 'second book title',
+    },
     tags: ['adventure', 'horror'],
   },
   {
-    title: 'third book title',
+    book: {
+      title: 'third book title',
+    },
     tags: ['graphic-novels', 'funny'],
   },
 ];
@@ -73,7 +80,9 @@ describe('Main', () => {
       it('should return a subset of the picks passed, based on the one selected filter', () => {
         expect(getNewPickSet(picks, ['adventure'])).to.eql([
           {
-            title: 'second book title',
+            book: {
+              title: 'second book title',
+            },
             tags: ['adventure', 'horror'],
           },
         ]);
@@ -82,7 +91,9 @@ describe('Main', () => {
       it('should return a subset of the picks passed, based on the selected filters', () => {
         expect(getNewPickSet(picks, selectedFilters)).to.eql([
           {
-            title: 'third book title',
+            book: {
+              title: 'third book title',
+            },
             tags: ['graphic-novels', 'funny'],
           },
         ]);
@@ -156,6 +167,10 @@ describe('Main', () => {
         clearFilters = component.instance().clearFilters;
       });
 
+      after(() => {
+        component.unmount();
+      });
+
       it('should clear the state', () => {
         component.setState({
           picks,
@@ -175,7 +190,85 @@ describe('Main', () => {
     });
 
     describe('extractAudienceGroup', () => {
-      it('should return specific audience/age group based on the props', () => {});
+      const staffPicksData = {
+        picks: [
+          {
+            ageGroup: 'Adult',
+            book: {
+              title: 'book 01',
+            },
+          },
+          {
+            ageGroup: 'Children',
+            book: {
+              title: 'book 01',
+            },
+          },
+          {
+            ageGroup: 'YA',
+            book: {
+              title: 'book 03',
+            },
+          },
+        ],
+      };
+      const extractAudienceGroup = sinon.spy(Main.prototype, 'extractAudienceGroup');
+      const component = shallow(
+        <Main currentPicks={staffPicksData} currentAudience={'YA'} listType={'staff-picks'} />
+      );
+
+      after(() => {
+        extractAudienceGroup.restore();
+        component.unmount();
+      });
+
+      it('should be called with the passed down picks, age group, and list tyep as the arguments.',
+        () => {
+          expect(extractAudienceGroup.called).to.equal(true);
+          expect(extractAudienceGroup.getCall(0).args).to.deep.equal(
+            [staffPicksData.picks, 'YA', 'staff-picks']
+          );
+        }
+      );
+
+      it('should return the original list if it is not a staff picks list.', () => {
+        const returnedValue = staffPicksData.picks;
+
+        expect(extractAudienceGroup(staffPicksData.picks, 'YA', 'some-other-list')).to.deep.equal(
+          returnedValue
+        );
+      });
+
+      it('should return an empty array if the passed down list is empty.', () => {
+        const returnedValue = [];
+
+        expect(extractAudienceGroup([], 'YA', 'staff-picks')).to.deep.equal(
+          returnedValue
+        );
+      });
+
+      it('should return an empty array if the passed down age group is not valid.', () => {
+        const returnedValue = [];
+
+        expect(extractAudienceGroup(staffPicksData.picks, 'Toddler', 'staff-picks')).to.deep.equal(
+          returnedValue
+        );
+      });
+
+      it('should return a specific audience/age group based on the props.', () => {
+        const returnedValue = [
+          {
+            ageGroup: 'YA',
+            book: {
+              title: 'book 03',
+            },
+          },
+        ];
+
+        expect(extractAudienceGroup(staffPicksData.picks, 'YA', 'staff-picks')).to.deep.equal(
+          returnedValue
+        );
+      });
     });
   });
 });

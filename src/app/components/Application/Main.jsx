@@ -108,16 +108,15 @@ class Main extends React.Component {
   }
 
   /**
-   * extractAudienceGroup(picks, audience)
+   * extractAudienceGroup(picks, audience, listType)
    * Picks up the items from the selected age/audience group
    * @param {array} picks
    * @param {string} audience
+   * @param {string} listType
    */
-  extractAudienceGroup(picks, audience) {
-    console.log(this.props.listType);
-
+  extractAudienceGroup(picks, audience, listType) {
     // Only applies the check for staff-picks lists
-    if (this.props.listType !== 'staff-picks') {
+    if (listType !== 'staff-picks') {
       // skips the checks and returns the original picks
       return picks;
     }
@@ -151,7 +150,11 @@ class Main extends React.Component {
         />
 
         <BookList
-          picks={this.extractAudienceGroup(this.state.picks, this.props.currentAudience)}
+          picks={this.extractAudienceGroup(
+            this.state.picks,
+            this.props.currentAudience,
+            this.props.listType
+          )}
           isJsEnabled={this.props.isJsEnabled}
           listType={this.props.params.type}
         />

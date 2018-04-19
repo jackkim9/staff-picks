@@ -16,7 +16,7 @@ function currentMonthData(req, res, next) {
   // should get the latest list from the function getLatestSeason()
   // It will always be adult for default audience list
   // After the API is ready, we can specify the audience query below
-  nyplApiClientGet('/book-lists/staff-picks/2018-01')
+  nyplApiClientGet('/book-lists/staff-picks/2018-03-01')
     .then(data => {
       res.locals.data = {
         BookStore: {
@@ -88,7 +88,7 @@ function selectMonthData(req, res, next) {
     next();
   } else {
     // If the param fits season's convention, constructs the request param
-    requestedSeason = `${seasonMatches[1]}-${seasonMatches[2]}`;
+    requestedSeason = seasonMatches[0];
   }
 
   // Now the audience query seems to have no influence to the API,
@@ -136,7 +136,7 @@ function selectMonthData(req, res, next) {
  * Gets a specific month's or season's staff pick list on the client side.
  */
 function selectClientMonthData(req, res) {
-  const seasonMatches = req.params.month.match(/^(\d{4})\-(\d{2})$/);
+  const seasonMatches = req.params.month.match(/^(\d{4})\-(\d{2})\-(\d{2})$/);
 
   if (!seasonMatches) {
     console.error('Status Code: 400, Error Message: Invalid season.');
@@ -147,7 +147,7 @@ function selectClientMonthData(req, res) {
     });
   }
 
-  nyplApiClientGet(`/book-lists/staff-picks/${req.params.month}`)
+  nyplApiClientGet(`/book-lists/staff-picks/${seasonMatches[0]}`)
     .then(data => {
       res.json({
         title: data.title,
@@ -172,9 +172,10 @@ function selectClientMonthData(req, res) {
  * Handles the requests from the form submit button (when no JS).
  * It redirects to the route to execute the function for server side requesting.
  */
-function selectClientMonthDataPost(req, res) {
-  const season = (req.body.season) ? `${req.body.season}-01` : '';
-  const audience = (req.body.audience) ? `?audience=${req.body.audience}` : '';
+function selectMonthDataFormPost(req, res) {
+  const season = (req.body.season) ? `${req.body.season}` : '';
+  const audience = req.body.audience;
+  const audienceQuery = audience ? `?audience=${audience}` : '';
 
   if (!season || !audience) {
     console.log(
@@ -184,7 +185,7 @@ function selectClientMonthDataPost(req, res) {
 
   // Redirects and calls selectMonthData() to make server side request for the season/audience list
   res.redirect(
-    `${config.baseMonthUrl}${season}${audience}`
+    `${config.baseMonthUrl}${season}${audienceQuery}`
   );
 }
 
@@ -192,5 +193,5 @@ export default {
   currentMonthData,
   selectMonthData,
   selectClientMonthData,
-  selectClientMonthDataPost,
+  selectMonthDataFormPost,
 };

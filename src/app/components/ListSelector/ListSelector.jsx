@@ -4,26 +4,10 @@ import axios from 'axios';
 import ListFilter from './ListFilter.jsx';
 import config from '../../../../appConfig';
 import BookActions from '../../../app/actions/BookActions.js';
-import {
-  createHistory,
-  useQueries,
-  createMemoryHistory,
-} from 'history';
+import Utils from '../../utils/utils';
 
-/**
- * createAppHistory
- * Creates createHistory instance that supports both server side and client side rendering
- */
-const createAppHistory = () => {
-  if (typeof(window) !== 'undefined') {
-    return useQueries(createHistory)();
-  }
-
-  return useQueries(createMemoryHistory)();
-};
-
-// createHistory() for update the URL and history with client side request
-const history = createAppHistory();
+// The module to update the URL and history with client side requests
+const history = Utils.createAppHistory();
 
 class ListSelector extends React.Component {
   constructor(props) {
@@ -81,7 +65,6 @@ class ListSelector extends React.Component {
 
     if (listType === 'audience') {
       audienceValue = submitValue;
-      audienceQuery = `?audience=${audienceValue}`;
     }
 
     // this function will be replaced by submiting to endpoint
@@ -105,7 +88,7 @@ class ListSelector extends React.Component {
           );
           // Update and transit to the match URL
           this.updateHistory(
-            `/books-music-dvds/recommendations/staff-picks/${seasonValue}-01/`
+            `/books-music-dvds/recommendations/staff-picks/${seasonValue}`
           );
         }
       })

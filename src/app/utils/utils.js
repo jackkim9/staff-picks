@@ -5,8 +5,25 @@ import {
   sortBy as _sortBy,
 } from 'underscore';
 import { gaUtils } from 'dgx-react-ga';
+import {
+  createHistory,
+  useQueries,
+  createMemoryHistory,
+} from 'history';
 
 function Utils() {
+  /**
+   * createAppHistory
+   * Create a history in the browser or server that coincides with react-router.
+   */
+  this.createAppHistory = () => {
+    if (typeof window !== 'undefined') {
+      return useQueries(createHistory)();
+    }
+
+    return useQueries(createMemoryHistory)();
+  };
+
   /**
    * trackPicks(action, label)
    * Track a GA click event, where action and label come from
