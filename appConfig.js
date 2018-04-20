@@ -115,6 +115,22 @@ const config = {
     facebook: 'https://www.facebook.com/sharer/sharer.php?u=',
     twitter: 'https://twitter.com/intent/tweet?',
   },
+  staffPicksListOptions: {
+    season: {
+      fieldsetName: 'season',
+      currentValue: '',
+      options: [],
+    },
+    audience: {
+      fieldsetName: 'audience',
+      currentValue: '',
+      options: [
+        { name: 'Adult', value: 'Adult' },
+        { name: 'Teen', value: 'YA' },
+        { name: 'Children', value: 'Children' },
+      ],
+    },
+  },
 };
 
 export default config;

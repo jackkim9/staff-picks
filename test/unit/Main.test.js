@@ -5,6 +5,7 @@ import { expect } from 'chai';
 import { shallow, mount } from 'enzyme';
 
 import Main from '../../src/app/components/Application/Main';
+import config from '../../appConfig';
 
 const picks = [
   {
@@ -61,7 +62,7 @@ describe('Main', () => {
       let getNewPickSet;
 
       before(() => {
-        component = mount(<Main />);
+        component = mount(<Main listOptions={config.staffPicksListOptions} />);
         getNewPickSet = component.instance().getNewPickSet;
       });
 
@@ -105,7 +106,9 @@ describe('Main', () => {
       let setSelectedFilter;
 
       before(() => {
-        component = mount(<Main currentPicks={{ picks: [] }} />);
+        component = mount(
+          <Main currentPicks={{ picks: [] }} listOptions={config.staffPicksListOptions} />
+        );
         setSelectedFilter = component.instance().setSelectedFilter;
       });
 

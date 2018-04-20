@@ -124,7 +124,7 @@ class Main extends React.Component {
     const audienceGroup = [];
 
     if (Array.isArray(picks) && picks.length) {
-      picks.map((item) => {
+      picks.forEach((item) => {
         if (item.ageGroup === audience) {
           audienceGroup.push(item);
         }
@@ -143,10 +143,12 @@ class Main extends React.Component {
           setSelectedFilter={this.setSelectedFilter}
           clearFilters={this.clearFilters}
           isJsEnabled={this.props.isJsEnabled}
+          listOptions={this.props.listOptions}
           selectedFilters={this.state.selectedFilters}
           picksCount={this.state.picks.length}
           currentSeason={this.props.currentSeason}
           currentAudience={this.props.currentAudience}
+          router={this.props.router}
         />
 
         <BookList
@@ -170,8 +172,10 @@ Main.propTypes = {
   isJsEnabled: PropTypes.bool,
   params: PropTypes.object,
   listType: PropTypes.string,
+  listOptions: PropTypes.object,
   currentSeason: PropTypes.string,
   currentAudience: PropTypes.string,
+  router: PropTypes.object,
 };
 
 Main.defaultProps = {

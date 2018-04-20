@@ -26,6 +26,10 @@ class Actions {
     return bool;
   }
 
+  setListOptions(listOptions) {
+    return listOptions;
+  }
+
   setSelectableFilters(filters) {
     return filters;
   }

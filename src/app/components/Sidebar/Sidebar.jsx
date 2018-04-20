@@ -6,37 +6,26 @@ import BookFilters from '../BookFilters/BookFilters';
 import ListSelector from '../ListSelector/ListSelector';
 import config from '../../../../appConfig';
 
-// This data is a temporary dummy data for creating the season list
-const fieldsetProps = {
-  season: {
-    fieldsetName: 'season',
-    currentValue: '',
-    options: [
-      { name: '2018 Spring', value: '2018-03-01', disabled: false },
-      { name: '2018 Winter', value: '2018-01-01', disabled: false },
-      { name: '2017 Fall', value: '2017-09-01', disabled: false },
-      { name: '2017 Summer', value: '2017-06-01', disabled: false },
-    ],
-  },
-  audience: {
-    fieldsetName: 'audience',
-    currentValue: '',
-    options: [
-      { name: 'Adult', value: 'Adult', disabled: false },
-      { name: 'Teen', value: 'YA', disabled: false },
-      { name: 'Children', value: 'Children', disabled: false },
-    ],
-  },
-};
-
 const Sidebar = (props) => {
-  const updateCurrentListSelectorValue = (data) => {
-    fieldsetProps.season.currentValue = data.currentSeason;
-    fieldsetProps.audience.currentValue = data.currentAudience;
+  /**
+   * updateCurrentListSelectorValues(data)
+   * Updates the current values in the passed down list options
+   * @param {object} data
+   */
+  const updateCurrentListSelectorValues = (data) => {
+    const listOptions = props.listOptions;
 
-    return fieldsetProps;
+    listOptions.season.currentValue = data.currentSeason;
+    listOptions.audience.currentValue = data.currentAudience;
+
+    return listOptions;
   };
 
+  /**
+   * renderBookFilters(shouldDisplay)
+   * Renders book filters
+   * @param {boolean} shouldDisplay
+   */
   const renderBookFilters = (shouldDisplay) => {
     if (!shouldDisplay) {
       return null;
@@ -54,10 +43,16 @@ const Sidebar = (props) => {
     );
   };
 
+  /**
+   * renderListSelector(data)
+   * Renders list selector
+   * @param {object} data
+   */
   const renderListSelector = (data) =>
     <ListSelector
       fieldsetProps={data}
       isJsEnabled={props.isJsEnabled}
+      router={props.router}
     />;
 
   return (
@@ -69,7 +64,7 @@ const Sidebar = (props) => {
           {config.recommendationsLink.label}
         </a>
       </nav>
-      {renderListSelector(updateCurrentListSelectorValue(props))}
+      {renderListSelector(updateCurrentListSelectorValues(props))}
       {renderBookFilters(props.isJsEnabled)}
     </div>
   );
@@ -81,8 +76,10 @@ Sidebar.propTypes = {
   setSelectedFilter: PropTypes.func,
   clearFilters: PropTypes.func,
   isJsEnabled: PropTypes.bool,
+  listOptions: PropTypes.object,
   selectedFilters: PropTypes.arrayOf(PropTypes.object),
   picksCount: PropTypes.number,
+  router: PropTypes.object,
 };
 
 Sidebar.defaultProps = {
@@ -91,6 +88,7 @@ Sidebar.defaultProps = {
   setSelectedFilter: () => {},
   clearFilters: () => {},
   isJsEnabled: false,
+  listOptions: {},
   selectedFilters: [],
   picksCount: 0,
 };

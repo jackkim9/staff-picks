@@ -10,6 +10,7 @@ class BookStore {
       updateFilters: BookActions.UPDATE_FILTERS,
       updateCurrentSeason: BookActions.UPDATE_CURRENT_SEASON,
       updateCurrentAudience: BookActions.UPDATE_CURRENT_AUDIENCE,
+      setListOptions: BookActions.SET_LIST_OPTIONS,
       setIsJsEnabled: BookActions.SET_IS_JS_ENABLED,
       setSelectableFilters: BookActions.SET_SELECTABLE_FILTERS,
     });
@@ -19,6 +20,7 @@ class BookStore {
       filters: [],
       currentPicks: {},
       isJsEnabled: false,
+      listOptions: {},
       selectableFilters: [],
       currentSeason: '',
       currentAudience: '',
@@ -47,6 +49,10 @@ class BookStore {
 
   setIsJsEnabled(isJsEnabled) {
     this.setState({ isJsEnabled });
+  }
+
+  setListOptions(listOptions) {
+    this.setState({ listOptions });
   }
 
   setSelectableFilters(selectableFilters) {
