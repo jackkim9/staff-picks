@@ -148,7 +148,6 @@ class Main extends React.Component {
           picksCount={this.state.picks.length}
           currentSeason={this.props.currentSeason}
           currentAudience={this.props.currentAudience}
-          router={this.props.router}
         />
 
         <BookList
@@ -175,7 +174,6 @@ Main.propTypes = {
   listOptions: PropTypes.object,
   currentSeason: PropTypes.string,
   currentAudience: PropTypes.string,
-  router: PropTypes.object,
 };
 
 Main.defaultProps = {

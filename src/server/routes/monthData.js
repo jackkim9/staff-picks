@@ -1,6 +1,7 @@
 import nyplApiClient from '../helper/nyplApiClient.js';
 import config from '../../../appConfig';
 import platformConfig from '../../../platformConfig';
+import staffPicksDate from '../../app/utils/DateService';
 
 /* nyplApiClientGet = (endpoint)
  * The functions that wraps nyplApiClient for GET requests.
@@ -23,8 +24,9 @@ function currentMonthData(req, res, next) {
     .then(data => {
       if (Array.isArray(data) && data.length) {
         data.map((list) => {
-          // We have to map the value and the season name here
-          const option = { name: 'somthing', value: list.date };
+          // Maps the option's name with the correct year and month
+          const optionDate = staffPicksDate(list.date);
+          const option = { name: `${optionDate.month} ${optionDate.year}`, value: list.date };
 
           seasonListOptions.push(option);
         });
@@ -106,8 +108,9 @@ function selectMonthData(req, res, next) {
     .then(data => {
       if (Array.isArray(data) && data.length) {
         data.map((list) => {
-          // We have to map the value and the season name here
-          const option = { name: 'somthing', value: list.date };
+          // Maps the option's name with the correct year and month
+          const optionDate = staffPicksDate(list.date);
+          const option = { name: `${optionDate.month} ${optionDate.year}`, value: list.date };
 
           seasonListOptions.push(option);
         });
@@ -149,6 +152,10 @@ function selectMonthData(req, res, next) {
       return nyplApiClientGet(`${platformConfig.endpoints.staffPicksPath}${requestedSeason}`);
     })
     .then(data => {
+      // Uodate the option lists' default values by the request params
+      listOptions.season.currentValue = requestedSeason;
+      listOptions.audience.currentValue = audience;
+
       res.locals.data = {
         BookStore: {
           listType: 'staff-picks',

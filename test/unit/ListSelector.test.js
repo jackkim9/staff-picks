@@ -13,10 +13,10 @@ const fieldsetProps = {
     fieldsetName: 'season',
     currentValue: '2018-01',
     options: [
-      { name: '2018 Winter', value: '2018-01' },
-      { name: '2017 Fall', value: '2017-09' },
-      { name: '2017 Summer', value: '2017-06' },
-      { name: '2017 Spring', value: '2017-04' },
+      { name: '2018 Winter', value: '2018-01-01' },
+      { name: '2017 Fall', value: '2017-09-01' },
+      { name: '2017 Summer', value: '2017-06-01' },
+      { name: '2017 Spring', value: '2017-04-01' },
     ],
   },
   audience: {

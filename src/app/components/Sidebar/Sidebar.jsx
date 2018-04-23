@@ -13,7 +13,9 @@ const Sidebar = (props) => {
    * @param {object} data
    */
   const updateCurrentListSelectorValues = (data) => {
-    const listOptions = props.listOptions;
+    // Deep clones the object of props.listOptions to a new object so the update later will not
+    // affect the original props.listOptions
+    const listOptions = JSON.parse(JSON.stringify(props.listOptions));
 
     listOptions.season.currentValue = data.currentSeason;
     listOptions.audience.currentValue = data.currentAudience;
@@ -49,11 +51,7 @@ const Sidebar = (props) => {
    * @param {object} data
    */
   const renderListSelector = (data) =>
-    <ListSelector
-      fieldsetProps={data}
-      isJsEnabled={props.isJsEnabled}
-      router={props.router}
-    />;
+    <ListSelector fieldsetProps={data} isJsEnabled={props.isJsEnabled} />;
 
   return (
     <div className="sidebar nypl-column-one-quarter">
@@ -79,7 +77,6 @@ Sidebar.propTypes = {
   listOptions: PropTypes.object,
   selectedFilters: PropTypes.arrayOf(PropTypes.object),
   picksCount: PropTypes.number,
-  router: PropTypes.object,
 };
 
 Sidebar.defaultProps = {

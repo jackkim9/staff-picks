@@ -81,7 +81,9 @@ App.propTypes = {
   params: PropTypes.object,
 };
 
+
 App.contextTypes = {
+  // Assigns router as React context
   router: PropTypes.object,
 };
 
