@@ -6,6 +6,8 @@ import BookFilters from '../BookFilters/BookFilters';
 import ListSelector from '../ListSelector/ListSelector';
 import config from '../../../../appConfig';
 
+import { isEmpty as _isEmpty } from 'underscore';
+
 const Sidebar = (props) => {
   /**
    * updateCurrentListSelectorValues(data)
@@ -15,7 +17,8 @@ const Sidebar = (props) => {
   const updateCurrentListSelectorValues = (data) => {
     // Deep clones the object of props.listOptions to a new object so the update later will not
     // affect the original props.listOptions
-    const listOptions = JSON.parse(JSON.stringify(props.listOptions));
+    const listOptions = (props.listOptions && !_isEmpty(props.listOptions)) ?
+      JSON.parse(JSON.stringify(props.listOptions)) : config.staffPicksListOptions;
 
     listOptions.season.currentValue = data.currentSeason;
     listOptions.audience.currentValue = data.currentAudience;

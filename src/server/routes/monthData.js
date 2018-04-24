@@ -1,10 +1,10 @@
 import nyplApiClient from '../helper/nyplApiClient.js';
 import config from '../../../appConfig';
 import platformConfig from '../../../platformConfig';
-import staffPicksDate from '../../app/utils/DateService';
+import modelListOptions from '../../app/utils/ModelListOptionsService';
 
-/* nyplApiClientGet = (endpoint)
- * The functions that wraps nyplApiClient for GET requests.
+/* nyplApiClientGet(endpoint)
+ * The function that wraps nyplApiClient for GET requests.
  * @param {string} endpoint
  */
 const nyplApiClientGet = (endpoint) =>
@@ -22,21 +22,11 @@ function currentMonthData(req, res, next) {
   // The first request to get all the available list options
   nyplApiClientGet(platformConfig.endpoints.allStaffPicksLists)
     .then(data => {
-      if (Array.isArray(data) && data.length) {
-        data.map((list) => {
-          // Maps the option's name with the correct year and month
-          const optionDate = staffPicksDate(list.date);
-          const option = { name: `${optionDate.month} ${optionDate.year}`, value: list.date };
+      // Models the options based on the data returned
+      const modeledOptionObject = modelListOptions(data, 'staff-picks');
 
-          seasonListOptions.push(option);
-        });
-
-        // Reverses the order of the options as the data now is from oldest to newest
-        // However, a more thorough check to compare the values might be needed
-        seasonListOptions = seasonListOptions.reverse();
-        // Sets the latest season list
-        latestSeason = seasonListOptions[0].value;
-      }
+      seasonListOptions = modeledOptionObject.options;
+      latestSeason = modeledOptionObject.latestOption;
 
       // Updates default season list options with API response
       listOptions.season.options = seasonListOptions;
@@ -65,20 +55,9 @@ function currentMonthData(req, res, next) {
     .catch(error => {
       console.error(`Status Code: ${error.statusCode}, Error Message: ${error.code}`);
 
-      res.locals.data = {
-        BookStore: {
-          listType: 'staff-picks',
-          filters: [],
-          currentPicks: {},
-          selectableFilters: [],
-          isJsEnabled: false,
-          listOptions,
-          currentSeason: latestSeason(),
-          currentAudience: 'Adult',
-        },
-      };
+      res.redirect('/books-music-dvds/recommendations/404');
 
-      next();
+      return;
     });
 }
 
@@ -95,63 +74,56 @@ function selectMonthData(req, res, next) {
   const seasonMatches = req.params.month.match(/^(\d{4})\-(\d{2})\-(\d{2})$/);
   // Default audience list is the adult list
   let audience = 'Adult';
+  let isValidAudience = true;
   let requestedSeason = '';
 
-  // Checks if req.query.audience exists and equals to one of the three values
-  if (['Adult', 'YA', 'Children'].includes(req.query.audience)) {
-    // If so, updates the selected audience list value
-    audience = req.query.audience;
+  // Checks if req.query.audience exists
+  if (req.query.audience) {
+    // If so, checks if it equals to one of the three values
+    if (['Adult', 'YA', 'Children'].includes(req.query.audience)) {
+      // If so, updates the selected audience list value
+      audience = req.query.audience;
+    } else {
+      // Or set it is an invalid audience query
+      isValidAudience = false;
+    }
   }
+
+  if (!seasonMatches || !isValidAudience) {
+    console.error('Status Code: 400, Error Message: Invalid season or audience.');
+
+    res.redirect('/books-music-dvds/recommendations/404');
+
+    return;
+  } else {
+  // If the param fits season's convention, constructs the request param
+  requestedSeason = seasonMatches[0];
 
   // The first request to get all the available list options
   nyplApiClientGet(platformConfig.endpoints.allStaffPicksLists)
     .then(data => {
-      if (Array.isArray(data) && data.length) {
-        data.map((list) => {
-          // Maps the option's name with the correct year and month
-          const optionDate = staffPicksDate(list.date);
-          const option = { name: `${optionDate.month} ${optionDate.year}`, value: list.date };
+      // Models the options based on the data returned
+      const modeledOptionObject = modelListOptions(data, 'staff-picks');
 
-          seasonListOptions.push(option);
-        });
-
-        // Reverses the order of the options as the data now is from oldest to newest
-        // However, a more thorough check to compare the values might be needed
-        seasonListOptions = seasonListOptions.reverse();
-        // Sets the latest season list
-        latestSeason = seasonListOptions[0].value;
-      }
+      seasonListOptions = modeledOptionObject.options;
+      latestSeason = modeledOptionObject.latestOption;
 
       // Updates default season list options with API response
       listOptions.season.options = seasonListOptions;
-
-      // we handle bad season input here
-      if (!seasonMatches) {
-        console.error('Status Code: 400, Error Message: Invalid season.');
-
-        res.locals.data = {
-          BookStore: {
-            listType: 'staff-picks',
-            filters: [],
-            currentPicks: {},
-            selectableFilters: [],
-            isJsEnabled: false,
-            listOptions,
-            currentSeason: latestSeason,
-            currentAudience: 'Adult',
-          },
-        };
-
-        next();
-      } else {
-        // If the param fits season's convention, constructs the request param
-        requestedSeason = seasonMatches[0];
-      }
 
       // Calls the selected list
       return nyplApiClientGet(`${platformConfig.endpoints.staffPicksPath}${requestedSeason}`);
     })
     .then(data => {
+      // If error returned from the endpoint
+      if (data.statusCode >= 400) {
+        console.error(`Status Code: ${data.statusCode}, Error Message: ${data.error}`);
+
+        res.redirect('/books-music-dvds/recommendations/404');
+
+        return;
+      }
+
       // Uodate the option lists' default values by the request params
       listOptions.season.currentValue = requestedSeason;
       listOptions.audience.currentValue = audience;
@@ -176,21 +148,11 @@ function selectMonthData(req, res, next) {
     .catch(error => {
       console.error(`Status Code: ${error.statusCode}, Error Message: ${error.code}`);
 
-      res.locals.data = {
-        BookStore: {
-          listType: 'staff-picks',
-          filters: [],
-          currentPicks: {},
-          selectableFilters: [],
-          isJsEnabled: false,
-          listOptions,
-          currentSeason: latestSeason,
-          currentAudience: 'Adult',
-        },
-      };
+      res.redirect('/books-music-dvds/recommendations/404');
 
-      next();
+      return;
     });
+  }
 }
 
 /**
@@ -240,15 +202,17 @@ function selectMonthDataFormPost(req, res) {
   const audienceQuery = audience ? `?audience=${audience}` : '';
 
   if (!season || !audience) {
-    console.log(
+    console.error(
       `Form data of season or audience is undefined. season: ${season}, audience: ${audience}`
     );
-  }
 
-  // Redirects and calls selectMonthData() to make server side request for the season/audience list
-  res.redirect(
-    `${config.baseMonthUrl}${season}${audienceQuery}`
-  );
+    res.redirect('/books-music-dvds/recommendations/404');
+  } else {
+    // Redirects and calls selectMonthData() to make server side request for the season/audience list
+    res.redirect(
+      `${config.baseMonthUrl}${season}${audienceQuery}`
+    );
+  }
 }
 
 export default {

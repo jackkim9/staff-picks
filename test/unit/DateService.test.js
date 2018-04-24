@@ -1,6 +1,5 @@
 /* eslint-env mocha */
 import { expect } from 'chai';
-import { shallow } from 'enzyme';
 
 import DateService from '../../src/app/utils/DateService.js';
 

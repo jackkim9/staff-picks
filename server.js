@@ -72,9 +72,12 @@ app.use('/', (req, res) => {
       const html = ReactDOMServer.renderToString(<RouterContext {...renderProps} />);
       const safePath = req.path.replace(/'/g, '').replace(/"/g, '');
       // Generate meta tags markup
-      const metaTags = res.locals.data.metaTags || [];
+      const metaTags = (res.locals.data && res.locals.data.metaTags) ?
+        res.locals.data.metaTags : [];
       const renderedMetaTags = metaTags.map((tag, index) =>
         ReactDOMServer.renderToString(<meta key={index} {...tag} />));
+      const renderedPageTitle = (res.locals.data && res.locals.data.pageTitle) ?
+        res.locals.data.pageTitle : '';
 
       iso.add(html, alt.flush());
 
@@ -87,7 +90,7 @@ app.use('/', (req, res) => {
           markup: iso.render(),
           assets: buildAssets,
           webpackPort: WEBPACK_DEV_PORT,
-          pageTitle: res.locals.data.pageTitle,
+          pageTitle: renderedPageTitle,
         });
     } else {
       res.status(404).send('Not found');
