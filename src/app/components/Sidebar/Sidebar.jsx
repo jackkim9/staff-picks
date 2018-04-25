@@ -17,7 +17,7 @@ const Sidebar = (props) => {
   const updateCurrentListSelectorValues = (data) => {
     // Deep clones the object of props.listOptions to a new object so the update later will not
     // affect the original props.listOptions
-    const listOptions = (props.listOptions && !_isEmpty(props.listOptions)) ?
+    const listOptions = (data.listOptions && !_isEmpty(data.listOptions)) ?
       JSON.parse(JSON.stringify(props.listOptions)) : config.staffPicksListOptions;
 
     listOptions.season.currentValue = data.currentSeason;

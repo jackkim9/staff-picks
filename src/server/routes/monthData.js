@@ -55,9 +55,7 @@ function currentMonthData(req, res, next) {
     .catch(error => {
       console.error(`Status Code: ${error.statusCode}, Error Message: ${error.code}`);
 
-      res.redirect('/books-music-dvds/recommendations/404');
-
-      return;
+      return res.redirect('/books-music-dvds/recommendations/404');
     });
 }
 
@@ -92,9 +90,7 @@ function selectMonthData(req, res, next) {
   if (!seasonMatches || !isValidAudience) {
     console.error('Status Code: 400, Error Message: Invalid season or audience.');
 
-    res.redirect('/books-music-dvds/recommendations/404');
-
-    return;
+    return; res.redirect('/books-music-dvds/recommendations/404');
   } else {
   // If the param fits season's convention, constructs the request param
   requestedSeason = seasonMatches[0];
@@ -119,9 +115,7 @@ function selectMonthData(req, res, next) {
       if (data.statusCode >= 400) {
         console.error(`Status Code: ${data.statusCode}, Error Message: ${data.error}`);
 
-        res.redirect('/books-music-dvds/recommendations/404');
-
-        return;
+        return res.redirect('/books-music-dvds/recommendations/404');
       }
 
       // Uodate the option lists' default values by the request params
@@ -148,9 +142,7 @@ function selectMonthData(req, res, next) {
     .catch(error => {
       console.error(`Status Code: ${error.statusCode}, Error Message: ${error.code}`);
 
-      res.redirect('/books-music-dvds/recommendations/404');
-
-      return;
+      return res.redirect('/books-music-dvds/recommendations/404');
     });
   }
 }
