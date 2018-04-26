@@ -1,38 +1,30 @@
 import express from 'express';
 
 import monthData from './monthData';
-import annualData from './annualData';
 import appConfig from '../../../appConfig';
+import selectData from './selectData';
 
 const router = express.Router();
 
-// Not currently used in Best Books.
-router
-  .route(appConfig.baseMonthUrl)
-  .get(monthData.currentMonthData);
-
-// NOTE: The :year and :id params are currently not being used.
-router
-  .route(`${appConfig.baseAnnualUrl}:type/:year?/:id?`)
-  .get(annualData.selectAnnualData);
-
+// API route used in Best Books.
 router
   .route(`${appConfig.baseApiUrl}`)
   .post(monthData.selectMonthDataFormPost);
 
 // The route for client side API request of Staff Picks
 router
-  .route(`${appConfig.baseApiUrl}:month/:id?`)
+  .route(`${appConfig.baseApiUrl}:time/:id?`)
   .get(monthData.selectClientMonthData);
 
-// The route for server side API request of Staff Picks
+// Type detection between best books and staff picks.
 router
-  .route(`${appConfig.baseMonthUrl}:month/:id?`)
-  .get(monthData.selectMonthData);
+  .route(`${appConfig.baseUrl}:type/:time?/:id?`)
+  .get(selectData.selectData);
 
 // The route for main Staff Picks page
+// TODO: baseUrl is now /best-books, we need to rethink what we are showing at default
 router
-  .route(`${appConfig.baseMonthUrl}`)
+  .route(`${appConfig.baseUrl}`)
   .get(monthData.currentMonthData);
 
 export default router;

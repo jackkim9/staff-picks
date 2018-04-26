@@ -14,16 +14,13 @@ import appConfig from '../../../appConfig';
 // Routes we need
 const routes = {
   client: (
-    <Route path="/books-music-dvds/recommendations/" component={App}>
+    <Route path={`${appConfig.baseUrl}`} component={App}>
       <IndexRoute component={Main} />
-      <Route path={`${appConfig.baseAnnualUrl}:type`} component={Main} />
-      <Route path={`${appConfig.baseAnnualUrl}:type/:year`} component={Main} />
-      <Route path={`${appConfig.baseAnnualUrl}:type/:year/:id`} component={BookPage} />
-      <Route path={`${appConfig.baseMonthUrl}`} component={Main} />
-      <Route path={`${appConfig.baseMonthUrl}:month`} component={Main} />
-      <Route path={`${appConfig.baseMonthUrl}:month/:id`} component={BookPage} />
-      <Route path="/books-music-dvds/recommendations/404" component={Error404Page} />
-      <Redirect from="*" to="/books-music-dvds/recommendations/404" />
+      <Route path={`${appConfig.baseUrl}404`} component={Error404Page} />
+      <Route path={`${appConfig.baseUrl}:type`} component={Main} />
+      <Route path={`${appConfig.baseUrl}:type/:time`} component={Main} />
+      <Route path={`${appConfig.baseUrl}:type/:time/:id`} component={BookPage} />
+      <Redirect from="*" to={`${appConfig.baseUrl}404`} />
     </Route>
   ),
 };

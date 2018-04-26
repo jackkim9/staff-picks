@@ -5,7 +5,6 @@ import { LeftWedgeIcon } from '@nypl/dgx-svg-icons';
 import BookFilters from '../BookFilters/BookFilters';
 import ListSelector from '../ListSelector/ListSelector';
 import config from '../../../../appConfig';
-
 import { isEmpty as _isEmpty } from 'underscore';
 
 const Sidebar = (props) => {
@@ -72,8 +71,8 @@ const Sidebar = (props) => {
 };
 
 Sidebar.propTypes = {
-  filters: PropTypes.arrayOf(PropTypes.object),
-  selectableFilters: PropTypes.arrayOf(PropTypes.object),
+  filters: PropTypes.arrayOf(PropTypes.string),
+  selectableFilters: PropTypes.arrayOf(PropTypes.string),
   setSelectedFilter: PropTypes.func,
   clearFilters: PropTypes.func,
   isJsEnabled: PropTypes.bool,

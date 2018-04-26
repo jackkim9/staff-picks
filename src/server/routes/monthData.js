@@ -1,5 +1,7 @@
-import nyplApiClient from '../helper/nyplApiClient.js';
+import nyplApiClient from '../helper/nyplApiClient';
 import config from '../../../appConfig';
+
+import utils from '../../app/utils/utils';
 import platformConfig from '../../../platformConfig';
 import modelListOptions from '../../app/utils/ModelListOptionsService';
 
@@ -7,7 +9,7 @@ import modelListOptions from '../../app/utils/ModelListOptionsService';
  * The function that wraps nyplApiClient for GET requests.
  * @param {string} endpoint
  */
-const nyplApiClientGet = (endpoint) =>
+const nyplApiClientGet = endpoint =>
   nyplApiClient().then(client => client.get(endpoint, { cache: false }));
 
 /* currentMonthData
@@ -21,7 +23,7 @@ function currentMonthData(req, res, next) {
 
   // The first request to get all the available list options
   nyplApiClientGet(platformConfig.endpoints.allStaffPicksLists)
-    .then(data => {
+    .then((data) => {
       // Models the options based on the data returned
       const modeledOptionObject = modelListOptions(data, 'staff-picks');
 
@@ -34,7 +36,7 @@ function currentMonthData(req, res, next) {
       // Calls the latest list
       return nyplApiClientGet(`${platformConfig.endpoints.staffPicksPath}${latestSeason}`);
     })
-    .then(data => {
+    .then((data) => {
       res.locals.data = {
         BookStore: {
           listType: 'staff-picks',
@@ -52,10 +54,10 @@ function currentMonthData(req, res, next) {
 
       next();
     })
-    .catch(error => {
+    .catch((error) => {
       console.error(`Status Code: ${error.statusCode}, Error Message: ${error.code}`);
 
-      return res.redirect('/books-music-dvds/recommendations/404');
+      return res.redirect(`${config.baseUrl}404`);
     });
 }
 
@@ -66,10 +68,9 @@ function currentMonthData(req, res, next) {
 function selectMonthData(req, res, next) {
   const listOptions = config.staffPicksListOptions;
   let seasonListOptions = [];
-  let latestSeason = '';
 
   // Checks if the URL input fits season's convention
-  const seasonMatches = req.params.month.match(/^(\d{4})\-(\d{2})\-(\d{2})$/);
+  const seasonMatches = req.params.time.match(/^(\d{4})\-(\d{2})\-(\d{2})$/);
   // Default audience list is the adult list
   let audience = 'Adult';
   let isValidAudience = true;
@@ -90,19 +91,19 @@ function selectMonthData(req, res, next) {
   if (!seasonMatches || !isValidAudience) {
     console.error('Status Code: 400, Error Message: Invalid season or audience.');
 
-    return; res.redirect('/books-music-dvds/recommendations/404');
-  } else {
+    return res.redirect(`${config.baseUrl}404`);
+  }
+
   // If the param fits season's convention, constructs the request param
   requestedSeason = seasonMatches[0];
 
   // The first request to get all the available list options
   nyplApiClientGet(platformConfig.endpoints.allStaffPicksLists)
-    .then(data => {
+    .then((data) => {
       // Models the options based on the data returned
       const modeledOptionObject = modelListOptions(data, 'staff-picks');
 
       seasonListOptions = modeledOptionObject.options;
-      latestSeason = modeledOptionObject.latestOption;
 
       // Updates default season list options with API response
       listOptions.season.options = seasonListOptions;
@@ -110,12 +111,16 @@ function selectMonthData(req, res, next) {
       // Calls the selected list
       return nyplApiClientGet(`${platformConfig.endpoints.staffPicksPath}${requestedSeason}`);
     })
-    .then(data => {
+    .then((data) => {
+      const filters = utils.getAllTags(data.picks);
+      // Get the subset of tags that the picks can be filtered by.
+      const selectableFilters = utils.getSelectableTags(data.picks);
+
       // If error returned from the endpoint
       if (data.statusCode >= 400) {
         console.error(`Status Code: ${data.statusCode}, Error Message: ${data.error}`);
 
-        return res.redirect('/books-music-dvds/recommendations/404');
+        return res.redirect(`${config.baseUrl}404`);
       }
 
       // Uodate the option lists' default values by the request params
@@ -125,9 +130,9 @@ function selectMonthData(req, res, next) {
       res.locals.data = {
         BookStore: {
           listType: 'staff-picks',
-          filters: [],
+          filters,
           currentPicks: data,
-          selectableFilters: [],
+          selectableFilters,
           isJsEnabled: false,
           listOptions,
           currentSeason: requestedSeason,
@@ -136,15 +141,13 @@ function selectMonthData(req, res, next) {
         pageTitle: '',
         metaTags: [],
       };
-
       next();
     })
-    .catch(error => {
+    .catch((error) => {
       console.error(`Status Code: ${error.statusCode}, Error Message: ${error.code}`);
 
-      return res.redirect('/books-music-dvds/recommendations/404');
+      return res.redirect(`${config.baseUrl}404`);
     });
-  }
 }
 
 /**
@@ -152,8 +155,7 @@ function selectMonthData(req, res, next) {
  * Gets a specific month's or season's staff pick list on the client side.
  */
 function selectClientMonthData(req, res) {
-  const seasonMatches = req.params.month.match(/^(\d{4})\-(\d{2})\-(\d{2})$/);
-
+  const seasonMatches = req.params.time.match(/^(\d{4})\-(\d{2})\-(\d{2})$/);
   if (!seasonMatches) {
     console.error('Status Code: 400, Error Message: Invalid season.');
 
@@ -163,8 +165,8 @@ function selectClientMonthData(req, res) {
     });
   }
 
-  nyplApiClientGet(`/book-lists/staff-picks/${seasonMatches[0]}`)
-    .then(data => {
+  nyplApiClientGet(`${platformConfig.endpoints.staffPicksPath}${seasonMatches[0]}`)
+    .then((data) => {
       res.json({
         title: data.title,
         date: data.date,
@@ -173,7 +175,7 @@ function selectClientMonthData(req, res) {
         },
       });
     })
-    .catch(error => {
+    .catch((error) => {
       console.error(`Status Code: ${error.statusCode}, Error Message: ${error.code}`);
 
       res.json({
@@ -198,11 +200,12 @@ function selectMonthDataFormPost(req, res) {
       `Form data of season or audience is undefined. season: ${season}, audience: ${audience}`
     );
 
-    res.redirect('/books-music-dvds/recommendations/404');
+    res.redirect(`${config.baseUrl}404`);
   } else {
-    // Redirects and calls selectMonthData() to make server side request for the season/audience list
+    // Redirects and calls selectMonthData() to make server side request for
+    // the season/audience list
     res.redirect(
-      `${config.baseMonthUrl}${season}${audienceQuery}`
+      `${config.baseUrl}staff-picks/${season}${audienceQuery}`
     );
   }
 }

@@ -29,7 +29,7 @@ describe('Sidebar', () => {
       expect(breadcrumbLink.text())
         .to.equal('NYPL Left Wedge SVG IconReturn to Recommendations');
       expect(breadcrumbLink.prop('href'))
-        .to.equal('https://www.nypl.org/books-music-dvds/recommendations');
+        .to.equal('https://www.nypl.org/books-music-movies/recommendations');
     });
 
     it('should render a <BookFilters /> component', () => {

@@ -15,7 +15,7 @@ function modelListOptions(lists, listType) {
       // Maps the option's name with the correct year and month
       // Now we only handle staff-picks, we will handle teens and kids later
       const optionDate = listType === 'staff-picks' ?
-            staffPicksDate(list.date) : { month: '', year: '' };
+        staffPicksDate(list.date) : { month: '', year: '' };
       const optionName = (optionDate.month && optionDate.year) ?
         `${optionDate.month} ${optionDate.year}` : '';
       const option = { name: `${optionName}`, value: list.date };

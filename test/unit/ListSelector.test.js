@@ -5,7 +5,7 @@ import { expect } from 'chai';
 import { shallow } from 'enzyme';
 import axios from 'axios';
 import MockAdapter from 'axios-mock-adapter';
-import ListSelector from '../../src/app/components/ListSelector/ListSelector.jsx';
+import ListSelector from '../../src/app/components/ListSelector/ListSelector';
 import config from '../../appConfig';
 
 const fieldsetProps = {
@@ -186,7 +186,7 @@ describe('ListSelector', () => {
         () => {
           expect(updateLocation.called).to.equal(true);
           expect(updateLocation.getCall(0).args).to.deep.equal(
-            ['/books-music-dvds/recommendations/staff-picks/404']
+            ['/books-music-movies/recommendations/best-books/404']
           );
 
           done();
@@ -214,7 +214,7 @@ describe('ListSelector', () => {
         () => {
           expect(updateLocation.called).to.equal(true);
           expect(updateLocation.getCall(0).args).to.deep.equal(
-            ['/books-music-dvds/recommendations/staff-picks/2017-01-01']
+            ['/books-music-movies/recommendations/best-books/staff-picks/2017-01-01']
           );
 
           done();

@@ -1,5 +1,4 @@
-import config from '../../../appConfig.js';
-import platformConfig from '../../../platformConfig.js';
+import platformConfig from '../../../platformConfig';
 import kmsClientHelper from './kmsClientHelper';
 
 const appEnvironment = platformConfig.appEnv || 'production';

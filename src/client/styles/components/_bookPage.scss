@@ -1,0 +1,57 @@
+.book-page {
+  .sidebar {
+    margin-bottom: 0;
+
+    a.back-link {
+      display: block;
+    }
+
+    .book-filters {
+      display: none;
+
+      @include min-screen($mobile-breakpoint) {
+        display: block;
+      }
+    }
+  }
+
+  h2 {
+    margin-top: 0;
+
+    @include min-screen($mobile-breakpoint) {
+      margin-top: 1.5rem;
+    }
+  }
+
+  .booklist-section {
+    margin-top: 0;
+
+    @include min-screen($mobile-breakpoint) {
+      margin-top: 22px;
+    }
+  }
+
+  .booklist {
+    @import 'bookItem';
+
+    margin-right: 0;
+    max-width: 100%;
+
+    .book-item {
+      max-width: 100%;
+    }
+
+    .book-item-image-box {
+      margin: 0;
+
+      @include min-screen($xtrasmall-breakpoint) {
+        min-height: 470px;
+      }
+    }
+
+    .book-item-author {
+      margin: 5% 3.5% 4%;
+      width: 60%;
+    }
+  }
+}

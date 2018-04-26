@@ -6,31 +6,34 @@ import { mount } from 'enzyme';
 import Book from '../../src/app/components/Book/Book';
 
 const pickObject = {
-  "tags": [
-    "Offbeat",
-    "Seriously good writing"
+  tags: [
+    'Offbeat',
+    'Seriously good writing',
   ],
-  "ageGroup": "Adult",
-  "reviews": [
+  ageGroup: 'Adult',
+  reviews: [
     {
-      "reviewerName": "Benjamin Sapadin",
-      "reviewerLocation": {
-        "prefLabel": "Morris Park"
+      reviewerName: 'Benjamin Sapadin',
+      reviewerLocation: {
+        prefLabel: 'Morris Park',
       },
-      "text": "A fun, genre-bending read. An aging, competitive backgammon player is diagnosed with a life-threatening tumor and, upon it's removal, becomes convinced that he has psychic powers. The real star of this novel though is the game of backgammon, which I've never had any interest in until I read this book. I still have no idea how to play the game, but Lethem makes it seem like a heck of a good time. "
-    }
+      text: 'A fun, genre-bending read. An aging, competitive backgammon player is diagnosed with a ' +
+        'life-threatening tumor and, upon it\'s removal, becomes convinced that he has psychic powers. ' +
+        'The real star of this novel though is the game of backgammon, which I\'ve never had any ' +
+        'interest in until I read this book. I still have no idea how to play the game, but Lethem makes it seem like a heck of a good time.',
+    },
   ],
-  "book": {
-    "author": "Jonathan Lethem",
-    "catalogUrl": "http://browse.nypl.org/iii/encore/record/C__Rb21052853__Sa%20gambler%27s%20anatomy__Orightresult__U__X7?lang=eng&suite=def",
-    "ebookUrl": "http://browse.nypl.org/iii/encore/record/C__Rb21109294__Sa%20gambler%27s%20anatomy__P0%2C2__Orightresult__U__X7?lang=eng&suite=def",
-    "imageUrl": "http://imagesb.btol.com/ContentCafe/Jacket.aspx?UserID=ContentCafeClient&Password=Client&Return=T&Type=L&Value=9780385539906",
-    "isbn": "9780385539913",
-    "overdriveId": "2678726",
-    "title": "A Gambler's Anatomy",
-    "illustrator": "I am an illustrator",
-    "translator": "I am a translator"
-  }
+  book: {
+    author: 'Jonathan Lethem',
+    catalogUrl: 'http://browse.nypl.org/iii/encore/record/C__Rb21052853__Sa%20gambler%27s%20anatomy__Orightresult__U__X7?lang=eng&suite=def',
+    ebookUrl: 'http://browse.nypl.org/iii/encore/record/C__Rb21109294__Sa%20gambler%27s%20anatomy__P0%2C2__Orightresult__U__X7?lang=eng&suite=def',
+    imageUrl: 'http://imagesb.btol.com/ContentCafe/Jacket.aspx?UserID=ContentCafeClient&Password=Client&Return=T&Type=L&Value=9780385539906',
+    isbn: '9780385539913',
+    overdriveId: '2678726',
+    title: 'A Gambler\'s Anatomy',
+    illustrator: 'I am an illustrator',
+    translator: 'I am a translator',
+  },
 };
 
 describe('Book Component', () => {
@@ -49,9 +52,7 @@ describe('Book Component', () => {
 
   describe('Component with data and JavaScript enabled', () => {
     before(() => {
-      component = mount(
-        <Book pick={pickObject} isJsEnabled />
-      );
+      component = mount(<Book pick={pickObject} isJsEnabled />);
     });
 
     it('should render the pick list item with proper tag classes', () => {
@@ -85,10 +86,18 @@ describe('Book Component', () => {
     });
 
     it('should render the pick description <p> element with text', () => {
-      const text = component.find('.book-item-description');
-      expect(text.length).to.equal(1);
-      expect(text.find('p').length).to.equal(1);
-      expect(text.find('p').text()).to.equal(pickObject.reviews[0].text);
+      const description = component.find('.book-item-description');
+      expect(description.length).to.equal(1);
+      expect(description.text()).to.equal(pickObject.reviews[0].text);
+    });
+
+    it('should render the pick reviewer', () => {
+      const reviewer = component.find('.book-item-picked-by');
+      const reviewerText = `Staff Pick By: ${pickObject.reviews[0].reviewerName}, ` +
+        `${pickObject.reviews[0].reviewerLocation.prefLabel}`;
+
+      expect(reviewer.length).to.equal(1);
+      expect(reviewer.text()).to.equal(reviewerText);
     });
 
     it('should render the catalog link <a> tag element with proper href value', () => {
@@ -143,16 +152,13 @@ describe('Book Component', () => {
 
   describe('Component with data and JavaScript disabled', () => {
     before(() => {
-      component = mount(
-        <Book pick={pickObject} isJsEnabled={false} />
-      );
+      component = mount(<Book pick={pickObject} isJsEnabled={false} />);
     });
 
-    it('should render the pick tags in a <p> tag and contain should not visuallyHidden class',
-      () => {
-        const tags = component.find('.book-item-tags');
-        expect(tags.length).to.equal(1);
-        expect(tags.hasClass('visuallyHidden')).to.equal(false);
-      });
+    it('should render the pick tags in a <p> tag and contain should not visuallyHidden class', () => {
+      const tags = component.find('.book-item-tags');
+      expect(tags.length).to.equal(1);
+      expect(tags.hasClass('visuallyHidden')).to.equal(false);
+    });
   });
 });
