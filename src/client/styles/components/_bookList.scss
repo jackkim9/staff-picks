@@ -1,10 +1,12 @@
 .booklist-section {
   margin-top: 22px;
 
-  & > h2 {
-    background: #fff;
-    color: $nypl-red;
-    max-width: 100%;
+  @include min-screen($mobile-breakpoint) {
+    margin-top: 55px;
+  }
+
+  .list-title-container {
+    display: block;
 
     &:before {
       background: $nypl-red;
@@ -13,6 +15,25 @@
       height: 0.25rem;
       margin-bottom: 0.5rem;
       width: 100%;
+    }
+
+    & > h2 {
+      background: #fff;
+      color: $nypl-red;
+      display: none;
+      max-width: 100%;
+
+      @include min-screen($mobile-breakpoint) {
+        display: block;
+      }
+
+      span {
+        font-size: 1rem;
+        margin: 0 10px;
+        color: #000;
+        font-weight: 400;
+        background: #fff;
+      }
     }
   }
 }

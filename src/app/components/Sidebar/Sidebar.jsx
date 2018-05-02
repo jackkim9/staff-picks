@@ -1,11 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { LeftWedgeIcon } from '@nypl/dgx-svg-icons';
+import { LeftWedgeIcon, ListIcon } from '@nypl/dgx-svg-icons';
+import { isEmpty as _isEmpty } from 'underscore';
 
 import BookFilters from '../BookFilters/BookFilters';
 import ListSelector from '../ListSelector/ListSelector';
+import ListTitle from '../ListTitle/ListTitle';
 import config from '../../../../appConfig';
-import { isEmpty as _isEmpty } from 'underscore';
 
 const Sidebar = (props) => {
   /**
@@ -30,7 +31,7 @@ const Sidebar = (props) => {
    * Renders book filters
    * @param {boolean} shouldDisplay
    */
-  const renderBookFilters = (shouldDisplay) => {
+  const renderBookFilters = (shouldDisplay = false) => {
     if (!shouldDisplay) {
       return null;
     }
@@ -42,7 +43,6 @@ const Sidebar = (props) => {
         setSelectedFilter={props.setSelectedFilter}
         clearFilters={props.clearFilters}
         selectedFilters={props.selectedFilters}
-        picksCount={props.picksCount}
       />
     );
   };
@@ -52,20 +52,27 @@ const Sidebar = (props) => {
    * Renders list selector
    * @param {object} data
    */
-  const renderListSelector = (data) =>
+  const renderListSelector = data =>
     <ListSelector fieldsetProps={data} isJsEnabled={props.isJsEnabled} />;
 
   return (
     <div className="sidebar nypl-column-one-quarter">
-      <nav aria-label="Breadcrumbs">
+      <nav aria-label="Breadcrumbs" className="book-filters-heading">
         <a href={config.recommendationsLink.url} className="back-link">
           <LeftWedgeIcon ariaHidden />
-          <span className="replaced-text visuallyHidden">Return to </span>
           {config.recommendationsLink.label}
         </a>
       </nav>
-      {renderListSelector(updateCurrentListSelectorValues(props))}
-      {renderBookFilters(props.isJsEnabled)}
+      <div className="book-filters-heading">
+        <ListTitle
+          displayInfo={props.displayInfo}
+          picksCount={props.picksCount}
+          idPrefix="sidebar"
+        />
+        <h3><ListIcon /><span>Select a List</span></h3>
+        {renderListSelector(updateCurrentListSelectorValues(props))}
+        {renderBookFilters(props.isJsEnabled)}
+      </div>
     </div>
   );
 };
@@ -78,6 +85,7 @@ Sidebar.propTypes = {
   isJsEnabled: PropTypes.bool,
   listOptions: PropTypes.object,
   selectedFilters: PropTypes.arrayOf(PropTypes.object),
+  displayInfo: PropTypes.object,
   picksCount: PropTypes.number,
 };
 
@@ -89,7 +97,6 @@ Sidebar.defaultProps = {
   isJsEnabled: false,
   listOptions: {},
   selectedFilters: [],
-  picksCount: 0,
 };
 
 export default Sidebar;

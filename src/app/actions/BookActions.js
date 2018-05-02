@@ -2,11 +2,7 @@
 import alt from '../alt';
 
 class Actions {
-  updateListType(listType) {
-    return listType;
-  }
-
-  updatePicks(picks) {
+  updatePicksData(picks) {
     return picks;
   }
 

@@ -39,11 +39,11 @@ describe('Alt', () => {
       alt.dispatcher.dispatch.restore();
     });
 
-    it('should pass data to updatePicks Action', () => {
-      const action = actions.UPDATE_PICKS;
+    it('should pass data to updatePicksData Action', () => {
+      const action = actions.UPDATE_PICKS_DATA;
 
       // Trigger the action with data.
-      actions.updatePicks(picks);
+      actions.updatePicksData(picks);
 
       // Get the payload passed to the dispatcher.
       // Note, the offset must match the order that the action was called.
@@ -89,14 +89,14 @@ describe('Alt', () => {
   });
 
   describe('Store', () => {
-    it('should pass data to updatePicks Action', () => {
-      const oldPicks = store.getState().currentPicks;
-      const action = actions.UPDATE_PICKS;
+    it('should pass data to updatePicksData Action', () => {
+      const oldPicks = store.getState().picksData;
+      const action = actions.UPDATE_PICKS_DATA;
       const data = {};
 
       // Dispatching new data.
       alt.dispatcher.dispatch({ action, data });
-      const newPicks = store.getState().currentPicks;
+      const newPicks = store.getState().picksData;
 
       // Since the action was already fired in a previous test, and we're using the same
       // instance, these tests are to verify that data updated and not caring so much

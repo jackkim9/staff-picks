@@ -111,7 +111,7 @@ describe('ListSelector', () => {
     const mockBookListResponse = {
       date: '2017-01-01',
       title: 'Winter 2016 Staff Picks',
-      currentPicks: {
+      picksData: {
         picks: [
           {
             ageGroup: 'Adult',
@@ -200,7 +200,7 @@ describe('ListSelector', () => {
         () => {
           expect(updateBookStore.called).to.equal(true);
           expect(updateBookStore.getCall(0).args).to.deep.equal(
-            [mockBookListResponse.currentPicks, '2017-01-01', 'staff-picks']
+            [mockBookListResponse, '2017-01-01', [], []]
           );
 
           done();

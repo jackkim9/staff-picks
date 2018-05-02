@@ -1,33 +1,45 @@
+/* globals document */
 import React from 'react';
-import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
 
 import BookList from '../BookList/BookList';
 import Sidebar from '../Sidebar/Sidebar';
 import utils from '../../utils/utils';
+import staffPicksDate from '../../utils/DateService';
+import appConfig from '../../../../appConfig';
 
 class Main extends React.Component {
   constructor(props) {
     super(props);
 
+    const picksData = this.props.picksData;
+    const picks =
+      this.filterByAudience(picksData.picks, this.props.currentAudience, picksData.type);
+
     this.state = {
       selectableFilters: this.props.selectableFilters,
       selectedFilters: [],
-      picks: this.props.currentPicks.picks && this.props.currentPicks.picks.length ?
-        this.props.currentPicks.picks : [],
+      picks,
     };
 
     this.setSelectedFilter = this.setSelectedFilter.bind(this);
     this.clearFilters = this.clearFilters.bind(this);
+    this.getPicksInfo = this.getPicksInfo.bind(this);
+    this.getNewPickSet = this.getNewPickSet.bind(this);
+    this.filterByAudience = this.filterByAudience.bind(this);
+    this.getCount = this.getCount.bind(this);
   }
 
-  componentWillReceiveProps() {
+  componentWillReceiveProps(nextProps) {
+    const picksData = nextProps.picksData;
+    const picks =
+      this.filterByAudience(picksData.picks, nextProps.currentAudience, picksData.type);
+
     // Update the props to reflect the latest updates from client side API responses
     this.setState({
-      selectableFilters: this.props.selectableFilters,
+      selectableFilters: nextProps.selectableFilters,
       selectedFilters: [],
-      picks: this.props.currentPicks.picks && this.props.currentPicks.picks.length ?
-        this.props.currentPicks.picks : [],
+      picks,
     });
   }
 
@@ -39,7 +51,13 @@ class Main extends React.Component {
    */
   getNewPickSet(picks, selectedFilters) {
     if (!selectedFilters || !selectedFilters.length) {
-      return picks || [];
+      const updatedPicks =
+        this.filterByAudience(picks, this.props.currentAudience, 'staff-picks');
+      return updatedPicks;
+    }
+
+    if (!Array.isArray(picks) || !picks.length) {
+      return [];
     }
 
     return picks.filter((book) => {
@@ -48,13 +66,28 @@ class Main extends React.Component {
       // Get the array of selected tags found in the book item
       const inSelectedFilter = utils.getSelectedTags(tagArray, selectedFilters);
 
-      if (inSelectedFilter.length &&
-          (inSelectedFilter.length === selectedFilters.length)) {
-        return book;
-      }
-
-      return undefined;
+      return (inSelectedFilter.length && (inSelectedFilter.length === selectedFilters.length));
     });
+  }
+
+  /**
+   * getPicksInfo(picksData, currentAudience)
+   * Gets display information for a specific pick data set.
+   * @param {object} picksData
+   * @param {string} currentAudience
+   */
+  getPicksInfo(picksData, currentAudience) {
+    if (!picksData) {
+      return {};
+    }
+
+    const { date } = picksData;
+    const displayDate = staffPicksDate(date);
+
+    return {
+      displayDate,
+      displayAge: appConfig.audienceMap[currentAudience || 'Adult'],
+    };
   }
 
   /**
@@ -74,67 +107,83 @@ class Main extends React.Component {
       selectedFilters = this.state.selectedFilters.filter(id => id !== filterId);
     }
 
-    const picks = this.getNewPickSet(this.props.currentPicks.picks, selectedFilters);
+    let picks = this.getNewPickSet(this.props.picksData.picks, selectedFilters);
     const selectableFilters = utils.getSelectableTags(picks);
+
+    picks = this.filterByAudience(picks, this.props.currentAudience, this.props.picksData.type);
 
     this.setState({
       selectableFilters,
       picks,
       selectedFilters,
     });
+  }
+
+  /**
+   * getCount(picksData = {})
+   * Returns the count of the current set of picks.
+   * @param {object} picksData
+   */
+  getCount() {
+    const picks = this.state.picks;
+
+    return (picks && picks.length) ? picks.length : 0;
   }
 
   /**
    * clearFilters()
    * Reset the list of picks and set the list of filters back to its initial state.
-   * @param {object} ref
+   * @param {string} id
    */
-  clearFilters(ref) {
+  clearFilters() {
     const selectedFilters = [];
-    const picks = this.getNewPickSet(this.props.currentPicks.picks, selectedFilters);
+    const picks = this.getNewPickSet(this.props.picksData.picks, selectedFilters);
     const selectableFilters = utils.getSelectableTags(picks);
 
     utils.trackPicks('Clear Filters', 'Clicked');
-
-    if (ref) {
-      ReactDOM.findDOMNode(ref).focus();
-    }
 
     this.setState({
       selectableFilters,
       picks,
       selectedFilters,
     });
+
+    setTimeout(() => {
+      utils.focusOnFirstAvailableElement(['sidebar-list-title', 'list-title']);
+    }, 400);
   }
 
   /**
-   * extractAudienceGroup(picks, audience, listType)
+   * filterByAudience(picks, audience, type)
    * Picks up the items from the selected age/audience group
    * @param {array} picks
    * @param {string} audience
-   * @param {string} listType
+   * @param {string} type
    */
-  extractAudienceGroup(picks, audience, listType) {
+  filterByAudience(picks, audience, type) {
     // Only applies the check for staff-picks lists
-    if (listType !== 'staff-picks') {
+    if (type !== 'staff-picks') {
       // skips the checks and returns the original picks
-      return picks;
+      return picks || [];
     }
 
-    const audienceGroup = [];
+    const updatedPicks = [];
 
     if (Array.isArray(picks) && picks.length) {
       picks.forEach((item) => {
         if (item.ageGroup === audience) {
-          audienceGroup.push(item);
+          updatedPicks.push(item);
         }
       });
     }
 
-    return audienceGroup;
+    return updatedPicks;
   }
 
   render() {
+    const { type } = this.props.picksData;
+    const picksCount = this.getCount();
+
     return (
       <div className="nypl-row">
         <Sidebar
@@ -145,19 +194,18 @@ class Main extends React.Component {
           isJsEnabled={this.props.isJsEnabled}
           listOptions={this.props.listOptions}
           selectedFilters={this.state.selectedFilters}
-          picksCount={this.state.picks.length}
           currentSeason={this.props.currentSeason}
           currentAudience={this.props.currentAudience}
+          displayInfo={this.getPicksInfo(this.props.picksData, this.props.currentAudience)}
+          picksCount={picksCount}
         />
 
         <BookList
-          picks={this.extractAudienceGroup(
-            this.state.picks,
-            this.props.currentAudience,
-            this.props.listType
-          )}
+          picks={this.state.picks}
           isJsEnabled={this.props.isJsEnabled}
-          listType={this.props.params.type}
+          type={type}
+          displayInfo={this.getPicksInfo(this.props.picksData, this.props.currentAudience)}
+          picksCount={picksCount}
         />
       </div>
     );
@@ -167,10 +215,8 @@ class Main extends React.Component {
 Main.propTypes = {
   filters: PropTypes.array,
   selectableFilters: PropTypes.array,
-  currentPicks: PropTypes.object,
+  picksData: PropTypes.object,
   isJsEnabled: PropTypes.bool,
-  params: PropTypes.object,
-  listType: PropTypes.string,
   listOptions: PropTypes.object,
   currentSeason: PropTypes.string,
   currentAudience: PropTypes.string,
@@ -179,9 +225,8 @@ Main.propTypes = {
 Main.defaultProps = {
   filters: [],
   selectableFilters: [],
-  currentPicks: {},
+  picksData: {},
   isJsEnabled: false,
-  params: { type: '' },
 };
 
 export default Main;

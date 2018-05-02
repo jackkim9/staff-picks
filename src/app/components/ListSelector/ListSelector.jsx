@@ -1,9 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import axios from 'axios';
+
 import ListFilter from './ListFilter';
 import config from '../../../../appConfig';
 import BookActions from '../../../app/actions/BookActions';
+import utils from '../../utils/utils';
 
 class ListSelector extends React.Component {
   constructor(props) {
@@ -23,26 +25,23 @@ class ListSelector extends React.Component {
   }
 
   /**
-   * updateBookStore(picks = {}, filters = [], selectedFilters = [])
+   * updateBookStore(data = {}, currentSeason, filters = [], selectedFilters = [])
    * Updates BookStore by BookActions based on latest client side API response
-   * @param {object} picks
+   * @param {object} data
    * @param {string} currentSeason
-   * @param {string} listType
    * @param {array} filters
    * @param {array} selectedFilters
    */
   updateBookStore(
-    picks = {},
+    data = {},
     currentSeason = '',
-    listType = 'staff-picks',
     filters = [],
     selectedFilters = [],
   ) {
-    BookActions.updatePicks(picks);
+    BookActions.updatePicksData(data.picksData);
     BookActions.updateCurrentSeason(currentSeason);
     BookActions.updateFilters(filters);
     BookActions.setSelectableFilters(selectedFilters);
-    BookActions.updateListType(listType);
   }
 
   /**
@@ -63,18 +62,28 @@ class ListSelector extends React.Component {
         // Catches the error from API, and update BookStore back to the default
         if (!response.status || response.status >= 400) {
           this.updateBookStore();
-          console.log(`API error with status code ${response.status}: ${response.data.errorMessage}`);
+          console.log(
+            `API error with status code ${response.status}: ${response.data.errorMessage}`
+          );
           // Leads the user to the 404 page
           this.updateLocation(`${config.baseUrl}404`);
         } else {
+          const data = response.data;
+          const filters = utils.getAllTags(data.picksData.picks);
+          // Get the subset of tags that the picks can be filtered by.
+          const selectableFilters = utils.getSelectableTags(data.picksData.picks);
+
           // For valid API response, updates BookStore for the new list
           this.updateBookStore(
-            response.data.currentPicks,
+            data,
             submitValue,
-            'staff-picks',
+            filters,
+            selectableFilters,
           );
           // Updates and transit to the match URL
           this.updateLocation(`${config.baseUrl}staff-picks/${submitValue}`);
+          // Focuses on the title
+          utils.focusOnFirstAvailableElement(['sidebar-list-title', 'list-title']);
         }
       })
       .catch((error) => {
@@ -99,6 +108,9 @@ class ListSelector extends React.Component {
    */
   handleSeasonChange(e) {
     this.submitFormRequest(e.target.value);
+
+    // Adds to GA event
+    utils.trackPicks('Lists', `${e.target.value} - ${this.props.fieldsetProps.audience}`);
   }
 
   /**
@@ -130,6 +142,11 @@ class ListSelector extends React.Component {
           handleChange={
             (e) => {
               BookActions.updateCurrentAudience(e.target.value);
+              // Focuses on the title
+              utils.focusOnFirstAvailableElement(['sidebar-list-title', 'list-title']);
+
+              // Adds to GA event
+              utils.trackPicks('Lists', `${this.props.fieldsetProps.season} - ${e.target.value}`);
             }
           }
         />
@@ -144,9 +161,14 @@ class ListSelector extends React.Component {
 
     return (
       <form action={`${config.baseApiUrl}`} method="post">
-        {this.renderFieldset(this.props.fieldsetProps.season)}
         {this.renderFieldset(this.props.fieldsetProps.audience)}
-        <input type="submit" value="Select List" className={visuallyHidden} />
+        {this.renderFieldset(this.props.fieldsetProps.season)}
+        <input
+          type="submit"
+          value="Select List"
+          className={visuallyHidden}
+          tabIndex={visuallyHidden ? -1 : 0}
+        />
       </form>
     );
   }

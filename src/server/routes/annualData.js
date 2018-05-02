@@ -3,8 +3,6 @@ import utils from '../../app/utils/utils';
 
 import nyplApiClient from '../helper/nyplApiClient';
 
-const { baseUrl } = appConfig;
-
 const nyplApiClientGet = endpoint =>
   nyplApiClient().then(client => client.get(endpoint, { cache: false }));
 
@@ -31,7 +29,7 @@ function annualCurrentData(type, req, res, next) {
       res.locals.data = {
         BookStore: {
           filters,
-          currentPicks: data,
+          picksData: data,
           selectableFilters,
           isJsEnabled: false,
         },
@@ -47,7 +45,7 @@ function annualCurrentData(type, req, res, next) {
       res.locals.data = {
         BookStore: {
           filters: [],
-          currentPicks: {},
+          picksData: {},
           selectableFilters: [],
           isJsEnabled: false,
         },

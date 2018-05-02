@@ -100,6 +100,43 @@ function Utils() {
 
     return _sortBy(tags, tag => tag);
   };
+
+  /**
+   * capitalize(str)
+   * capitalizes a string
+   * @param {string} str
+   */
+  this.capitalize = (str) =>
+    str.replace(/^\w/, (chr) => chr.toUpperCase());
+
+  /**
+   * focusOnFirstAvailableElement(elementIds)
+   * Jumps the focus to the first available HTML element that is listed in an array of element IDs.
+   * @param {array} elementIds
+   */
+  this.focusOnFirstAvailableElement = (elementIds) => {
+    if (!Array.isArray(elementIds) || !elementIds.length) {
+      return false;
+    }
+
+    elementIds.some((elementId) => {
+      const elementDOM = document.getElementById(elementId);
+      const isDisplay = elementDOM ?
+        window.getComputedStyle(elementDOM).getPropertyValue('display') !== 'none' : false;
+
+      // Checks if the element exists and is displayed
+      if (elementDOM && isDisplay) {
+        elementDOM.focus();
+
+        // Returns true to stop the iteration
+        return true;
+      }
+
+      return false;
+    });
+
+    return false;
+  };
 }
 
 export default new Utils();

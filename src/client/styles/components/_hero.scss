@@ -50,21 +50,6 @@
       line-height: 1.1;
       margin: 0 0 0.75rem 0;
       text-align: left;
-
-      &::before {
-        background: #d0343a;
-        content: '';
-        display: block;
-        height: 0.25rem;
-        margin-bottom: 0.5rem;
-        width: 50%;
-      }
-
-      @include min-screen($mobile-breakpoint) {
-        &::before {
-          content: none;
-        }
-      }
     }
 
     &-description {

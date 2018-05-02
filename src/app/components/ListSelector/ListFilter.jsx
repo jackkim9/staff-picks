@@ -1,6 +1,7 @@
 // Library import
 import React from 'react';
 import PropTypes from 'prop-types';
+import utils from '../../utils/utils';
 
 const ListFilter = ({ fieldsetProps, handleChange }) => {
   const selectName = fieldsetProps.fieldsetName;
@@ -19,7 +20,7 @@ const ListFilter = ({ fieldsetProps, handleChange }) => {
 
   return (
     <fieldset>
-      <label htmlFor={selectId}></label>
+      <label htmlFor={selectId}>{`Select ${utils.capitalize(selectName)}`}</label>
       <select
         id={selectId}
         name={selectName}

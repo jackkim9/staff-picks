@@ -5,8 +5,7 @@ import BookActions from '../actions/BookActions';
 class BookStore {
   constructor() {
     this.bindListeners({
-      updateListType: BookActions.UPDATE_LIST_TYPE,
-      updatePicks: BookActions.UPDATE_PICKS,
+      updatePicksData: BookActions.UPDATE_PICKS_DATA,
       updateFilters: BookActions.UPDATE_FILTERS,
       updateCurrentSeason: BookActions.UPDATE_CURRENT_SEASON,
       updateCurrentAudience: BookActions.UPDATE_CURRENT_AUDIENCE,
@@ -16,9 +15,8 @@ class BookStore {
     });
 
     this.state = {
-      listType: '',
       filters: [],
-      currentPicks: {},
+      picksData: {},
       isJsEnabled: false,
       listOptions: {},
       selectableFilters: [],
@@ -27,12 +25,8 @@ class BookStore {
     };
   }
 
-  updateListType(listType) {
-    this.setState({ listType });
-  }
-
-  updatePicks(currentPicks) {
-    this.setState({ currentPicks });
+  updatePicksData(picksData) {
+    this.setState({ picksData });
   }
 
   updateFilters(filters) {

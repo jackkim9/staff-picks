@@ -6,13 +6,22 @@ import { mount } from 'enzyme';
 import Sidebar from '../../src/app/components/Sidebar/Sidebar';
 import config from '../../appConfig';
 
+const mockDisplayInfo = {
+  displayDate: { month: 'Winter', year: '2018' },
+  displayAge: 'Adult',
+};
+
 describe('Sidebar', () => {
   describe('Default component with JS turned on', () => {
     let component;
 
     before(() => {
       component = mount(
-        <Sidebar isJsEnabled listOptions={config.staffPicksListOptions} />
+        <Sidebar
+          isJsEnabled
+          listOptions={config.staffPicksListOptions}
+          displayInfo={mockDisplayInfo}
+        />
       );
     });
 
@@ -27,7 +36,7 @@ describe('Sidebar', () => {
       expect(breadcrumbLink).to.have.length(1);
       // The first part of the "text" is the hidden SVG title which is not hidden in the tests.
       expect(breadcrumbLink.text())
-        .to.equal('NYPL Left Wedge SVG IconReturn to Recommendations');
+        .to.equal('NYPL Left Wedge SVG IconRecommendations');
       expect(breadcrumbLink.prop('href'))
         .to.equal('https://www.nypl.org/books-music-movies/recommendations');
     });
@@ -41,7 +50,12 @@ describe('Sidebar', () => {
     let component;
 
     before(() => {
-      component = mount(<Sidebar isJsEnabled={false} listOptions={config.staffPicksListOptions} />);
+      component = mount(
+        <Sidebar
+          isJsEnabled={false}
+          listOptions={config.staffPicksListOptions}
+          displayInfo={mockDisplayInfo}
+        />);
     });
 
     it('should render .sidebar wrapper DOM', () => {
