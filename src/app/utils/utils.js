@@ -116,26 +116,24 @@ function Utils() {
    */
   this.focusOnFirstAvailableElement = (elementIds) => {
     if (!Array.isArray(elementIds) || !elementIds.length) {
-      return false;
+      return;
     }
 
-    elementIds.some((elementId) => {
+    // Finds the element that meets the condition by its ID
+    const IdOfElementToBeFocused = elementIds.find((elementId) => {
       const elementDOM = document.getElementById(elementId);
       const isDisplay = elementDOM ?
         window.getComputedStyle(elementDOM).getPropertyValue('display') !== 'none' : false;
 
       // Checks if the element exists and is displayed
-      if (elementDOM && isDisplay) {
-        elementDOM.focus();
-
-        // Returns true to stop the iteration
-        return true;
-      }
-
-      return false;
+      // If so, return the ID of the element
+      return elementDOM && isDisplay;
     });
 
-    return false;
+    // Checks if any element is returned as IdOfElementToBeFocused
+    if (IdOfElementToBeFocused) {
+      document.getElementById(IdOfElementToBeFocused).focus();
+    }
   };
 }
 

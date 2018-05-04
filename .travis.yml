@@ -9,6 +9,11 @@ before_script: npm run dist
 script: npm test
 before_deploy: echo 'All unit tests passed; Successfull built distribution assets;
   Preparing to deploy Staff Picks to AWS.'
+# For every branch mentioned below that does not match the current branch, the following
+# message will appear:
+#   "Skipping a deployment with the elasticbeanstalk provider because this branch is not permitted"
+# When a Pull Request is submitted and Travis finishes building, the following message will appear:
+#   "Skipping a deployment with the elasticbeanstalk provider because the current build is a pull request."
 deploy:
 - provider: elasticbeanstalk
   skip_cleanup: true

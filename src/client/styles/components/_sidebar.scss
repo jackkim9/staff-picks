@@ -82,4 +82,13 @@
       margin: 0 0 0 -10px;
     }
   }
+
+  /* Set up fade-in animation for submit button, so that before we detect JS on the browser, */
+  /* the submit button can remain invisible in the designated period of time. */
+  .no-js {
+    -webkit-animation: fadeIn 3s;
+    -moz-animation: fadeIn 3s;
+    -o-animation: fadeIn 3s;
+    animation: fadeIn 3s;
+  }
 }

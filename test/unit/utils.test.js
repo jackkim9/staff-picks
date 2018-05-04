@@ -75,29 +75,31 @@ describe('Utils functions', () => {
   });
 
   describe('focusOnFirstAvailableElement', () => {
+    // The IDs this test should be calling
     const mockElementIds = ['element1', 'element2', 'element3', 'element4'];
     // The mockups of the elements that getElementById will return
     // As we will run focus() on the function, we stub a focus function to each element
+    // There should not be any element with ID as "element1"
     const mockElements = [
       {
-        id: 'element1',
+        id: 'not-exist-element',
         children: [],
-        focus: sinon.stub(),
+        focus: sinon.spy(),
       },
       {
         id: 'element2',
         children: [],
-        focus: sinon.stub(),
+        focus: sinon.spy(),
       },
       {
         id: 'element3',
         children: [],
-        focus: sinon.stub(),
+        focus: sinon.spy(),
       },
       {
         id: 'element4',
         children: [],
-        focus: sinon.stub(),
+        focus: sinon.spy(),
       },
     ];
     const focusOnFirstAvailableElement = utils.focusOnFirstAvailableElement;
@@ -110,6 +112,8 @@ describe('Utils functions', () => {
       getPropertyValue: sinon.stub().withArgs('display')
         .onCall(0).returns('none')
         .onCall(1).returns('block')
+        // getPropertyValue should never be called the third time as we got the correct element
+        // at the third time
         .onCall(2).returns('block'),
     };
     const getComputedStyle = sinon.stub(window, 'getComputedStyle').returns(getPropertyValue);
@@ -119,26 +123,42 @@ describe('Utils functions', () => {
       .onCall(0).returns(null)
       .onCall(1).returns(mockElements[1])
       .onCall(2).returns(mockElements[2])
-      .onCall(3).returns(mockElements[3]);
+      // The last time getElementById gets called should be the time it executes focus on
+      // the correct element, which is element3
+      .onCall(3).returns(mockElements[2]);
+
+    beforeEach(() => {
+      getElementById.resetHistory();
+      getComputedStyle.resetHistory();
+      mockElements[0].focus.reset();
+      mockElements[1].focus.reset();
+      mockElements[2].focus.reset();
+      mockElements[3].focus.reset();
+    });
+
+    afterEach(() => {
+      getElementById.resetHistory();
+      getComputedStyle.resetHistory();
+      mockElements[0].focus.reset();
+      mockElements[1].focus.reset();
+      mockElements[2].focus.reset();
+      mockElements[3].focus.reset();
+    });
+
+    after(() => {
+      getElementById.restore();
+      getComputedStyle.restore();
+    });
 
     it('should return false if no data or empty array passed to it.', () => {
-      expect(focusOnFirstAvailableElement(undefined)).to.equal(false);
-      expect(focusOnFirstAvailableElement([])).to.equal(false);
+      expect(focusOnFirstAvailableElement(undefined)).to.equal(undefined);
+      expect(focusOnFirstAvailableElement([])).to.equal(undefined);
     });
 
     it('should focus the first available element.', () => {
       focusOnFirstAvailableElement(mockElementIds);
 
-      // getElementById should only be called 3 times, even with a forth element
-      // On the third time it satisfies the condition, so the interation should stop
-      expect(getElementById.callCount).to.equal(3);
-
-      // getComputedStyle should only be called 2 times, even with a forth element
-      // On the first time, it should skip calling it as there's no valid DOM
-      // And the third time should be the last interation as it satisfies the condition
-      expect(getComputedStyle.callCount).to.equal(2);
-
-      // Tests which element got focused here (focus() got called)
+      // Tests which element got focused here (means focus() got called)
       expect(mockElements[0].focus.callCount).to.equal(0);
       expect(mockElements[1].focus.callCount).to.equal(0);
       expect(mockElements[2].focus.callCount).to.equal(1);

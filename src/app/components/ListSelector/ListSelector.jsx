@@ -157,7 +157,8 @@ class ListSelector extends React.Component {
   }
 
   render() {
-    const visuallyHidden = (this.props.isJsEnabled) ? 'visuallyHidden' : '';
+    const isJsEnabled = this.props.isJsEnabled;
+    const hiddenClass = (isJsEnabled) ? 'visuallyHidden' : 'no-js';
 
     return (
       <form action={`${config.baseApiUrl}`} method="post">
@@ -166,8 +167,8 @@ class ListSelector extends React.Component {
         <input
           type="submit"
           value="Select List"
-          className={visuallyHidden}
-          tabIndex={visuallyHidden ? -1 : 0}
+          className={hiddenClass}
+          tabIndex={isJsEnabled ? -1 : 0}
         />
       </form>
     );

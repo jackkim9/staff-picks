@@ -80,7 +80,7 @@ const config = {
     'EQIDAQAB\n' +
     '-----END PUBLIC KEY-----',
   heroData: {
-    'staffPicks': {
+    staffPicks: {
       category: '',
       header: 'Staff Picks',
       description: 'This is staff picks page.',
