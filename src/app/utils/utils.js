@@ -67,6 +67,23 @@ function Utils() {
   };
 
   /**
+   * getFiltersMapping(filters)
+   * Return mapping of filters
+   *
+   * @return {Object} filters - A map of id and label key-value pairs of filters
+   * @param {array} filters - Array of filters
+   */
+  this.getFiltersMapping = (filters) => {
+    if (!filters) {
+      return [];
+    }
+    return filters.map(filter => ({
+      id: filter.toLowerCase().split(' ').join('-'),
+      label: filter,
+    }));
+  };
+
+  /**
    * getSelectableTags(picks)
    * Get the subset of tags that can be selected based on the subset of picks.
    *
