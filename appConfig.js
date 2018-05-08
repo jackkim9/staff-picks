@@ -123,7 +123,7 @@ const config = {
       currentValue: '',
       options: [
         { name: 'Adult', value: 'Adult' },
-        { name: 'Teen', value: 'YA' },
+        { name: 'Young Adult', value: 'YA' },
         { name: 'Children', value: 'Children' },
       ],
     },

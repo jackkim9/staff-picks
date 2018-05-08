@@ -1,0 +1,58 @@
+/* Sets fade in animation for different browsers */
+@-webkit-keyframes fadeInBeforeJSDetected {
+  0% {
+    opacity: 0;
+    visibility: hidden;
+  }
+  99% {
+    opacity: 0.1;
+    visibility: hidden;
+  }
+  100% {
+    opacity: 1;
+    visibility: visible;
+  }
+}
+
+@-moz-keyframes fadeInBeforeJSDetected {
+  0% {
+    opacity: 0;
+    visibility: hidden;
+  }
+  99% {
+    opacity: 0.1;
+    visibility: hidden;
+  }
+  100% {
+    opacity: 1;
+    visibility: visible;
+  }
+}
+@-o-keyframes fadeInBeforeJSDetected {
+  0% {
+    opacity: 0;
+    visibility: hidden;
+  }
+  99% {
+    opacity: 0.1;
+    visibility: hidden;
+  }
+  100% {
+    opacity: 1;
+    visibility: visible;
+  }
+}
+@keyframes fadeInBeforeJSDetected {
+  0% {
+    opacity: 0;
+    visibility: hidden;
+  }
+  99% {
+    opacity: 0.1;
+    visibility: hidden;
+  }
+  100% {
+    opacity: 1;
+    visibility: visible;
+  }
+}

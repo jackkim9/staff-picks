@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import LazyLoad from 'react-lazyload';
 import { EReaderIcon, BookIcon } from '@nypl/dgx-svg-icons';
 import { isEmpty as _isEmpty, isString as _isString } from 'underscore';
 import config from '../../../../appConfig';
@@ -30,7 +31,9 @@ const Book = ({ pick, isJsEnabled }) => {
     const fullImgSrc = isStringEmpty(imageUrl) ? defaultImageUrl : imageUrl;
     return (
       <div className="book-item-image-box">
-        <img alt="" src={fullImgSrc} />
+        <LazyLoad height={238} once>
+          <img alt="" src={fullImgSrc} />
+        </LazyLoad>
       </div>
     );
   };

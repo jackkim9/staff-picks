@@ -46,6 +46,15 @@ describe('ListSelector', () => {
       () => {
         expect(component.find('form').length).to.equal(1);
         expect(component.find('input').length).to.equal(1);
+        expect(component.find('input').node.props.className).to.equal('no-js');
+      }
+    );
+
+    it('should render <input> with the class "visuallyHidden" if its props "isJsEnabled" is true.',
+      () => {
+        component.setProps({ isJsEnabled: true });
+        expect(component.find('input').length).to.equal(1);
+        expect(component.find('input').node.props.className).to.equal('visuallyHidden');
       }
     );
   });

@@ -4,6 +4,7 @@
 > Update the routes. The base route is now `/books-music-movies/recommendations/best-books/`. And `staff-picks`, `ya`, `childrens` are three lists on the same level of the structure.
 > Update the BookPage component to support legacy staff-picks direct links and homepage's staff-picks component as the modal replacement from the previous staff-picks application. No direct links to picks in lists is supported at this time.
 > Add an `.env.example` and update the related README.md so now the developer can set a `.env` to run the application locally.
+> Add a list selector component that consists of two dropdown menus for choosing both seasons and audience from Staff Picks, or only seasons from Best YA Books and Best Children Books.
 
 ### 3.2.6
 > Updating Travis CI configuration for CD to AWS Elastic Beanstalk
