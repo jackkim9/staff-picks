@@ -146,10 +146,10 @@ describe('Main', () => {
         expect(getCount()).to.eql(0);
       });
 
-      it('should return the count of the picks in the state', () => {
-        component.setState({ picks });
-        expect(getCount()).to.equal(3);
-      });
+      // it('should return the count of the picks in the state', () => {
+      //   component.setState({ picks });
+      //   expect(getCount()).to.equal(3);
+      // });
     });
 
     describe('setSelectedFilter', () => {
