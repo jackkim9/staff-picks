@@ -29,11 +29,21 @@ const Book = ({ pick, isJsEnabled }) => {
   const renderBookCoverImage = (imageUrl) => {
     const defaultImageUrl = `${config.baseUrl}src/client/images/book-place-holder.png`;
     const fullImgSrc = isStringEmpty(imageUrl) ? defaultImageUrl : imageUrl;
+    const placeholder = <img alt="" src={fullImgSrc} style={{ height: '238px' }} />;
+
+    if (isJsEnabled) {
+      return (
+        <div className="book-item-image-box">
+          <LazyLoad height={238} once once placeholder={placeholder}>
+            <img alt="" src={fullImgSrc} />
+          </LazyLoad>
+        </div>
+      );
+    }
+
     return (
       <div className="book-item-image-box">
-        <LazyLoad height={238} once>
-          <img alt="" src={fullImgSrc} />
-        </LazyLoad>
+        <img alt="" src={fullImgSrc} />
       </div>
     );
   };
