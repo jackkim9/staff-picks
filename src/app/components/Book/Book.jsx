@@ -34,7 +34,7 @@ const Book = ({ pick, isJsEnabled }) => {
     if (isJsEnabled) {
       return (
         <div className="book-item-image-box">
-          <LazyLoad height={238} once once placeholder={placeholder}>
+          <LazyLoad height={238} once placeholder={placeholder}>
             <img alt="" src={fullImgSrc} />
           </LazyLoad>
         </div>
