@@ -8,7 +8,7 @@ const ListFilter = ({ fieldsetProps, handleChange }) => {
   const selectId = `${selectName}-input`;
   let defaultValue;
   const optionList = (fieldsetProps.options.length) ? fieldsetProps.options.map(
-    (opt) => <option value={opt.value} key={opt.value}>{opt.name}</option>
+    opt => <option value={opt.value} key={opt.value}>{opt.name}</option>
   ) : null;
 
   if (fieldsetProps.currentValue) {
@@ -27,7 +27,7 @@ const ListFilter = ({ fieldsetProps, handleChange }) => {
         defaultValue={defaultValue}
         onChange={handleChange}
       >
-       {optionList}
+        {optionList}
       </select>
     </fieldset>
   );

@@ -6,6 +6,19 @@ const ListTitle = (props) => {
   const booksfound = `${props.picksCount} Book${props.picksCount === 1 ? '' : 's'} Found`;
   const idPrefix = props.idPrefix ? `${props.idPrefix}-` : '';
 
+  if (!displayDate.year) {
+    return null;
+  }
+
+  if (props.displayType !== 'staff-picks') {
+    return (
+      <h2 id={`${idPrefix}list-title`} tabIndex="0">
+        {displayDate.year} Picks
+        <span className="pick-count">{booksfound}</span>
+      </h2>
+    );
+  }
+
   if (!displayDate.month || !displayDate.year || !displayAge) {
     return null;
   }
@@ -20,12 +33,14 @@ const ListTitle = (props) => {
 
 ListTitle.propTypes = {
   displayInfo: PropTypes.object,
+  displayType: PropTypes.string,
   picksCount: PropTypes.number,
   idPrefix: PropTypes.string,
 };
 
 ListTitle.defaultProps = {
   displayInfo: {},
+  displayType: '',
   picksCount: 0,
   idPrefix: '',
 };

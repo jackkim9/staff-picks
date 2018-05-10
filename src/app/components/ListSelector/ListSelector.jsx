@@ -55,9 +55,10 @@ class ListSelector extends React.Component {
       console.log('No valid season input.');
       return;
     }
+    const type = this.props.fieldsetProps.type;
 
     // this function will be replaced by submitting to endpoint
-    axios.get(`${config.baseApiUrl}${submitValue}`)
+    axios.get(`${config.baseApiUrl}${type}/${submitValue}`)
       .then((response) => {
         // Catches the error from API, and update BookStore back to the default
         if (!response.status || response.status >= 400) {
@@ -81,7 +82,8 @@ class ListSelector extends React.Component {
             selectableFilters,
           );
           // Updates and transit to the match URL
-          this.updateLocation(`${config.baseUrl}staff-picks/${submitValue}`);
+          const dataType = utils.getDataType(data.picksData.type, true);
+          this.updateLocation(`${config.baseUrl}${dataType}/${submitValue}`);
           // Focuses on the title
           utils.focusOnFirstAvailableElement(['sidebar-list-title', 'list-title']);
         }
@@ -110,7 +112,11 @@ class ListSelector extends React.Component {
     this.submitFormRequest(e.target.value);
 
     // Adds to GA event
-    utils.trackPicks('Lists', `${e.target.value} - ${this.props.fieldsetProps.audience}`);
+    if (!this.props.fieldsetProps.audience) {
+      utils.trackPicks('Lists', `${e.target.value}`);
+    } else {
+      utils.trackPicks('Lists', `${e.target.value} - ${this.props.fieldsetProps.audience}`);
+    }
   }
 
   /**
@@ -119,7 +125,7 @@ class ListSelector extends React.Component {
    * @param {object} fieldsetProps
    */
   renderFieldset(fieldsetProps) {
-    if (!fieldsetProps.options.length) {
+    if (!fieldsetProps) {
       return null;
     }
 
@@ -161,9 +167,15 @@ class ListSelector extends React.Component {
     const hiddenClass = (isJsEnabled) ? 'visuallyHidden' : 'no-js';
 
     return (
-      <form action={`${config.baseApiUrl}`} method="post">
+      <form action={`${config.baseApiUrl}post`} method="post">
         {this.renderFieldset(this.props.fieldsetProps.audience)}
         {this.renderFieldset(this.props.fieldsetProps.season)}
+        <input
+          type="hidden"
+          name="type"
+          value={this.props.fieldsetProps.type}
+          className={hiddenClass}
+        />
         <input
           type="submit"
           value="Select List"

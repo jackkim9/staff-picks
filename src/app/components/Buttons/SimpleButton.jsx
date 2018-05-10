@@ -28,6 +28,7 @@ SimpleButton.propTypes = {
   id: PropTypes.string,
   className: PropTypes.string,
   label: PropTypes.string,
+  lang: PropTypes.string,
   target: PropTypes.string,
   style: PropTypes.object,
   onClick: PropTypes.func,

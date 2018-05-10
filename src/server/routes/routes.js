@@ -3,18 +3,19 @@ import express from 'express';
 import monthData from './monthData';
 import appConfig from '../../../appConfig';
 import selectData from './selectData';
+import selectClientData from './selectClientData';
 
 const router = express.Router();
 
-// API route used in Best Books.
+// API route used in staff picks.
 router
-  .route(`${appConfig.baseApiUrl}`)
-  .post(monthData.selectMonthDataFormPost);
+  .route(`${appConfig.baseApiUrl}post`)
+  .post(monthData.selectDataFormPost);
 
-// The route for client side API request of Staff Picks
+// The route for client side API requests for best books and staff picks
 router
-  .route(`${appConfig.baseApiUrl}:time/:id?`)
-  .get(monthData.selectClientMonthData);
+  .route(`${appConfig.baseApiUrl}:type/:time/:id?`)
+  .get(selectClientData.selectClientData);
 
 // Type detection between best books and staff picks.
 router

@@ -28,6 +28,7 @@ const fieldsetProps = {
       { name: 'Children', value: 'Children' },
     ],
   },
+  type: 'staff-picks',
 };
 
 describe('ListSelector', () => {
@@ -45,7 +46,7 @@ describe('ListSelector', () => {
     it('should render a form, and inside the form, it should render <input>.',
       () => {
         expect(component.find('form').length).to.equal(1);
-        expect(component.find('input').length).to.equal(1);
+        expect(component.find('input').length).to.equal(2);
         expect(component.find('input').node.props.className).to.equal('no-js');
       }
     );
@@ -53,7 +54,7 @@ describe('ListSelector', () => {
     it('should render <input> with the class "visuallyHidden" if its props "isJsEnabled" is true.',
       () => {
         component.setProps({ isJsEnabled: true });
-        expect(component.find('input').length).to.equal(1);
+        expect(component.find('input').length).to.equal(2);
         expect(component.find('input').node.props.className).to.equal('visuallyHidden');
       }
     );
@@ -84,7 +85,7 @@ describe('ListSelector', () => {
       renderFieldset.restore();
     });
 
-    it('should return null, if the list have no options.', () => {
+    it('should return null, if the list has no options.', () => {
       expect(renderFieldset(emptyFieldset)).to.equal(null);
     });
 
@@ -151,7 +152,7 @@ describe('ListSelector', () => {
           statusText: 'Undefined error',
           status: 500,
         })
-        .onGet(`${config.baseApiUrl}2017-01-01`)
+        .onGet(`${config.baseApiUrl}staff-picks/2017-01-01`)
         .reply(200, mockBookListResponse);
     });
 
@@ -203,7 +204,7 @@ describe('ListSelector', () => {
       );
     });
 
-    it('should update BookStore with the data responsed, if the request succeeds.', (done) => {
+    it('should update BookStore with the data response, if the request succeeds.', (done) => {
       component.instance().submitFormRequest('2017-01-01');
       setTimeout(
         () => {

@@ -16,9 +16,12 @@ const platformConfig = {
   },
   endpoints: {
     allStaffPicksLists: '/book-lists?type=staff-picks',
-    allTeensLists: '/book-lists?type=teens',
-    allKidsPicksLists: '/book-lists?type=kids',
     staffPicksPath: '/book-lists/staff-picks/',
+    annualPath: '/book-lists/',
+    annualLists: {
+      teens: '/book-lists?type=teens',
+      kids: '/book-lists?type=kids',
+    },
   },
 };
 

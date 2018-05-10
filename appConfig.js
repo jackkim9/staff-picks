@@ -2,6 +2,7 @@ const config = {
   port: 3001,
   webpackDevServerPort: 3000,
   baseUrl: '/books-music-movies/recommendations/best-books/',
+  base404: '/books-music-movies/recommendations/best-books/404',
   baseApiUrl: '/books-music-movies/recommendations/best-books/api/',
   metaTags: {
     ya: [
@@ -83,26 +84,30 @@ const config = {
     staffPicks: {
       category: '',
       header: 'Staff Picks',
-      description: 'This is staff picks page.',
-      heroImageUrl: 'src/client/images/desktop.teens.cover.2017.png',
+      description: 'Nobody loves books more than our experts. ' +
+        'Browse and filter hundreds of their favorites.',
+      heroImageUrl: '',
+      sectionTitle: 'BOOKS/MUSIC/MOVIES',
     },
     ya: {
       category: '',
       header: 'Best Books for Teens',
       description: 'Explore our annual selection of outstanding young adult titles.',
       heroImageUrl: 'src/client/images/desktop.teens.cover.2017.png',
+      sectionTitle: '',
     },
     childrens: {
       category: '',
       header: 'Best Books for Kids',
       description: 'Explore our annual selection of outstanding children\'s titles.',
       heroImageUrl: 'src/client/images/desktop.kids.cover.2017.png',
+      sectionTitle: '',
     },
   },
   pageTitle: {
     ya: 'Best Books for Teens | NYPL',
     childrens: 'Best Books for Kids | NYPL',
-    'staff-picks': 'Staff Picks | NYPL',
+    'staff-picks': 'NYPL | Staff Picks',
   },
   requestUrlsText: {
     catalog: 'Request Book',
@@ -126,6 +131,13 @@ const config = {
         { name: 'Young Adult', value: 'YA' },
         { name: 'Children', value: 'Children' },
       ],
+    },
+  },
+  annualListOptions: {
+    season: {
+      fieldsetName: 'season',
+      currentValue: '',
+      options: [],
     },
   },
   audienceMap: {

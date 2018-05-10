@@ -121,13 +121,13 @@ describe('Main', () => {
       });
 
       it('should return a date object and default of Adult age', () => {
-        expect(getPicksInfo({ date: '2018-01-01' })).to.eql({
+        expect(getPicksInfo({ date: '2018-01-01', type: 'staff-picks' })).to.eql({
           displayDate: { month: 'Winter', year: 2018 }, displayAge: 'Adult',
         });
       });
 
       it('should return a date object with updated age', () => {
-        expect(getPicksInfo({ date: '2017-03-01' }, 'YA')).to.eql({
+        expect(getPicksInfo({ date: '2017-03-01', type: 'staff-picks' }, 'YA')).to.eql({
           displayDate: { month: 'Spring', year: 2017 }, displayAge: 'Young Adult',
         });
       });

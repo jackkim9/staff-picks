@@ -4,7 +4,8 @@ import appConfig from '../../../appConfig';
 
 const { baseUrl } = appConfig;
 
-/* selectData
+/**
+ * selectData(req, res, next)
  * Map the url param to specific endpoint requests. Redirect otherwise to the homepage.
  */
 function selectData(req, res, next) {
@@ -13,9 +14,9 @@ function selectData(req, res, next) {
 
   if (type === 'childrens' || type === 'ya') {
     if (time) {
-      return res.redirect(baseUrl);
+      return annualData.annualListData(req, res, next);
     }
-    return annualData.annualCurrentData(type, req, res, next);
+    return annualData.annualCurrentListData(req, res, next);
   }
 
   if (type === 'staff-picks') {

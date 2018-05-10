@@ -48,7 +48,7 @@ describe('BookList', () => {
     });
   });
 
-  describe('With picks data passed', () => {
+  describe('With staff picks data passed', () => {
     let component;
     const displayInfo = { displayDate: { month: 'Winter', year: 2017 }, displayAge: 'Adult' };
 
@@ -68,6 +68,39 @@ describe('BookList', () => {
 
       expect(component.find(ListTitle).node.props.displayInfo.displayDate).to.deep.equal(
         { month: 'Winter', year: 2017 }
+      );
+      expect(component.find(ListTitle).node.props.picksCount).to.equal(3);
+    });
+
+    it('should render an ul', () => {
+      expect(component.find('ul').length).to.equal(1);
+    });
+
+    it('should render three <Book /> components', () => {
+      expect(component.find('Book').length).to.equal(3);
+    });
+  });
+
+  describe('With best books data passed', () => {
+    let component;
+    const displayInfo = { displayDate: { year: 2017 } };
+
+    before(() => {
+      component = shallow(<BookList picks={picks} />);
+    });
+
+    it('should render the date selected for the list', () => {
+      // Passes empty data
+      component.setProps({ displayInfo: {}, picksCount: 0 });
+
+      expect(component.find(ListTitle).node.props.displayInfo).to.deep.equal({});
+      expect(component.find(ListTitle).node.props.picksCount).to.equal(0);
+
+      // Passes valid data
+      component.setProps({ displayInfo, picksCount: 3 });
+
+      expect(component.find(ListTitle).node.props.displayInfo.displayDate).to.deep.equal(
+        { year: 2017 }
       );
       expect(component.find(ListTitle).node.props.picksCount).to.equal(3);
     });

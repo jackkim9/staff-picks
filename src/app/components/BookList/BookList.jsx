@@ -8,8 +8,8 @@ import ListTitle from '../ListTitle/ListTitle';
 const BookList = ({
   isJsEnabled,
   picks,
-  type,
   displayInfo,
+  displayType,
   picksCount,
 }) => {
   const renderBookItems = currentBooks => (
@@ -21,7 +21,7 @@ const BookList = ({
   return (
     <div className="booklist-section nypl-column-three-quarters">
       <div className="list-title-container">
-        <ListTitle displayInfo={displayInfo} picksCount={picksCount} />
+        <ListTitle displayInfo={displayInfo} displayType={displayType} picksCount={picksCount} />
       </div>
 
       {
@@ -32,7 +32,7 @@ const BookList = ({
         )
       }
 
-      <About type={type} />
+      <About displayType={displayType} />
     </div>
   );
 };
@@ -40,8 +40,8 @@ const BookList = ({
 BookList.propTypes = {
   picks: PropTypes.array,
   isJsEnabled: PropTypes.bool,
-  type: PropTypes.string,
   displayInfo: PropTypes.object,
+  displayType: PropTypes.string,
   picksCount: PropTypes.number,
 };
 

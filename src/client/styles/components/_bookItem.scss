@@ -40,11 +40,11 @@ $book-card-largescreen-gutter: 3.5%;
     float: left;
 
     @include min-screen($xtrasmall-breakpoint) {
-      min-height: 300px;
+      min-height: 400px;
     }
 
     @include min-screen($xtrasmall-breakpoint + 150px) {
-      min-height: 350px;
+      min-height: 510px;
     }
 
     img {

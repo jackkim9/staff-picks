@@ -4,6 +4,7 @@ import config from '../../../appConfig';
 import utils from '../../app/utils/utils';
 import platformConfig from '../../../platformConfig';
 import modelListOptions from '../../app/utils/ModelListOptionsService';
+import { matchListDate } from '../../app/utils/DateService';
 
 /* nyplApiClientGet(endpoint)
  * The function that wraps nyplApiClient for GET requests.
@@ -73,7 +74,7 @@ function selectMonthData(req, res, next) {
   let seasonListOptions = [];
 
   // Checks if the URL input fits season's convention
-  const seasonMatches = req.params.time.match(/^(\d{4})\-(\d{2})\-(\d{2})$/);
+  const seasonMatches = matchListDate(req.params.time);
   // Default audience list is the adult list
   let audience = 'Adult';
   let isValidAudience = true;
@@ -157,7 +158,7 @@ function selectMonthData(req, res, next) {
  * Gets a specific month's or season's staff pick list on the client side.
  */
 function selectClientMonthData(req, res) {
-  const seasonMatches = req.params.time.match(/^(\d{4})\-(\d{2})\-(\d{2})$/);
+  const seasonMatches = matchListDate(req.params.time);
   if (!seasonMatches) {
     console.error('Status Code: 400, Error Message: Invalid season.');
 
@@ -186,27 +187,26 @@ function selectClientMonthData(req, res) {
 }
 
 /**
- * selectClientMonthDataPost(req, res, next)
+ * selectDataFormPost(req, res, next)
  * Handles the requests from the form submit button (when no JS).
  * It redirects to the route to execute the function for server side requesting.
  */
-function selectMonthDataFormPost(req, res) {
+function selectDataFormPost(req, res) {
   const season = (req.body.season) ? `${req.body.season}` : '';
-  const audience = req.body.audience;
+  const audience = (req.body.audience) ? req.body.audience : '';
   const audienceQuery = audience ? `?audience=${audience}` : '';
+  const type = utils.getDataType(req.body.type, true);
 
-  if (!season || !audience) {
+  if (!season && !audience) {
     console.error(
-      `Form data of season or audience is undefined. season: ${season}, audience: ${audience}`
+      `Form data of season and audience is undefined. season: ${season}, audience: ${audience}`
     );
 
     res.redirect(`${config.baseUrl}404`);
   } else {
-    // Redirects and calls selectMonthData() to make server side request for
+    // Redirects to the appropriate list route to make server side request for
     // the season/audience list
-    res.redirect(
-      `${config.baseUrl}staff-picks/${season}${audienceQuery}`
-    );
+    res.redirect(`${config.baseUrl}${type}/${season}${audienceQuery}`);
   }
 }
 
@@ -214,5 +214,5 @@ export default {
   currentMonthData,
   selectMonthData,
   selectClientMonthData,
-  selectMonthDataFormPost,
+  selectDataFormPost,
 };

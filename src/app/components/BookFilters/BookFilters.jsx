@@ -147,14 +147,16 @@ class BookFilters extends React.Component {
           </ul>
           {
             !!this.state.selectedFilters.length &&
-              (<button
-                onClick={() => this.props.clearFilters()}
-                className="nypl-primary-button clear-button"
-                ref="clearFilters"
-              >
-                <ResetIcon />
-                Clear All Filters
-              </button>)
+              (
+                <button
+                  onClick={() => this.props.clearFilters()}
+                  className="nypl-primary-button clear-button"
+                  ref="clearFilters"
+                >
+                  <ResetIcon />
+                  Clear All Filters
+                </button>
+              )
           }
         </div>
       </div>

@@ -1,6 +1,7 @@
-import staffPicksDate from './DateService';
+import { staffPicksDate, annualDate } from './DateService';
 
-/* modelListOptions(lists, listType)
+/**
+ * modelListOptions(lists, listType)
  * The function that models and returns the list options and the latest option.
  * The model might be different based on different list types.
  * @param {array} lists
@@ -15,9 +16,9 @@ function modelListOptions(lists, listType) {
       // Maps the option's name with the correct year and month
       // Now we only handle staff-picks, we will handle teens and kids later
       const optionDate = listType === 'staff-picks' ?
-        staffPicksDate(list.date) : { month: '', year: '' };
+        staffPicksDate(list.date) : annualDate(list.date);
       const optionName = (optionDate.month && optionDate.year) ?
-        `${optionDate.month} ${optionDate.year}` : '';
+        `${optionDate.month} ${optionDate.year}` : list.date;
       const option = { name: `${optionName}`, value: list.date };
 
       options.push(option);

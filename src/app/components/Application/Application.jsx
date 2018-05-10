@@ -37,7 +37,7 @@ class App extends React.Component {
   }
 
   render() {
-    let heroData = undefined;
+    let heroData;
     const type = !_isEmpty(this.props.params) ? this.props.params.type : undefined;
 
     // Check if the params type is included in valid data set

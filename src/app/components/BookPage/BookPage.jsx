@@ -11,7 +11,7 @@ import Book from '../Book/Book';
 import BookStore from '../../stores/BookStore';
 import Actions from '../../actions/BookActions';
 import appConfig from '../../../../appConfig';
-import staffPicksDate from '../../utils/DateService';
+import { staffPicksDate, annualDate } from '../../utils/DateService';
 
 class BookPage extends React.Component {
   constructor(props) {
@@ -56,14 +56,14 @@ class BookPage extends React.Component {
 
   render() {
     const { date, picks, type = '' } = this.state.picksData || {};
-    const displayDate = staffPicksDate(date);
+    const displayDate = (type === 'staff-picks') ? staffPicksDate(date) : annualDate(date);
     const { pick, age } = this.getPickAndAge(picks);
 
     return (
       <div className="nypl-row book-page">
         <div className="sidebar nypl-column-one-quarter">
           <nav aria-label="Breadcrumbs">
-            <Link to={`${appConfig.baseUrl}${type}/${date}`} className="back-link">
+            <Link href={`${appConfig.baseUrl}${type}/${date}`} className="back-link">
               <LeftWedgeIcon ariaHidden />
               <span className="replaced-text visuallyHidden">Return to </span>
               Staff Picks

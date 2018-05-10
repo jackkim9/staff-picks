@@ -64,4 +64,31 @@
       }
     }
   }
+
+  &.staff-picks-hero {
+    background-color: $nypl-red;
+    color: #fff;
+    height: 250px;
+    width: 100%;
+
+    .hero-content-description {
+      background-color: transparent;
+    }
+
+    @include media($mobile-breakpoint) {
+      background-color: #fff;
+      color: #000;
+
+      .hero-section-title {
+        border: 0;
+        clip: rect(0 0 0 0);
+        height: 1px;
+        width: 1px;
+        margin: -1px;
+        overflow: hidden;
+        padding: 0;
+        position: absolute;
+      }
+    }
+  }
 }
