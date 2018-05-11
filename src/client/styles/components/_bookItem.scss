@@ -38,6 +38,7 @@ $book-card-largescreen-gutter: 3.5%;
     display: block;
     max-width: 30%;
     float: left;
+    width: 30%;
 
     @include min-screen($xtrasmall-breakpoint) {
       min-height: 400px;
@@ -51,6 +52,14 @@ $book-card-largescreen-gutter: 3.5%;
       display: block;
       max-width: 100%;
       margin: 0 $book-card-smallscreen-gutter;
+
+      /* fade in transition for images loading*/
+      &.on-load {
+        -webkit-animation: fadeInBookImage 1s;
+        -moz-animation: fadeInBookImage 1s;
+        -o-animation: fadeInBookImage 1s;
+        animation: fadeInBookImage 1s;
+      }
     }
   }
 

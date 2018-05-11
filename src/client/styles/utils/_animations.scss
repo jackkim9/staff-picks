@@ -1,4 +1,4 @@
-/* Sets fade in animation for different browsers */
+/* Sets fade in animation for list selector submit button on different browsers */
 @-webkit-keyframes fadeInBeforeJSDetected {
   0% {
     opacity: 0;
@@ -49,6 +49,65 @@
   }
   99% {
     opacity: 0.1;
+    visibility: hidden;
+  }
+  100% {
+    opacity: 1;
+    visibility: visible;
+  }
+}
+
+/* Sets fade in animation for loading images */
+@-webkit-keyframes fadeInBookImage {
+  0% {
+    opacity: 0;
+    visibility: hidden;
+  }
+  50% {
+    opacity: 0.5;
+    visibility: hidden;
+  }
+  100% {
+    opacity: 1;
+    visibility: visible;
+  }
+}
+
+@-moz-keyframes fadeInBookImage {
+  0% {
+    opacity: 0;
+    visibility: hidden;
+  }
+  50% {
+    opacity: 0.5;
+    visibility: hidden;
+  }
+  100% {
+    opacity: 1;
+    visibility: visible;
+  }
+}
+@-o-keyframes fadeInBookImage {
+  0% {
+    opacity: 0;
+    visibility: hidden;
+  }
+  50% {
+    opacity: 0.5;
+    visibility: hidden;
+  }
+  100% {
+    opacity: 1;
+    visibility: visible;
+  }
+}
+@keyframes fadeInBookImage {
+  0% {
+    opacity: 0;
+    visibility: hidden;
+  }
+50% {
+    opacity: 0.5;
     visibility: hidden;
   }
   100% {
