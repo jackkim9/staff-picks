@@ -1,12 +1,15 @@
-/* globals document */
+/* globals document, window */
 import React from 'react';
 import PropTypes from 'prop-types';
+import { findWhere as _findWhere } from 'underscore';
 
 import BookList from '../BookList/BookList';
 import Sidebar from '../Sidebar/Sidebar';
 import utils from '../../utils/utils';
 import { staffPicksDate, annualDate } from '../../utils/DateService';
 import appConfig from '../../../../appConfig';
+import BookActions from '../../actions/BookActions';
+import ListTitle from '../ListTitle/ListTitle';
 
 class Main extends React.Component {
   constructor(props) {
@@ -27,6 +30,33 @@ class Main extends React.Component {
     this.getNewPickSet = this.getNewPickSet.bind(this);
     this.filterByAudience = this.filterByAudience.bind(this);
     this.getCount = this.getCount.bind(this);
+  }
+
+  componentDidMount() {
+    const picksData = this.props.picksData;
+    const hash = this.props.location && this.props.location.hash ?
+      (this.props.location.hash).substr(1) : '';
+    if (hash) {
+      const pick = _findWhere(picksData.picks, { slug: hash });
+      if (pick) {
+        const age = pick && pick.ageGroup ? pick.ageGroup : 'Adult';
+        const picks =
+          this.filterByAudience(picksData.picks, age, picksData.type);
+
+        BookActions.updateCurrentAudience(age);
+        this.setState({ picks }, () => {
+          setTimeout(() => {
+            const elem = document.getElementById(hash);
+            if (elem) {
+              elem.scrollIntoView();
+              elem.focus();
+            }
+          }, 800);
+        });
+      } else {
+        this.context.router.push({ pathname: this.props.location.pathname });
+      }
+    }
   }
 
   componentWillReceiveProps(nextProps) {
@@ -179,6 +209,12 @@ class Main extends React.Component {
     const picksCount = this.getCount();
     return (
       <div className="nypl-row">
+        <ListTitle
+          displayInfo={this.getPicksInfo(this.props.picksData, this.props.currentAudience)}
+          displayType={this.props.picksData.type}
+          picksCount={picksCount}
+        />
+
         <Sidebar
           filters={this.props.filters}
           selectableFilters={utils.getSelectableTags(this.state.picks)}
@@ -189,8 +225,6 @@ class Main extends React.Component {
           selectedFilters={this.state.selectedFilters}
           currentSeason={this.props.currentSeason}
           currentAudience={this.props.currentAudience}
-          displayInfo={this.getPicksInfo(this.props.picksData, this.props.currentAudience)}
-          picksCount={picksCount}
           type={this.props.picksData.type}
         />
 
@@ -198,8 +232,6 @@ class Main extends React.Component {
           picks={this.state.picks}
           isJsEnabled={this.props.isJsEnabled}
           displayType={this.props.picksData.type}
-          displayInfo={this.getPicksInfo(this.props.picksData, this.props.currentAudience)}
-          picksCount={picksCount}
         />
       </div>
     );
@@ -213,6 +245,14 @@ Main.propTypes = {
   listOptions: PropTypes.object,
   currentSeason: PropTypes.string,
   currentAudience: PropTypes.string,
+  location: PropTypes.shape({
+    hash: PropTypes.string,
+    pathname: PropTypes.string,
+  }),
+};
+
+Main.contextTypes = {
+  router: PropTypes.object,
 };
 
 Main.defaultProps = {

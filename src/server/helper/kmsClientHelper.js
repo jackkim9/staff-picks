@@ -1,5 +1,6 @@
 import NyplDataApiClient from '@nypl/nypl-data-api-client';
 import aws from 'aws-sdk';
+import logger from '../../../logger';
 
 const kmsClientHelper = (options) => {
   const {
@@ -29,6 +30,7 @@ const kmsClientHelper = (options) => {
       return new Promise((resolve, reject) => {
         kms.decrypt(params, (err, data) => {
           if (err) {
+            logger.error(err);
             reject(err);
           } else {
             resolve(data.Plaintext.toString());
@@ -57,10 +59,10 @@ const kmsClientHelper = (options) => {
           });
 
           CACHE.nyplApiClient = nyplApiClient;
-
           return nyplApiClient;
         })
         .catch((error) => {
+          logger.error('ERROR trying to decrypt using KMS.', error);
           throw ('ERROR trying to decrypt using KMS.', error);
         });
     }

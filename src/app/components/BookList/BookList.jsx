@@ -3,14 +3,11 @@ import PropTypes from 'prop-types';
 
 import About from '../About/About';
 import Book from '../Book/Book';
-import ListTitle from '../ListTitle/ListTitle';
 
 const BookList = ({
   isJsEnabled,
   picks,
-  displayInfo,
   displayType,
-  picksCount,
 }) => {
   const renderBookItems = currentBooks => (
     currentBooks.length ?
@@ -20,10 +17,7 @@ const BookList = ({
 
   return (
     <div className="booklist-section nypl-column-three-quarters">
-      <div className="list-title-container">
-        <ListTitle displayInfo={displayInfo} displayType={displayType} picksCount={picksCount} />
-      </div>
-
+      <div className="list-title-container" />
       {
         !!picks.length && (
           <ul className="booklist nypl-row">
@@ -31,7 +25,6 @@ const BookList = ({
           </ul>
         )
       }
-
       <About displayType={displayType} />
     </div>
   );
@@ -40,15 +33,11 @@ const BookList = ({
 BookList.propTypes = {
   picks: PropTypes.array,
   isJsEnabled: PropTypes.bool,
-  displayInfo: PropTypes.object,
   displayType: PropTypes.string,
-  picksCount: PropTypes.number,
 };
 
 BookList.defaultProps = {
   picks: [],
-  picksCount: 0,
-  displayInfo: {},
 };
 
 export default BookList;

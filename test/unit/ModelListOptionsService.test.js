@@ -4,10 +4,10 @@ import { expect } from 'chai';
 import ModelListOptionsService from '../../src/app/utils/ModelListOptionsService';
 
 const mockStaffPicksListOptionsData = [
-  { date: '2015-04-01' },
-  { date: '2017-01-01' },
-  { date: '2017-04-01' },
-  { date: '2018-01-01' },
+  { date: '2015-04' },
+  { date: '2017-01' },
+  { date: '2017-04' },
+  { date: '2018-01' },
 ];
 
 const mockAnnualListOptionsData = [
@@ -18,10 +18,10 @@ const mockAnnualListOptionsData = [
 ];
 
 const mockModeledOptions = [
-  { name: 'Winter 2018', value: '2018-01-01' },
-  { name: 'Spring 2017', value: '2017-04-01' },
-  { name: 'Winter 2017', value: '2017-01-01' },
-  { name: 'April 2015', value: '2015-04-01' },
+  { name: 'Winter 2018', value: '2018-01' },
+  { name: 'Spring 2017', value: '2017-04' },
+  { name: 'Winter 2017', value: '2017-01' },
+  { name: 'April 2015', value: '2015-04' },
 ];
 
 const mockModeledOptionsNotStaffPicks = [
@@ -59,7 +59,7 @@ describe('ModelListOptionsService', () => {
   describe('When there is valid data and the list type is "staff-picks"', () => {
     it('should return the modeled options and "latestOption" equals the first option value.', () => {
       expect(ModelListOptionsService(mockStaffPicksListOptionsData, 'staff-picks')).to.deep.equal(
-        { options: mockModeledOptions, latestOption: '2018-01-01' });
+        { options: mockModeledOptions, latestOption: '2018-01' });
     });
   });
 });

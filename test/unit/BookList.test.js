@@ -5,7 +5,6 @@ import { shallow } from 'enzyme';
 
 import BookList from '../../src/app/components/BookList/BookList';
 import About from '../../src/app/components/About/About';
-import ListTitle from '../../src/app/components/ListTitle/ListTitle';
 
 const picks = [
   {
@@ -27,16 +26,12 @@ describe('BookList', () => {
     let component;
 
     before(() => {
-      component = shallow(<BookList displayInfo={{}} picksCount={0} />);
+      component = shallow(<BookList />);
     });
 
     it('should be wrapped in an .booklist-section and .nypl-column-three-quarters class', () => {
       expect(component.find('.booklist-section').length).to.equal(1);
       expect(component.find('.nypl-column-three-quarters').length).to.equal(1);
-    });
-
-    it('should render an <ListTitle> component', () => {
-      expect(component.find(ListTitle).length).to.equal(1);
     });
 
     it('should not render an ul', () => {
@@ -50,26 +45,9 @@ describe('BookList', () => {
 
   describe('With staff picks data passed', () => {
     let component;
-    const displayInfo = { displayDate: { month: 'Winter', year: 2017 }, displayAge: 'Adult' };
 
     before(() => {
       component = shallow(<BookList picks={picks} />);
-    });
-
-    it('should render the date and age selected for the list', () => {
-      // Passes empty data
-      component.setProps({ displayInfo: {}, picksCount: 0 });
-
-      expect(component.find(ListTitle).node.props.displayInfo).to.deep.equal({});
-      expect(component.find(ListTitle).node.props.picksCount).to.equal(0);
-
-      // Passes valid data
-      component.setProps({ displayInfo, picksCount: 3 });
-
-      expect(component.find(ListTitle).node.props.displayInfo.displayDate).to.deep.equal(
-        { month: 'Winter', year: 2017 }
-      );
-      expect(component.find(ListTitle).node.props.picksCount).to.equal(3);
     });
 
     it('should render an ul', () => {
@@ -83,26 +61,9 @@ describe('BookList', () => {
 
   describe('With best books data passed', () => {
     let component;
-    const displayInfo = { displayDate: { year: 2017 } };
 
     before(() => {
       component = shallow(<BookList picks={picks} />);
-    });
-
-    it('should render the date selected for the list', () => {
-      // Passes empty data
-      component.setProps({ displayInfo: {}, picksCount: 0 });
-
-      expect(component.find(ListTitle).node.props.displayInfo).to.deep.equal({});
-      expect(component.find(ListTitle).node.props.picksCount).to.equal(0);
-
-      // Passes valid data
-      component.setProps({ displayInfo, picksCount: 3 });
-
-      expect(component.find(ListTitle).node.props.displayInfo.displayDate).to.deep.equal(
-        { year: 2017 }
-      );
-      expect(component.find(ListTitle).node.props.picksCount).to.equal(3);
     });
 
     it('should render an ul', () => {

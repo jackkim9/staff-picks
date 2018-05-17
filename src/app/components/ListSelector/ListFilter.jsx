@@ -24,7 +24,7 @@ const ListFilter = ({ fieldsetProps, handleChange }) => {
       <select
         id={selectId}
         name={selectName}
-        defaultValue={defaultValue}
+        value={defaultValue}
         onChange={handleChange}
       >
         {optionList}

@@ -1,6 +1,7 @@
 import monthData from './monthData';
 import annualData from './annualData';
 import config from '../../../appConfig';
+import logger from '../../../logger';
 
 const { baseUrl } = config;
 
@@ -18,6 +19,8 @@ function selectClientData(req, res, next) {
   if (type === 'staff-picks') {
     return monthData.selectClientMonthData(req, res, next);
   }
+
+  logger.info(`Type '${type}' not found in selectClientData`);
 
   return res.redirect(baseUrl);
 }

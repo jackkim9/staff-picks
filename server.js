@@ -12,6 +12,7 @@ import Iso from 'iso';
 
 import webpackConfig from './webpack.config';
 import appConfig from './appConfig';
+import logger from './logger';
 import appRoutes from './src/app/routes/routes';
 import expressRoutes from './src/server/routes/routes';
 import nyplApiClient from './src/server/helper/nyplApiClient';
@@ -53,6 +54,16 @@ nyplApiClient();
 
 app.use('/', expressRoutes);
 
+// Handle trailing slash
+// app.use((req, res, next) => {
+//   const hasSlash = /\?[^]*\//.test(req.url);
+//   if (req.url.substr(-1) === '/' && req.url.length > 1 && !hasSlash) {
+//     res.redirect(301, req.url.slice(0, -1));
+//   } else {
+//     next();
+//   }
+// });
+
 // after get the path
 app.use('/', (req, res) => {
   alt.bootstrap(JSON.stringify(res.locals.data || {}));
@@ -76,7 +87,7 @@ app.use('/', (req, res) => {
         res.locals.data.metaTags : [];
       const renderedMetaTags = metaTags.map((tag, index) =>
         ReactDOMServer.renderToString(<meta key={index} {...tag} />));
-      const renderedPageTitle = (res.locals.data && res.locals.data.pageTitle) ?
+      const pageTitle = (res.locals.data && res.locals.data.pageTitle) ?
         res.locals.data.pageTitle : '';
 
       iso.add(html, alt.flush());
@@ -90,7 +101,8 @@ app.use('/', (req, res) => {
           markup: iso.render(),
           assets: buildAssets,
           webpackPort: WEBPACK_DEV_PORT,
-          pageTitle: renderedPageTitle,
+          pageTitle,
+          baseUrl: appConfig.baseUrl,
         });
     } else {
       res.status(404).send('Not found');
@@ -99,20 +111,20 @@ app.use('/', (req, res) => {
 });
 
 const server = app.listen(app.get('port'), () => {
-  console.log(`server running at localhost: ${app.get('port')}, go refresh and see magic`);
+  logger.info(`server running at localhost: ${app.get('port')}, go refresh and see magic`);
 });
 
 // this function is called when you want the server to die gracefully
 // i.e. wait for existing connections
 const gracefulShutdown = () => {
-  console.log('Received kill signal, shutting down gracefully.');
+  logger.info('Received kill signal, shutting down gracefully.');
   server.close(() => {
-    console.log('Closed out remaining connections.');
+    logger.info('Closed out remaining connections.');
     process.exit();
   });
   // if after
   setTimeout(() => {
-    console.error('Could not close connections in time, forcefully shutting down');
+    logger.error('Could not close connections in time, forcefully shutting down');
     process.exit();
   }, 1000);
 };
@@ -139,9 +151,9 @@ if (!isProduction) {
     },
   }).listen(appConfig.webpackDevServerPort, 'localhost', (err, result) => {
     if (err) {
-      console.log(err);
+      logger.error(err);
     } else {
-      console.log(`Webpack Dev Server listening at localhost: ${appConfig.webpackDevServerPort}`);
+      logger.info(`Webpack Dev Server listening at localhost: ${appConfig.webpackDevServerPort}`);
     }
   });
 }

@@ -5,7 +5,6 @@ import { isEmpty as _isEmpty } from 'underscore';
 
 import BookFilters from '../BookFilters/BookFilters';
 import ListSelector from '../ListSelector/ListSelector';
-import ListTitle from '../ListTitle/ListTitle';
 import config from '../../../../appConfig';
 
 const Sidebar = (props) => {
@@ -23,7 +22,7 @@ const Sidebar = (props) => {
     listOptions.season.currentValue = data.currentSeason;
     listOptions.type = data.type;
 
-    if (data.currentAudience) {
+    if (data.currentAudience && listOptions.type === 'staff-picks') {
       listOptions.audience.currentValue = data.currentAudience;
     }
 
@@ -67,12 +66,6 @@ const Sidebar = (props) => {
         </a>
       </nav>
       <div className="book-filters-heading">
-        <ListTitle
-          displayInfo={props.displayInfo}
-          displayType={props.type}
-          picksCount={props.picksCount}
-          idPrefix="sidebar"
-        />
         <h3><ListIcon /><span>Select a List</span></h3>
         {renderListSelector(updateCurrentListSelectorValues(props))}
         {renderBookFilters(props.isJsEnabled)}
@@ -89,9 +82,6 @@ Sidebar.propTypes = {
   isJsEnabled: PropTypes.bool,
   listOptions: PropTypes.object,
   selectedFilters: PropTypes.arrayOf(PropTypes.object),
-  displayInfo: PropTypes.object,
-  type: PropTypes.string,
-  picksCount: PropTypes.number,
 };
 
 Sidebar.defaultProps = {

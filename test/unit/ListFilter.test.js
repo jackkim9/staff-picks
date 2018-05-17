@@ -9,21 +9,21 @@ const fieldsetProps = {
   fieldsetName: 'season',
   currentValue: '',
   options: [
-    { name: '2018 Winter', value: '2018-01-01' },
-    { name: '2017 Fall', value: '2017-09-01' },
-    { name: '2017 Summer', value: '2017-06-01' },
-    { name: '2017 Spring', value: '2017-04-01' },
+    { name: '2018 Winter', value: '2018-01' },
+    { name: '2017 Fall', value: '2017-09' },
+    { name: '2017 Summer', value: '2017-06' },
+    { name: '2017 Spring', value: '2017-04' },
   ],
 };
 
 const fieldsetPropsWithCurrentValue = {
   fieldsetName: 'season',
-  currentValue: '2017-04-01',
+  currentValue: '2017-04',
   options: [
-    { name: '2018 Winter', value: '2018-01-01' },
-    { name: '2017 Fall', value: '2017-09-01' },
-    { name: '2017 Summer', value: '2017-06-01' },
-    { name: '2017 Spring', value: '2017-04-01' },
+    { name: '2018 Winter', value: '2018-01' },
+    { name: '2017 Fall', value: '2017-09' },
+    { name: '2017 Summer', value: '2017-06' },
+    { name: '2017 Spring', value: '2017-04' },
   ],
 };
 
@@ -64,13 +64,13 @@ describe('ListFilter', () => {
     it('should be the first option\'s value, if no currentValue in props passed down.', () => {
       component = shallow(<ListFilter fieldsetProps={fieldsetProps} />);
 
-      expect(component.find('select').nodes[0].props.defaultValue).to.equal('2018-01-01');
+      expect(component.find('select').nodes[0].props.value).to.equal('2018-01');
     });
 
     it('should be assigned with the props\'s currentValue, if the value exists.', () => {
       component = shallow(<ListFilter fieldsetProps={fieldsetPropsWithCurrentValue} />);
 
-      expect(component.find('select').nodes[0].props.defaultValue).to.equal('2017-04-01');
+      expect(component.find('select').nodes[0].props.value).to.equal('2017-04');
     });
   });
 });

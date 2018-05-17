@@ -1,5 +1,6 @@
 import nyplApiClient from '../helper/nyplApiClient';
 import config from '../../../appConfig';
+import logger from '../../../logger';
 
 import utils from '../../app/utils/utils';
 import platformConfig from '../../../platformConfig';
@@ -18,14 +19,15 @@ const nyplApiClientGet = endpoint =>
  */
 function annualCurrentListData(req, res, next) {
   const listOptions = config.annualListOptions;
+  const { type } = req.params;
   let annualListOptions = [];
   let latestYear = '';
-  const dataType = utils.getDataType(req.params.type);
+  const dataType = utils.getDataType(type);
 
   nyplApiClientGet(platformConfig.endpoints.annualLists[dataType])
     .then((data) => {
       // Models the options based on the data returned
-      const modeledOptionObject = modelListOptions(data, req.params.type);
+      const modeledOptionObject = modelListOptions(data, type);
 
       annualListOptions = modeledOptionObject.options;
       latestYear = modeledOptionObject.latestOption;
@@ -43,9 +45,9 @@ function annualCurrentListData(req, res, next) {
 
       // If error returned from the endpoint
       if (data.statusCode >= 400) {
-        console.error(`Status Code: ${data.statusCode}, Error Message: ${data.error}`);
+        logger.error(`Status Code: ${data.statusCode}, Error Message: ${data.error}`);
 
-        return res.redirect(`${config.baseUrl}404`);
+        return res.redirect(`${config.baseUrl}/404`);
       }
 
       // Uodate the option lists' default values by the request params
@@ -60,16 +62,16 @@ function annualCurrentListData(req, res, next) {
           listOptions,
           currentSeason: latestYear,
         },
-        pageTitle: '',
-        metaTags: [],
+        pageTitle: config.pageTitle[type],
+        metaTags: config.metaTags[type],
       };
 
       next();
     })
     .catch((error) => {
-      console.error(`Status Code: ${error.statusCode}, Error Message: ${error.code}`);
+      logger.error(`Status Code: ${error.statusCode}, Error Message: ${error.code}`);
 
-      return res.redirect(`${config.baseUrl}404`);
+      return res.redirect(`${config.baseUrl}/404`);
     });
 }
 
@@ -83,17 +85,18 @@ function annualCurrentListData(req, res, next) {
  */
 function annualListData(req, res, next) {
   const listOptions = config.annualListOptions;
+  const { type } = req.params;
   let annualListOptions = [];
-  const dataType = utils.getDataType(req.params.type);
+  const dataType = utils.getDataType(type);
 
   // Checks if the URL input fits year's convention
-  const yearMatches = matchListDate(req.params.time, req.params.type);
+  const yearMatches = matchListDate(req.params.time, type);
   let requestedYear = '';
 
   if (!yearMatches) {
-    console.error('Status Code: 400, Error Message: Invalid year.');
+    logger.error('Status Code: 400, Error Message: Invalid year.');
 
-    return res.redirect(`${config.baseUrl}404`);
+    return res.redirect(`${config.baseUrl}/404`);
   }
 
   // If the param fits year's convention, constructs the request param
@@ -103,7 +106,7 @@ function annualListData(req, res, next) {
   nyplApiClientGet(platformConfig.endpoints.annualLists[`${dataType}`])
     .then((data) => {
       // Models the options based on the data returned
-      const modeledOptionObject = modelListOptions(data, req.params.type);
+      const modeledOptionObject = modelListOptions(data, type);
 
       annualListOptions = modeledOptionObject.options;
 
@@ -120,9 +123,9 @@ function annualListData(req, res, next) {
 
       // If error returned from the endpoint
       if (data.statusCode >= 400) {
-        console.error(`Status Code: ${data.statusCode}, Error Message: ${data.error}`);
+        logger.error(`Status Code: ${data.statusCode}, Error Message: ${data.error}`);
 
-        return res.redirect(`${config.baseUrl}404`);
+        return res.redirect(`${config.baseUrl}/404`);
       }
 
       // Uodate the option lists' default values by the request params
@@ -137,15 +140,15 @@ function annualListData(req, res, next) {
           listOptions,
           currentSeason: requestedYear,
         },
-        pageTitle: '',
-        metaTags: [],
+        pageTitle: config.pageTitle[type],
+        metaTags: config.metaTags[type],
       };
       next();
     })
     .catch((error) => {
-      console.error(`Status Code: ${error.statusCode}, Error Message: ${error.code}`);
+      logger.error(`Status Code: ${error.statusCode}, Error Message: ${error.code}`);
 
-      return res.redirect(`${config.baseUrl}404`);
+      return res.redirect(`${config.baseUrl}/404`);
     });
 }
 
@@ -160,7 +163,7 @@ function annualClientListData(req, res) {
   const yearMatches = matchListDate(req.params.time, req.params.type);
 
   if (!yearMatches) {
-    console.error('Status Code: 400, Error Message: Invalid year.');
+    logger.error('Status Code: 400, Error Message: Invalid year.');
 
     res.json({
       statusCode: 400,
@@ -177,7 +180,7 @@ function annualClientListData(req, res) {
       });
     })
     .catch((error) => {
-      console.error(`Status Code: ${error.statusCode}, Error Message: ${error.code}`);
+      logger.error(`Status Code: ${error.statusCode}, Error Message: ${error.code}`);
 
       res.json({
         statusCode: error.statusCode || 500,

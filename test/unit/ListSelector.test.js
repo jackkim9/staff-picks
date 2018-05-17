@@ -13,10 +13,10 @@ const fieldsetProps = {
     fieldsetName: 'season',
     currentValue: '2018-01',
     options: [
-      { name: '2018 Winter', value: '2018-01-01' },
-      { name: '2017 Fall', value: '2017-09-01' },
-      { name: '2017 Summer', value: '2017-06-01' },
-      { name: '2017 Spring', value: '2017-04-01' },
+      { name: '2018 Winter', value: '2018-01' },
+      { name: '2017 Fall', value: '2017-09' },
+      { name: '2017 Summer', value: '2017-06' },
+      { name: '2017 Spring', value: '2017-04' },
     ],
   },
   audience: {
@@ -100,7 +100,7 @@ describe('ListSelector', () => {
     const component = shallow(<ListSelector fieldsetProps={fieldsetProps} />);
 
     before(() => {
-      component.instance().handleSeasonChange({ target: { value: '2017-01-01' } });
+      component.instance().handleSeasonChange({ target: { value: '2017-01' } });
     });
 
     after(() => {
@@ -119,7 +119,7 @@ describe('ListSelector', () => {
     const updateLocation = sinon.spy(ListSelector.prototype, 'updateLocation');
     const component = shallow(<ListSelector fieldsetProps={fieldsetProps} />);
     const mockBookListResponse = {
-      date: '2017-01-01',
+      date: '2017-01',
       title: 'Winter 2016 Staff Picks',
       picksData: {
         picks: [
@@ -147,12 +147,12 @@ describe('ListSelector', () => {
 
     before(() => {
       mock
-        .onGet(`${config.baseApiUrl}2099-13-01`)
+        .onGet(`${config.baseApiUrl}2099-13`)
         .reply(500, {
           statusText: 'Undefined error',
           status: 500,
         })
-        .onGet(`${config.baseApiUrl}staff-picks/2017-01-01`)
+        .onGet(`${config.baseApiUrl}staff-picks/2017-01`)
         .reply(200, mockBookListResponse);
     });
 
@@ -179,7 +179,7 @@ describe('ListSelector', () => {
     // the point where the current test is completed. The mark tells chai it is the time to do the
     // next test.
     it('should set BookStore back to the default, if the request fails.', (done) => {
-      component.instance().submitFormRequest('season', '2099-13-01');
+      component.instance().submitFormRequest('season', '2099-13');
       setTimeout(
         () => {
           expect(updateBookStore.called).to.equal(true);
@@ -191,7 +191,7 @@ describe('ListSelector', () => {
     });
 
     it('should set URL to the 404 page, if the request fails.', (done) => {
-      component.instance().submitFormRequest('season', '2099-13-01');
+      component.instance().submitFormRequest('season', '2099-13');
       setTimeout(
         () => {
           expect(updateLocation.called).to.equal(true);
@@ -205,12 +205,12 @@ describe('ListSelector', () => {
     });
 
     it('should update BookStore with the data response, if the request succeeds.', (done) => {
-      component.instance().submitFormRequest('2017-01-01');
+      component.instance().submitFormRequest('2017-01');
       setTimeout(
         () => {
           expect(updateBookStore.called).to.equal(true);
           expect(updateBookStore.getCall(0).args).to.deep.equal(
-            [mockBookListResponse, '2017-01-01', [], []]
+            [mockBookListResponse, '2017-01', [], []]
           );
 
           done();
@@ -219,12 +219,12 @@ describe('ListSelector', () => {
     });
 
     it('should set the correct URL, if the request succeeds.', (done) => {
-      component.instance().submitFormRequest('2017-01-01');
+      component.instance().submitFormRequest('2017-01');
       setTimeout(
         () => {
           expect(updateLocation.called).to.equal(true);
           expect(updateLocation.getCall(0).args).to.deep.equal(
-            ['/books-music-movies/recommendations/best-books/staff-picks/2017-01-01']
+            ['/books-music-movies/recommendations/best-books/staff-picks/2017-01']
           );
 
           done();

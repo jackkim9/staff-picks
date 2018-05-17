@@ -14,12 +14,12 @@ router
 
 // The route for client side API requests for best books and staff picks
 router
-  .route(`${appConfig.baseApiUrl}:type/:time/:id?`)
+  .route(`${appConfig.baseApiUrl}:type/:time`)
   .get(selectClientData.selectClientData);
 
 // Type detection between best books and staff picks.
 router
-  .route(`${appConfig.baseUrl}:type/:time?/:id?`)
+  .route(`${appConfig.baseUrl}/:type/:time?/:id?`)
   .get(selectData.selectData);
 
 // The route for main Staff Picks page

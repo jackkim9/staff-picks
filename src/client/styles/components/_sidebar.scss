@@ -1,36 +1,23 @@
 .sidebar {
-  h2#sidebar-list-title {
-    color: $nypl-red;
-    display: block;
-    font-size: 1.2rem;
-    font-weight: 700;
-   @include min-screen($mobile-breakpoint) {
-      display: none;
-    }
+  margin-top: -110px;
 
-    span {
-      color: #000;
-      display: block;
-      font-size: .75rem;
-      font-weight: 400;
-      margin: 20px 0 0 0;
-    }
+  @include min-screen($mobile-breakpoint) {
+    margin-top: 0;
   }
+
   h3 {
+    margin-top: 70px;
     font-size: 1rem;
     font-weight: 200;
     margin: 16px 0;
-
-    svg {
-      float: left;
-      margin: -4px 0 0 -5px;
-    }
   }
+
   nav {
     @include min-screen($mobile-breakpoint) {
       border-top: 0;
     }
   }
+
   fieldset {
     border: 0;
     padding: 0.35rem 0;
@@ -68,6 +55,7 @@
       }
     }
   }
+
   a.back-link {
     text-decoration: none;
     display: block;

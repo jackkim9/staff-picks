@@ -34,11 +34,11 @@ describe('BookFilters', () => {
       expect(bookFiltersWrapper.hasClass('book-filters')).to.equal(true);
     });
 
-    it('should render a heading and an h2 inside of it', () => {
+    it('should render a heading and an h3 inside of it', () => {
       const heading = component.find('.book-filters-container');
       expect(heading.length).to.equal(1);
-      expect(heading.find('h2').length).to.equal(1);
-      expect(heading.find('h2').text()).to.equal('NYPL Filter SVG Icon Filter by Tags');
+      expect(heading.find('h3').length).to.equal(1);
+      expect(heading.find('h3').text()).to.equal('NYPL Filter SVG Icon Filter by Tags');
     });
 
     it('should render a `ul`', () => {

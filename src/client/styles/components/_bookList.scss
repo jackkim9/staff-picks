@@ -1,8 +1,6 @@
 .booklist-section {
-  margin-top: 22px;
-
   @include min-screen($mobile-breakpoint) {
-    margin-top: 55px;
+    margin-top: 24px;
   }
 
   .list-title-container {
@@ -40,4 +38,8 @@
 
 .booklist {
   @import 'bookItem';
+
+  @include min-screen($mobile-breakpoint) {
+    margin-top: 60px;
+  }
 }

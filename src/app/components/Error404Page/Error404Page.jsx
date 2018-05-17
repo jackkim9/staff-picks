@@ -2,16 +2,15 @@ import React from 'react';
 
 const Error404Page = () => (
   <div className="error-container">
-    <h1 className="error-title">We&#39;re sorry...</h1>
+    <h1 className="error-title">404 | Not Found</h1>
     <p>
-      The page you requested is either unavailable or you need permission to view the content.
+      We’re sorry. The page you were looking for doesn’t exist.
     </p>
     <p>
-      If you can&#39;t find the page you&#39;re looking for, please try our
-      <a href="http://www.nypl.org/ask-nypl">
-        ASK NYPL
+      Need help or have a question?&nbsp;
+      <a href="https://www.nypl.org/get-help/contact-us">
+        Contact us.
       </a>
-      service.
     </p>
   </div>
 );

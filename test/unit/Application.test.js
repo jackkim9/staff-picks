@@ -7,16 +7,20 @@ import Application from '../../src/app/components/Application/Application';
 import { Header } from '@nypl/dgx-header-component';
 import Footer from '@nypl/dgx-react-footer';
 import Hero from '../../src/app/components/Hero/Hero';
+import config from '../../appConfig';
 
-const params = {
-  'staff-picks': {
-    type: 'staff-picks',
+const location = {
+  staffPicks: {
+    pathname: `${config.baseUrl}/staff-picks`,
   },
   ya: {
-    type: 'ya',
+    pathname: `${config.baseUrl}/ya`,
   },
   childrens: {
-    type: 'childrens',
+    pathname: `${config.baseUrl}/childrens`,
+  },
+  notValid: {
+    pathname: `${config.baseUrl}/not-valid`,
   },
 };
 
@@ -26,7 +30,7 @@ describe('Application', () => {
 
     before(() => {
       // Not the best way to initialize this component:
-      component = shallow(<Application params={params['not-valid']} children={[]} />);
+      component = shallow(<Application location={location.notValid} children={[]} />);
     });
 
     it('should be wrapped in an .app-wrapper class', () => {
@@ -41,9 +45,8 @@ describe('Application', () => {
       expect(component.find(Footer).length).to.equal(1);
     });
 
-    it('should render a <Hero> component', () => {
-      expect(component.find(Hero).length).to.equal(1);
-      expect(component.find(Hero).node.props.heroData.header).to.equal('Staff Picks');
+    it('should not render a <Hero> component', () => {
+      expect(component.find(Hero).length).to.equal(0);
     });
 
     it('should render a div with id `app-content` for the skip navigation', () => {
@@ -64,7 +67,7 @@ describe('Application', () => {
 
     before(() => {
       // Not the best way to initialize this component:
-      component = shallow(<Application params={params['staff-picks']} children={[]} />);
+      component = shallow(<Application location={location.staffPicks} children={[]} />);
     });
 
     it('should be wrapped in an .app-wrapper class', () => {
@@ -102,7 +105,7 @@ describe('Application', () => {
 
     before(() => {
       // Not the best way to initialize this component:
-      component = shallow(<Application params={params.ya} children={[]} />);
+      component = shallow(<Application location={location.ya} children={[]} />);
     });
 
     it('should be wrapped in an .app-wrapper class', () => {

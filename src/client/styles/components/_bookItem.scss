@@ -7,7 +7,14 @@ $book-card-largescreen-gutter: 3.5%;
   padding-bottom: 1em;
   padding-top: .75em;
   max-width: 100%;
+  display: block;
   @include clearfix;
+
+  &:focus {
+    // From @nypl/design-toolkit
+    @include box-shadow(inset 0 0 0 0.125rem $focus-color);
+    outline: none;
+  }
 
   &.withTranslatorIllustrator {
     .book-item-illustrator {
@@ -54,12 +61,10 @@ $book-card-largescreen-gutter: 3.5%;
       margin: 0 $book-card-smallscreen-gutter;
 
       /* fade in transition for images loading*/
-      &.on-load {
-        -webkit-animation: fadeInBookImage 1s;
-        -moz-animation: fadeInBookImage 1s;
-        -o-animation: fadeInBookImage 1s;
-        animation: fadeInBookImage 1s;
-      }
+      -webkit-animation: fadeInBookImage 1s;
+      -moz-animation: fadeInBookImage 1s;
+      -o-animation: fadeInBookImage 1s;
+      animation: fadeInBookImage 1s;
     }
   }
 

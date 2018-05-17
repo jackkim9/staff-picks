@@ -9,6 +9,7 @@ client/.DS_Store
 .nyc_output
 package-lock.json
 .env
+log/
 
 # Elastic Beanstalk Files
 .elasticbeanstalk/*

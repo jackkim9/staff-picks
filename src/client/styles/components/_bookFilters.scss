@@ -3,11 +3,9 @@
     position: relative;
     border-top: 4px solid $nypl-red;
 
-    h2 {
+    h3 {
       padding: 0 0 12px 0;
-      font-size: 1rem;
       margin: 15px 0 0;
-      font-weight: 200;
       display: inline-block;
 
       @include min-screen($mobile-breakpoint) {
@@ -20,10 +18,16 @@
       }
 
       svg {
-        height: 25px;
-        width: 25px;
         float: left;
-        margin: -5px 0 0;
+        margin: -4px 0 0 -5px;
+      }
+    }
+
+    & > h3 {
+      margin-top: 95px;
+
+      @include min-screen($mobile-breakpoint) {
+        margin-top: 15px;
       }
     }
 
