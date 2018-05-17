@@ -54,6 +54,9 @@
         width: calc(100% - 100px);
       }
     }
+    select::-ms-expand {
+      display: none;
+    }
   }
 
   a.back-link {
