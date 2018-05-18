@@ -39,8 +39,10 @@ const Book = ({ pick, isJsEnabled }) => {
     );
   };
 
-  const renderTitle = title => (
-    !isStringEmpty(title) ? (<h3 className="book-item-title">{title}</h3>) : null
+  const renderTitle = (title, slug) => (
+    !isStringEmpty(title) ?
+      (<h3 className="book-item-title" id={`book-${slug}`}>{title}</h3>) :
+      null
   );
 
   const renderAuthor = author => (
@@ -132,10 +134,10 @@ const Book = ({ pick, isJsEnabled }) => {
       key={!isStringEmpty(book.title) ? book.title : null}
       tabIndex="0"
       id={pick.slug}
-      aria-labelledby={book.title}
+      aria-labelledby={`book-${pick.slug}`}
     >
       {renderBookCoverImage(book.imageUrl)}
-      {renderTitle(book.title)}
+      {renderTitle(book.title, pick.slug)}
       {renderAuthor(book.author)}
       {renderIllustrator(book.illustrator)}
       {renderTranslator(book.translator)}

@@ -1,8 +1,6 @@
 const config = {
   port: 3001,
   webpackDevServerPort: 3000,
-  // This is the breakpoint defined in the Design Toolkit as the mobile breakpoint + 1:
-  MOBILE_BREAKPOINT: 966,
   baseUrl: '/books-music-movies/recommendations/best-books',
   base404: '/books-music-movies/recommendations/best-books/404',
   baseApiUrl: '/books-music-movies/recommendations/best-books/api/',
