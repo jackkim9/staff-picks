@@ -52,7 +52,7 @@ $book-card-largescreen-gutter: 3.5%;
     }
 
     @include min-screen($xtrasmall-breakpoint + 150px) {
-      min-height: 510px;
+      min-height: 560px;
     }
 
     img {
