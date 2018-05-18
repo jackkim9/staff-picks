@@ -93,7 +93,7 @@ class Filter extends React.Component {
           aria-label={arialLabel}
           disabled={this.props.disabled}
         >
-          {icon}{filter.label}
+          {icon}<span>{filter.label}</span>
         </button>
       </li>
     );

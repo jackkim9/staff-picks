@@ -32,11 +32,17 @@ li.filter-item {
       position: absolute;
       top: 50%;
       left: 3.5%;
+      display: inline-block;
       @include transform(translate(0, -50%));
 
       @include min-screen($mobile-breakpoint) {
         left: 2%;
       }
+    }
+
+    span {
+      display: inline-block;
+      width: 8rem;
     }
 
     &:disabled {
