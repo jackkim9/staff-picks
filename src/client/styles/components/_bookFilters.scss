@@ -1,7 +1,10 @@
 .book-filters {
   &-heading {
     position: relative;
-    border-top: 4px solid $nypl-red;
+
+    @include min-screen($mobile-breakpoint) {
+      border-top: 4px solid $nypl-red;
+    }
 
     h3 {
       padding: 0 0 12px 0;
@@ -20,14 +23,6 @@
       svg {
         float: left;
         margin: -4px 0 0 -5px;
-      }
-    }
-
-    & > h3 {
-      margin-top: 95px;
-
-      @include min-screen($mobile-breakpoint) {
-        margin-top: 15px;
       }
     }
 

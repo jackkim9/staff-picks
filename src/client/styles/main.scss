@@ -9,7 +9,6 @@ App-specific utilities and defaults
 */
 @import 'utils/variables';
 @import 'utils/mixins';
-// @import 'utils/fonts';
 @import 'utils/colors';
 @import 'utils/utils';
 @import 'utils/animations';
@@ -28,6 +27,7 @@ Import style rules from NYPL React module components
 @import 'components/sidebar';
 @import 'components/bookFilters';
 @import 'components/bookPage';
+@import 'components/topHeading';
 
 body {
   background: #fff;
@@ -49,37 +49,4 @@ body {
 
 li {
   list-style: none;
-}
-
-h2#list-title {
-  color: $nypl-red;
-  background: #fff;
-  display: inline;
-  width: 100%;
-  position: relative;
-  font-size: 1.2rem;
-  font-weight: 700;
-  left: 0px;
-  top: 20px;
-
-  span {
-    color: #000;
-    background: #fff;
-    display: block;
-    font-size: .75rem;
-    font-weight: 400;
-    margin: 20px 0 0 0;
-  }
-
-  @include min-screen($mobile-breakpoint) {
-    left: 8px;
-    top: 70px;
-    font-size: 1.6rem;
-
-    span {
-      font-size: 1rem;
-      margin: 0 10px;
-      display: inline-block;
-    }
-  }
 }

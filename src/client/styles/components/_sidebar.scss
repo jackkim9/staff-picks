@@ -1,21 +1,9 @@
 .sidebar {
-  margin-top: -110px;
-
-  @include min-screen($mobile-breakpoint) {
-    margin-top: 0;
-  }
-
   h3 {
     margin-top: 70px;
     font-size: 1rem;
     font-weight: 200;
     margin: 16px 0;
-  }
-
-  nav {
-    @include min-screen($mobile-breakpoint) {
-      border-top: 0;
-    }
   }
 
   fieldset {
@@ -56,21 +44,6 @@
     }
     select::-ms-expand {
       display: none;
-    }
-  }
-
-  a.back-link {
-    text-decoration: none;
-    display: block;
-    background: #fff;
-    color: #000;
-    font-size: 1.2rem;
-    font-weight: 700;
-    margin: 12px 0;
-
-    svg {
-      float: left;
-      margin: 0 0 0 -10px;
     }
   }
 

@@ -1,4 +1,4 @@
-/* globals document, window */
+/* globals document */
 import React from 'react';
 import PropTypes from 'prop-types';
 import { findWhere as _findWhere } from 'underscore';
@@ -9,7 +9,7 @@ import utils from '../../utils/utils';
 import { staffPicksDate, annualDate } from '../../utils/DateService';
 import appConfig from '../../../../appConfig';
 import BookActions from '../../actions/BookActions';
-import ListTitle from '../ListTitle/ListTitle';
+import TopHeading from '../TopHeading/TopHeading';
 
 class Main extends React.Component {
   constructor(props) {
@@ -208,31 +208,33 @@ class Main extends React.Component {
   render() {
     const picksCount = this.getCount();
     return (
-      <div className="nypl-row">
-        <ListTitle
+      <div>
+        <TopHeading
           displayInfo={this.getPicksInfo(this.props.picksData, this.props.currentAudience)}
           displayType={this.props.picksData.type}
           picksCount={picksCount}
         />
 
-        <Sidebar
-          filters={this.props.filters}
-          selectableFilters={utils.getSelectableTags(this.state.picks)}
-          setSelectedFilter={this.setSelectedFilter}
-          clearFilters={this.clearFilters}
-          isJsEnabled={this.props.isJsEnabled}
-          listOptions={this.props.listOptions}
-          selectedFilters={this.state.selectedFilters}
-          currentSeason={this.props.currentSeason}
-          currentAudience={this.props.currentAudience}
-          type={this.props.picksData.type}
-        />
+        <div className="nypl-row">
+          <Sidebar
+            filters={this.props.filters}
+            selectableFilters={utils.getSelectableTags(this.state.picks)}
+            setSelectedFilter={this.setSelectedFilter}
+            clearFilters={this.clearFilters}
+            isJsEnabled={this.props.isJsEnabled}
+            listOptions={this.props.listOptions}
+            selectedFilters={this.state.selectedFilters}
+            currentSeason={this.props.currentSeason}
+            currentAudience={this.props.currentAudience}
+            type={this.props.picksData.type}
+          />
 
-        <BookList
-          picks={this.state.picks}
-          isJsEnabled={this.props.isJsEnabled}
-          displayType={this.props.picksData.type}
-        />
+          <BookList
+            picks={this.state.picks}
+            isJsEnabled={this.props.isJsEnabled}
+            displayType={this.props.picksData.type}
+          />
+        </div>
       </div>
     );
   }

@@ -1,0 +1,70 @@
+
+.top-headings {
+  .nypl-column-one-quarter,
+  .nypl-column-three-quarters {
+    margin-bottom: 0;
+    border-top: 4px solid $nypl-red;
+
+    @include min-screen($mobile-breakpoint) {
+      border-top: 0;
+    }
+  }
+
+  h2#list-title {
+    color: $nypl-red;
+    background: #fff;
+    width: 100%;
+    position: relative;
+    font-size: 1.2rem;
+    font-weight: 700;
+    margin-top: 15px;
+
+    span {
+      color: #000;
+      background: #fff;
+      display: block;
+      font-size: .75rem;
+      font-weight: 400;
+      margin: 20px 0 0 0;
+    }
+
+    @include min-screen($mobile-breakpoint) {
+      font-size: 1.6rem;
+      margin: 10px 0;
+
+      span {
+        font-size: 1rem;
+        margin: 0 10px;
+        display: inline-block;
+      }
+    }
+  }
+
+  nav {
+    .back-link {
+      text-decoration: none;
+      display: block;
+      background: #fff;
+      color: #000;
+      font-size: 1.2rem;
+      font-weight: 700;
+      margin: 12px 0;
+
+      svg {
+        float: left;
+        margin: 0 0 0 -10px;
+      }
+
+      &:hover,
+      &:focus,
+      &:visited {
+        background: #fff;
+        color: #000;
+      }
+
+      @include min-screen($mobile-breakpoint) {
+        margin-top: 10px;
+      }
+    }
+  }
+}

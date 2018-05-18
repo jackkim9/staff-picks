@@ -17,7 +17,6 @@ const BookList = ({
 
   return (
     <div className="booklist-section nypl-column-three-quarters">
-      <div className="list-title-container" />
       {
         !!picks.length && (
           <ul className="booklist nypl-row">
