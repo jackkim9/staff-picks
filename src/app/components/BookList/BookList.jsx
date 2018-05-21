@@ -20,7 +20,7 @@ const BookList = ({
     <div className="booklist-section nypl-column-three-quarters">
       {
         !!picks.length && (
-          <ul className="booklist nypl-row">
+          <ul className="booklist nypl-row" aria-labelledby="list-title">
             {renderBookItems(picks)}
           </ul>
         )

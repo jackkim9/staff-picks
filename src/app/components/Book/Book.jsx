@@ -139,7 +139,6 @@ const Book = ({ pick, isJsEnabled, displayType }) => {
       key={!isStringEmpty(book.title) ? book.title : null}
       tabIndex="0"
       id={pick.slug}
-      aria-label={book.title}
     >
       {renderBookCoverImage(book.imageUrl)}
       {renderTitle(book.title, pick.slug)}
