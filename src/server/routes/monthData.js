@@ -62,7 +62,7 @@ function currentMonthData(req, res, next) {
       next();
     })
     .catch((error) => {
-      logger.error(`Status Code: ${error.statusCode}, Error Message: ${error.code}`);
+      logger.error(`Status Code: ${error.statusCode}, Error Message: ${error.code}, Source: monthData.currentMonthData, Redirect to: ${config.baseUrl}/404`, error);
 
       return res.redirect(`${config.baseUrl}/404`);
     });
@@ -103,7 +103,7 @@ function selectMonthData(req, res, next) {
   }
 
   if (!seasonMatches || !isValidAudience) {
-    logger.error('Status Code: 400, Error Message: Invalid season or audience.');
+    logger.error(`Status Code: 400, Error Message: Invalid season ${seasonMatches[0]} or audience ${audience}, Redirecting to: ${config.baseUrl}/404`);
 
     return res.redirect(`${config.baseUrl}/404`);
   }
@@ -132,7 +132,7 @@ function selectMonthData(req, res, next) {
 
       // If error returned from the endpoint
       if (data.statusCode >= 400) {
-        logger.error(`Status Code: ${data.statusCode}, Error Message: ${data.error}`);
+        logger.error(`Status Code: ${data.statusCode}, Error Message: ${data.error}, Endpoint: ${platformConfig.endpoints.allStaffPicksLists}, Redirecting to: ${config.baseUrl}/404`);
 
         return res.redirect(`${config.baseUrl}/404`);
       }
@@ -157,7 +157,7 @@ function selectMonthData(req, res, next) {
       next();
     })
     .catch((error) => {
-      logger.error(`Status Code: ${error.statusCode}, Error Message: ${error.code}`);
+      logger.error(`Status Code: ${error.statusCode}, Error Message: ${error.code}, Source: monthData.selectMonthData, Redirecting to: ${config.baseUrl}/404`, error);
 
       return res.redirect(`${config.baseUrl}/404`);
     });
@@ -178,11 +178,11 @@ function selectClientMonthData(req, res) {
   // Checks if the URL input fits season's convention
   const seasonMatches = matchListDate(dateRequest);
   if (!seasonMatches) {
-    logger.error('Status Code: 400, Error Message: Invalid season.');
+    logger.error(`Status Code: 400, Error Message: Invalid season ${dateRequest}`);
 
     res.json({
       statusCode: 400,
-      errorMessage: 'Invalid season.',
+      errorMessage: `Invalid season ${dateRequest}`,
     });
   }
 
@@ -195,7 +195,7 @@ function selectClientMonthData(req, res) {
       });
     })
     .catch((error) => {
-      logger.error(`Status Code: ${error.statusCode}, Error Message: ${error.code}`);
+      logger.error(`Status Code: ${error.statusCode}, Endpoint: ${platformConfig.endpoints.staffPicksPath}${seasonMatches[0]},Error Message: ${error.code}`, error);
 
       res.json({
         statusCode: error.statusCode || 500,
@@ -217,13 +217,14 @@ function selectDataFormPost(req, res) {
 
   if (!season && !audience) {
     logger.error(
-      `Form data of season and audience is undefined. season: ${season}, audience: ${audience}`
+      `Form data of season and audience is undefined. season: ${season}, audience: ${audience}, Redirecting to: ${config.baseUrl}/404`
     );
 
     res.redirect(`${config.baseUrl}/404`);
   } else {
     // Redirects to the appropriate list route to make server side request for
     // the season/audience list
+    logger.info(`Making server side request for: ${config.baseUrl}/${type}/${season}${audienceQuery}`);
     res.redirect(`${config.baseUrl}/${type}/${season}${audienceQuery}`);
   }
 }

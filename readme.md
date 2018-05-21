@@ -163,6 +163,32 @@ Once the application has been created via `eb create ...` all subsequent updates
 eb deploy ${environment name} --profile ${your AWS profile}
 ```
 
+#### Switching Loadbalancer settings between accounts
+
+Loadbalancer settings are required for HTTPS to run behind the load balancers for Elastic Beanstalk. Each Loadbalancer setting is unique to each AWS profile, so switching configuration files is required when deploying to different AWS profiles.
+
+| AWS Profile | Configuration File | 
+|---|---|
+| `nypl-digital-dev` | `https-nypl-digital-dev.config` | 
+| `nypl-sandbox` | `https-nypl-sandbox.config` | 
+
+When `development` is ready to merge into `qa`, only include `https-nypl-digital-dev.config` within the `.ebextensions` directory. Since CI/CD is being performed via Travis CI, run the following commands on the local qa branch after a merge:
+
+```bash
+git checkout qa
+git merge development
+git rm .ebextensions/https-nypl-sandbox.config
+git add .ebextensions/https-nypl-digital-dev.config
+git commit
+git push origin qa
+```
+
+At `git push origin qa`, Travis CI will deploy to the QA server with the correct credentials.
+
+This procedure is not needed for deployment to `production` environment when merging from `qa`. The `qa` branch uses the same credentials from `nypl-digital-dev` account, and will be reused by `production` environment.
+
+For details, please see [NYPL common instructions on Elastic Beanstalk](https://github.com/NYPL/aws/blob/master/common/elasticbeanstalk.md).
+
 ### KMS Environment Variables
 Staff Picks and the API where the data is fetched from are currently deployed on NYPl's AWS instance. In order to fetch data, we are using the `@nypl/nypl-data-api-client` to make requests to the API with an authentication token. You can find the [full documentation here](https://www.npmjs.com/package/@nypl/nypl-data-api-client), but to be brief, we need a client id, a client secret, and a token url to authenticate.
 
