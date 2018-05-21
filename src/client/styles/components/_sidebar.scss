@@ -45,6 +45,10 @@
     select::-ms-expand {
       display: none;
     }
+
+    .js {
+      display: none;
+    }
   }
 
   /* Set up fade-in animation for submit button, so that before we detect JS on the browser, */

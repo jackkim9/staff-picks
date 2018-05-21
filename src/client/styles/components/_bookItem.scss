@@ -235,6 +235,7 @@ $book-card-largescreen-gutter: 3.5%;
       -moz-animation: none;
       -o-animation: none;
       animation: none;
+      display: none;
     }
 
     &.no-js {

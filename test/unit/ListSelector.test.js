@@ -51,11 +51,11 @@ describe('ListSelector', () => {
       }
     );
 
-    it('should render <input> with the class "visuallyHidden" if its props "isJsEnabled" is true.',
+    it('should render <input> with the class "js" if its props "isJsEnabled" is true.',
       () => {
         component.setProps({ isJsEnabled: true });
         expect(component.find('input').length).to.equal(2);
-        expect(component.find('input').node.props.className).to.equal('visuallyHidden');
+        expect(component.find('input').node.props.className).to.equal('js');
       }
     );
   });

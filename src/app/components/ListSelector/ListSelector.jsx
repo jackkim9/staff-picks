@@ -170,7 +170,8 @@ class ListSelector extends React.Component {
 
   render() {
     const isJsEnabled = this.props.isJsEnabled;
-    const hiddenClass = (isJsEnabled) ? 'visuallyHidden' : 'no-js';
+    const hiddenClass = (isJsEnabled) ? 'js' : 'no-js';
+    const htmlHidden = isJsEnabled;
 
     return (
       <form action={`${config.baseApiUrl}post`} method="post">
@@ -183,6 +184,7 @@ class ListSelector extends React.Component {
           className={hiddenClass}
         />
         <input
+          hidden={htmlHidden}
           type="submit"
           value="Select List"
           className={hiddenClass}

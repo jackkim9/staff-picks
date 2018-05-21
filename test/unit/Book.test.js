@@ -148,11 +148,11 @@ describe('Book Component', () => {
       expect(tags.find('ul').length).to.equal(1);
     });
 
-    it('should render the pick tags with a visuallyHidden class when JavaScript is enabled', () => {
+    it('should render the pick tags with the class "js" when JavaScript is enabled', () => {
       const tags = component.find('.book-item-tags');
 
       expect(tags.length).to.equal(1);
-      expect(tags.hasClass('visuallyHidden')).to.equal(true);
+      expect(tags.hasClass('js')).to.equal(true);
     });
 
     it('should render each tag to be an <li>.', () => {
