@@ -33,7 +33,7 @@ function Utils() {
    * @param {string} action Action for GA event.
    * @param {string} label Label for GA event.
    */
-  this.trackPicks = gaUtils.trackEvent('Staff Picks');
+  this.trackPicks = gaUtils.trackEvent('Best Books');
 
   /**
    * getPickTags(book)

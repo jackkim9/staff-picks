@@ -9,6 +9,7 @@ import { contains as _contains } from 'underscore';
 
 import Filter from './Filter';
 import utils from '../../utils/utils';
+import appConfig from '../../../../appConfig';
 
 class BookFilters extends React.Component {
   constructor(props) {
@@ -77,7 +78,10 @@ class BookFilters extends React.Component {
   }
 
   toggleFilters() {
-    utils.trackPicks('Mobile Filters', (this.state.showFilters ? 'Close' : 'Open'));
+    utils.trackPicks(
+      `${appConfig.niceLabelMap[this.props.displayType]} Mobile Filters`,
+      (this.state.showFilters ? 'Close' : 'Open')
+    );
     this.setState({ showFilters: !this.state.showFilters });
   }
 
@@ -108,6 +112,7 @@ class BookFilters extends React.Component {
           disabled={this.state.disabled}
           setDisabled={this.setDisabled}
           clearTimeout={this.clearTimeout}
+          displayType={this.props.displayType}
         />
       );
     });
@@ -169,6 +174,7 @@ BookFilters.propTypes = {
   setSelectedFilter: PropTypes.func,
   clearFilters: PropTypes.func,
   selectedFilters: PropTypes.array,
+  displayType: PropTypes.string,
 };
 
 BookFilters.defaultProps = {

@@ -11,7 +11,8 @@ const BookList = ({
 }) => {
   const renderBookItems = currentBooks => (
     currentBooks.length ?
-      currentBooks.map(book => <Book key={book.slug} pick={book} isJsEnabled={isJsEnabled} />)
+      currentBooks.map(book =>
+        <Book key={book.slug} pick={book} isJsEnabled={isJsEnabled} displayType={displayType} />)
       : null
   );
 
@@ -19,7 +20,7 @@ const BookList = ({
     <div className="booklist-section nypl-column-three-quarters">
       {
         !!picks.length && (
-          <ul className="booklist nypl-row">
+          <ul className="booklist nypl-row" aria-labelledby="list-title">
             {renderBookItems(picks)}
           </ul>
         )

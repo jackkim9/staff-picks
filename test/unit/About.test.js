@@ -119,7 +119,7 @@ describe('About', () => {
     before(() => {
       // As we are wrapping spy to the prototype function, it has to come before component mounting
       gaSocialMediaEvent = sinon.spy(About.prototype, 'gaSocialMediaEvent');
-      component = shallow(<About />);
+      component = shallow(<About displayType="staff-picks" />);
       twitterLink = component.find('a.twitter-link');
     });
 
@@ -132,7 +132,7 @@ describe('About', () => {
       twitterLink.simulate('click');
 
       expect(gaSocialMediaEvent.callCount).to.equal(1);
-      expect(gaSocialMediaEvent.calledWith('Twitter')).to.equal(true);
+      expect(gaSocialMediaEvent.calledWith('staff-picks', 'Twitter')).to.equal(true);
     });
   });
 
@@ -144,7 +144,7 @@ describe('About', () => {
     before(() => {
       // As we are wrapping spy to the prototype function, it has to come before component mounting
       gaSocialMediaEvent = sinon.spy(About.prototype, 'gaSocialMediaEvent');
-      component = shallow(<About />);
+      component = shallow(<About displayType="staff-picks" />);
       facebookLink = component.find('a.facebook-link');
     });
 
@@ -157,7 +157,7 @@ describe('About', () => {
       facebookLink.simulate('click');
 
       expect(gaSocialMediaEvent.callCount).to.equal(1);
-      expect(gaSocialMediaEvent.calledWith('Facebook')).to.equal(true);
+      expect(gaSocialMediaEvent.calledWith('staff-picks', 'Facebook')).to.equal(true);
     });
   });
 });

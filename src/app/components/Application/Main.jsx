@@ -166,7 +166,10 @@ class Main extends React.Component {
     const selectedFilters = [];
     const picks = this.getNewPickSet(this.props.picksData.picks, selectedFilters);
 
-    utils.trackPicks('Clear Filters', 'Clicked');
+    utils.trackPicks(
+      `${appConfig.niceLabelMap[this.props.picksData.type]} Clear Filters`,
+      'Clicked',
+    );
 
     this.setState({
       picks,

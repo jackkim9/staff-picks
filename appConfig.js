@@ -170,6 +170,13 @@ const config = {
     YA: 'Young Adult',
     Children: 'Children',
   },
+  niceLabelMap: {
+    'staff-picks': 'Staff Picks',
+    ya: 'YA',
+    teens: 'YA',
+    kids: 'Childrens',
+    childrens: 'Childrens',
+  },
 };
 
 export default config;

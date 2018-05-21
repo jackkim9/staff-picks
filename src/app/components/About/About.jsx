@@ -13,6 +13,7 @@ const {
   aboutUrls,
   socialSharing,
   pageTitle,
+  niceLabelMap,
 } = appConfig;
 
 class About extends React.Component {
@@ -27,8 +28,8 @@ class About extends React.Component {
     this.setState({ location: window.location });
   }
 
-  gaSocialMediaEvent(type) {
-    utils.trackPicks('Social Share', type);
+  gaSocialMediaEvent(listType, medium) {
+    utils.trackPicks(`${niceLabelMap[listType]} Social Share`, medium);
   }
 
   render() {
@@ -51,7 +52,7 @@ class About extends React.Component {
             <a
               className="twitter-link"
               href={`${socialSharing.twitter}text=${shareText}&url=${shareUrl}&via=NYPL`}
-              onClick={() => this.gaSocialMediaEvent('Twitter')}
+              onClick={() => this.gaSocialMediaEvent(displayType, 'Twitter')}
             >
               <TwitterIcon iconId="about-twitter" />
               <span className="replaced-text visuallyHidden">Share on Twitter</span>
@@ -61,7 +62,7 @@ class About extends React.Component {
             <a
               className="facebook-link"
               href={`${socialSharing.facebook}${this.state.location}`}
-              onClick={() => this.gaSocialMediaEvent('Facebook')}
+              onClick={() => this.gaSocialMediaEvent(displayType, 'Facebook')}
             >
               <FaceBookIcon iconId="about-facebook" />
               <span className="replaced-text visuallyHidden">Share on Facebook</span>

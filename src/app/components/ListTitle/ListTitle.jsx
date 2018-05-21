@@ -11,13 +11,13 @@ const ListTitle = (props) => {
     return null;
   }
 
-  const isStaffPicks = (props.displayType !== 'staff-picks');
+  const isStaffPicks = (props.displayType === 'staff-picks');
   const content = isStaffPicks ?
-    `${displayDate.year} Picks` :
-    `${displayDate.month} ${displayDate.year} Picks for ${displayAge}`;
+    `${displayDate.month} ${displayDate.year} Picks for ${displayAge}` :
+    `${displayDate.year} Picks`;
 
-  // If it's not staff picks and we don't have the following data then return null;
-  if (!isStaffPicks && (!displayDate.month || !displayDate.year || !displayAge)) {
+  // If it's staff picks and we don't have the following data then return null;
+  if (isStaffPicks && (!displayDate.month || !displayDate.year || !displayAge)) {
     return null;
   }
 

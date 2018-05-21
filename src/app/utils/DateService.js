@@ -13,7 +13,7 @@ const { seasons } = config;
  * @param {number} year
  * @returns {string}
  */
-function monthOrSeason(month, year) {
+function monthOrSeason(month = 0, year = 0) {
   const monthsArr = ['January', 'February', 'March', 'April', 'May', 'June',
     'July', 'August', 'September', 'October', 'November', 'December'];
 
@@ -26,7 +26,7 @@ function monthOrSeason(month, year) {
 /**
  * matchListDate(dateStr, type)
  * Date based pattern matching for picks' routes.
- * @param {string} dateStr 
+ * @param {string} dateStr
  * @param {string} type
  * @return {array|null}
  */
@@ -39,10 +39,11 @@ function matchListDate(dateStr, type = 'staff-picks') {
 
   if (type !== 'staff-picks') {
     pattern = /^(\d{4})$/;
+  } else if (dateStr.length > 7) {
+    pattern = /^(\d{4})\-(\d{2})-(\d{2})$/;
   } else {
     pattern = /^(\d{4})\-(\d{2})$/;
   }
-
   const validMatch = dateStr.match(pattern);
 
   return validMatch;
@@ -97,4 +98,9 @@ function annualDate(dateStr) {
   return { year };
 }
 
-export { staffPicksDate, annualDate, matchListDate };
+export {
+  staffPicksDate,
+  annualDate,
+  matchListDate,
+  monthOrSeason,
+};

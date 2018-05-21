@@ -211,11 +211,24 @@ $book-card-largescreen-gutter: 3.5%;
   }
 
   &-tags {
-    padding: 0;
-    margin: 0 1%;
     clear: left;
-    font-size: .75rem;
     color: $nypl-red;
+    font-size: .75rem;
+    margin: 0 1%;
+    padding: 0;
+
+    span {
+      display: inline-block;
+      margin: 0 4px 0 0;
+    }
+
+    ul {
+      display: inline-block;
+      li {
+        display: inline-block;
+        margin: 0 4px 0 0;
+      }
+    }
 
     &.js {
       -webkit-animation: none;

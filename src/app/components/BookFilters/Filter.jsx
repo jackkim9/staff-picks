@@ -5,7 +5,9 @@ import {
   XIcon,
 } from '@nypl/dgx-svg-icons';
 import { isEmpty as _isEmpty } from 'underscore';
+
 import utils from '../../utils/utils';
+import appConfig from '../../../../appConfig';
 
 const ANIMATION_TIMEOUT = 300;
 
@@ -65,11 +67,15 @@ class Filter extends React.Component {
     const {
       filter,
       active,
+      displayType,
     } = this.props;
     const selectLabel = active ? 'Unselect' : 'Select';
     this.props.onClick(filter.id, !active);
 
-    utils.trackPicks('Filters', `${selectLabel} - ${filter.id}`);
+    utils.trackPicks(
+      `${appConfig.niceLabelMap[displayType]} Filters`,
+      `${selectLabel} - ${filter.id}`,
+    );
   }
 
   render() {
@@ -108,6 +114,7 @@ Filter.propTypes = {
   active: PropTypes.bool,
   disabled: PropTypes.bool,
   clearTimeout: PropTypes.func,
+  displayType: PropTypes.string,
 };
 
 Filter.defaultProps = {
