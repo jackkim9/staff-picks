@@ -38,7 +38,7 @@ deploy:
   bucket_path: staff-picks-qa
   on:
     repo: NYPL/staff-picks
-    branch: deploy-feature-branch
+    branch: qa
 - provider: elasticbeanstalk
   skip_cleanup: true
   access_key_id: "$AWS_ACCESS_KEY_ID_DEVELOPMENT"
