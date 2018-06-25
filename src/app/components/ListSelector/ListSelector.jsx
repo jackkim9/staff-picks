@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { ListIcon } from '@nypl/dgx-svg-icons';
 import axios from 'axios';
 import { isEmpty as _isEmpty } from 'underscore';
 
@@ -174,23 +175,26 @@ class ListSelector extends React.Component {
     const htmlHidden = isJsEnabled;
 
     return (
-      <form action={`${config.baseApiUrl}post`} method="post">
-        {this.renderFieldset(this.props.fieldsetProps.audience)}
-        {this.renderFieldset(this.props.fieldsetProps.season)}
-        <input
-          type="hidden"
-          name="type"
-          value={this.props.fieldsetProps.type}
-          className={hiddenClass}
-        />
-        <input
-          hidden={htmlHidden}
-          type="submit"
-          value="Select List"
-          className={hiddenClass}
-          tabIndex={isJsEnabled ? -1 : 0}
-        />
-      </form>
+      <div>
+        <h3><ListIcon ariaHidden /><span>Select a List</span></h3>
+        <form action={`${config.baseApiUrl}post`} method="post">
+          {this.renderFieldset(this.props.fieldsetProps.audience)}
+          {this.renderFieldset(this.props.fieldsetProps.season)}
+          <input
+            type="hidden"
+            name="type"
+            value={this.props.fieldsetProps.type}
+            className={hiddenClass}
+          />
+          <input
+            hidden={htmlHidden}
+            type="submit"
+            value="Select List"
+            className={hiddenClass}
+            tabIndex={isJsEnabled ? -1 : 0}
+          />
+        </form>
+      </div>
     );
   }
 }

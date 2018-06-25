@@ -32,7 +32,7 @@ describe('About', () => {
     it('should have one link to the accessible print editions of the titles', () => {
       const printDisabilityLink = component.find('a').at(0);
 
-      expect(printDisabilityLink.text()).to.equal('patrons with print disabilities.');
+      expect(printDisabilityLink.text()).to.equal('Learn more about library materials and services for patrons with print disabilities');
       expect(printDisabilityLink.prop('href'))
         .to.equal('https://www.nypl.org/accessibility/print-disabilities');
     });

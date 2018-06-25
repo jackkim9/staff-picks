@@ -222,4 +222,19 @@ describe('Utils functions', () => {
       }
     );
   });
+
+  describe('makePlural', () => {
+    it('should return given value when not a string', () => {
+      expect(utils.makePlural(123)).to.eql(123);
+      expect(utils.makePlural([123, 456])).to.eql([123, 456]);
+    });
+    it('should return the plural form of the given word', () => {
+      expect(utils.makePlural('Adult')).to.eql('Adults');
+      expect(utils.makePlural('Young Adult')).to.eql('Young Adults');
+      expect(utils.makePlural('Child')).to.eql('Children');
+    });
+    it('should return children which is already plural', () => {
+      expect(utils.makePlural('Children')).to.eql('Children');
+    });
+  });
 });

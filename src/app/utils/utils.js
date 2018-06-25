@@ -11,6 +11,7 @@ import {
   useQueries,
   createMemoryHistory,
 } from 'history';
+import pluralize from 'pluralize';
 
 function Utils() {
   /**
@@ -180,6 +181,21 @@ function Utils() {
    * @return {string}
    */
   this.toMonthAndYear = (match, d1, d2) => [d1, d2].join('-');
+
+  /**
+   * makePlural(word, count, inclusive)
+   * Use the pluralize package to make a word plural based on predefined rules.
+   * @param {string} word
+   * @param {integer} count
+   * @param {boolean} inclusive
+   * @return {string}
+   */
+  this.makePlural = (word, count, inclusive) => {
+    if (typeof word !== 'string') {
+      return word;
+    }
+    return pluralize(word, count, inclusive);
+  };
 }
 
 export default new Utils();

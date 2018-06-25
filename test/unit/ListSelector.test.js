@@ -6,6 +6,7 @@ import { shallow } from 'enzyme';
 import axios from 'axios';
 import MockAdapter from 'axios-mock-adapter';
 import ListSelector from '../../src/app/components/ListSelector/ListSelector';
+import { ListIcon } from '@nypl/dgx-svg-icons';
 import config from '../../appConfig';
 
 const fieldsetProps = {
@@ -42,6 +43,25 @@ describe('ListSelector', () => {
     after(() => {
       component.unmount();
     });
+
+    it('should render an <h3>. The <h3> should contain an icon with the aria hidden attribute.',
+      () => {
+        const ListSelectorInstruction = component.find('h3');
+
+        expect(ListSelectorInstruction.length).to.equal(1);
+        expect(ListSelectorInstruction.find(ListIcon).length).to.equal(1);
+        expect(ListSelectorInstruction.find(ListIcon).props().ariaHidden).to.equal(true);
+      }
+    );
+
+    it('should render an <h3>, and in the <h3> it should render a <span> with the correct texts.',
+      () => {
+        const ListSelectorInstruction = component.find('h3');
+
+        expect(ListSelectorInstruction.find('span').length).to.equal(1);
+        expect(ListSelectorInstruction.find('span').text()).to.equal('Select a List');
+      }
+    );
 
     it('should render a form, and inside the form, it should render <input>.',
       () => {

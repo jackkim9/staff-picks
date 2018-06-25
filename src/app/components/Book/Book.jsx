@@ -138,7 +138,7 @@ const Book = ({ pick, isJsEnabled, displayType }) => {
     <li
       className={`book-item ${getTagClasses(tagsArray)} ${hasIllustratorTranslatorClass}`}
       key={!isStringEmpty(book.title) ? book.title : null}
-      tabIndex="0"
+      tabIndex="-1"
       id={pick.slug}
     >
       {renderBookCoverImage(book.imageUrl)}

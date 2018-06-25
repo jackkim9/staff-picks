@@ -1,5 +1,14 @@
 ## CHANGELOG
 
+### 4.0.2
+> Update the header component to 2.4.9.
+
+### 4.0.1
+> Updating @nypl/dgx-react-footer version to 0.5.0 and @nypl/dgx-header-component to 2.4.8.
+> Updating 404 page content to include a link back to /staff-picks.
+> Updating additional info link to include 'formats for'.
+> Adds npm pacakge pluralize v7.0.0 to handle singular and plural word forms for titles and book counts.
+
 ### 4.0.0
 > Update the routes. The base route is now `/books-music-movies/recommendations/best-books/`. And `staff-picks`, `ya`, `childrens` are three lists on the same level of the structure.
 > Update the routes for supporting the old URLs for individual books. Now the links no longer lead to a modal but scroll down and focus on the particular book in the list.

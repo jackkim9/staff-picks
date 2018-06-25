@@ -63,7 +63,7 @@ describe('Book Component', () => {
       expect(pickListElement.hasClass('offbeat')).to.equal(true);
       expect(pickListElement.hasClass('seriously-good-writing')).to.equal(true);
       expect(pickListElement.prop('id')).to.equal('9780385539913-a-gamblers-anatomy');
-      expect(pickListElement.prop('tabIndex')).to.equal('0');
+      expect(pickListElement.prop('tabIndex')).to.equal('-1');
     });
 
     it('should render the pick title <h3> element with text', () => {

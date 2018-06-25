@@ -50,3 +50,35 @@ body {
 li {
   list-style: none;
 }
+
+// Small override to a normalize rule which mess up the layout for
+// the footer in the mobile and tablet viewports.
+.footer {
+  .socialMedia {
+    li {
+      margin-left: 0;
+    }
+
+    @include min-screen(1500px) {
+      width: 380px;
+    }
+  }
+
+  .footerLinks {
+    width: 81%;
+
+    @include min-screen(768px) {
+      width: 100%;
+    }
+  }
+
+  .copyright p {
+    max-width: 100%;
+  }
+
+  &-content {
+    @include min-screen(768px) {
+      left: auto;
+    }
+  }
+}

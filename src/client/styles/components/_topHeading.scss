@@ -31,6 +31,7 @@
     @include min-screen($mobile-breakpoint) {
       font-size: 1.6rem;
       margin: 10px 0;
+      letter-spacing: -0.3px;
 
       span {
         font-size: 1rem;

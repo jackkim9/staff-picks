@@ -1,9 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import utils from '../../utils/utils';
 
 const ListTitle = (props) => {
   const { displayDate = {}, displayAge } = props.displayInfo;
-  const booksfound = `${props.picksCount} Book${props.picksCount === 1 ? '' : 's'} Found`;
+  const booksCount = utils.makePlural('Book', props.picksCount, true);
+  const booksFound = `${booksCount} Found`;
   const idPrefix = props.idPrefix ? `${props.idPrefix}-` : '';
 
   // General check to see if the year is available.
@@ -12,8 +14,9 @@ const ListTitle = (props) => {
   }
 
   const isStaffPicks = (props.displayType === 'staff-picks');
+  const ageGroup = utils.makePlural(displayAge);
   const content = isStaffPicks ?
-    `${displayDate.month} ${displayDate.year} Picks for ${displayAge}` :
+    `${displayDate.month} ${displayDate.year} Picks for ${ageGroup}` :
     `${displayDate.year} Picks`;
 
   // If it's staff picks and we don't have the following data then return null;
@@ -24,7 +27,7 @@ const ListTitle = (props) => {
   return (
     <h2 id={`${idPrefix}list-title`} tabIndex="0">
       {content}
-      <span className="pick-count">{booksfound}</span>
+      <span className="pick-count">{booksFound}</span>
     </h2>
   );
 };
