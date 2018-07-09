@@ -1,7 +1,7 @@
 ## CHANGELOG
 
 ### 4.0.2
-> Update the header component to 2.4.9.
+> Update the header component to 2.4.10.
 
 ### 4.0.1
 > Updating @nypl/dgx-react-footer version to 0.5.0 and @nypl/dgx-header-component to 2.4.8.
