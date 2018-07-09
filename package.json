@@ -46,7 +46,7 @@
   },
   "dependencies": {
     "@nypl/design-toolkit": "0.1.27",
-    "@nypl/dgx-header-component": "2.4.9",
+    "@nypl/dgx-header-component": "git+https://git@github.com/NYPL/dgx-header-component.git#development",
     "@nypl/dgx-react-footer": "0.5.0",
     "@nypl/dgx-svg-icons": "0.2.5",
     "@nypl/nypl-data-api-client": "0.2.5",
