@@ -3,12 +3,21 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import utils from '../../utils/utils';
 
+import {
+  FormGroup,
+  Select,
+  SelectItem,
+} from "carbon-components-react";
+
 const ListFilter = ({ fieldsetProps, handleChange }) => {
   const selectName = fieldsetProps.fieldsetName;
   const selectId = `${selectName}-input`;
   let defaultValue;
   const optionList = (fieldsetProps.options.length) ? fieldsetProps.options.map(
-    opt => <option value={opt.value} key={opt.value}>{opt.name}</option>
+    opt => <option value={opt.value} key={opt.value}>{opt.name}</option>,
+  ) : null;
+  const opList = (fieldsetProps.options.length) ? fieldsetProps.options.map(
+    opt => <SelectItem value={opt.value} key={opt.value} text={opt.name} />,
   ) : null;
 
   if (fieldsetProps.currentValue) {
@@ -18,18 +27,26 @@ const ListFilter = ({ fieldsetProps, handleChange }) => {
       fieldsetProps.options[0].value : '';
   }
 
+  // <select
+  //   id={selectId}
+  //   name={selectName}
+  //   value={defaultValue}
+  //   onChange={handleChange}
+  // >
+  //   {optionList}
+  // </select>
   return (
-    <fieldset>
-      <label htmlFor={selectId}>{`Select ${utils.capitalize(selectName)}`}</label>
-      <select
+    <FormGroup legendText={`Select ${utils.capitalize(selectName)}`}>
+      <Select
+        className="some-class"
+        invalidText="A valid selection is required"
         id={selectId}
-        name={selectName}
-        value={defaultValue}
         onChange={handleChange}
+        light
       >
-        {optionList}
-      </select>
-    </fieldset>
+        {opList}
+      </Select>
+    </FormGroup>
   );
 };
 

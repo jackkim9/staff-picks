@@ -11,33 +11,33 @@ li.filter-item {
   }
 
   button {
-    background: $nypl-white;
-    color: $nypl-blue;
-    border-radius: 25px;
-    width: 11rem;
+    // background: white;
+    // color: blue;
+    // border-radius: 25px;
+    // width: 11rem;
     text-align: center;
-    padding-left: 20px;
+    // padding-left: 20px;
     white-space: pre-line;
-    line-height: 1.2;
-    min-height: 2.5rem;
-    padding: 0.75rem;
-    position: relative;
+    // line-height: 1.2;
+    // min-height: 2.5rem;
+    // padding: 0.75rem;
+    // position: relative;
 
     svg {
-      fill: $nypl-blue;
+      fill: blue;
       float: left;
       height: 1.25rem;
       width: 1.25rem;
       margin: 0;
-      position: absolute;
-      top: 50%;
-      left: 3.5%;
+      // position: absolute;
+      // top: 80%;
+      // left: 3.5%;
       display: inline-block;
       @include transform(translate(0, -50%));
 
-      @include min-screen($mobile-breakpoint) {
-        left: 2%;
-      }
+      // @include min-screen($mobile-breakpoint) {
+      //   left: 2%;
+      // }
     }
 
     span {
@@ -45,58 +45,59 @@ li.filter-item {
       width: 8rem;
     }
 
-    &:disabled {
-      background-color: $nypl-white;
-      border-color: $nypl-gray;
-      color: $nypl-gray;
-
-      &:hover {
-        background-color: $nypl-white;
-        border-color: $nypl-gray;
-        color: $nypl-gray;
-      }
-    }
-
+    // &:disabled {
+    //   background-color: white;
+    //   border-color: gray;
+    //   color: gray;
+    //
+    //   &:hover {
+    //     background-color: white;
+    //     border-color: gray;
+    //     color: gray;
+    //   }
+    // }
+    //
     &:hover {
-      background: $nypl-blue;
-      color: $nypl-white;
-
+      // background: blue;
+      // color: white;
+      //
       svg {
-        fill: $nypl-white;
+        fill: white;
       }
     }
+
+    // &.transition,
+    // &.active {
+    //   padding-left: 15px;
+    //   margin-left: -1em;
+    //
+    //   @include min-screen($xtrasmall-breakpoint) {
+    //     margin-left: 0;
+    //   }
+    //
+    //   @include min-screen($mobile-breakpoint + 1) {
+    //     margin-left: -1em;
+    //   }
+    // }
+    //
+    // &.transition {
+      // background: blue;
+      // color: blue;
+      // border-color: blue;
+      //
+    //   svg {
+    //     fill: blue;
+    //   }
+    // }
 
     &.transition,
     &.active {
-      padding-left: 15px;
-      margin-left: -1em;
-
-      @include min-screen($xtrasmall-breakpoint) {
-        margin-left: 0;
-      }
-
-      @include min-screen($mobile-breakpoint + 1) {
-        margin-left: -1em;
-      }
-    }
-
-    &.transition {
-      background: $nypl-blue-sky;
-      color: $nypl-blue-dark;
-      border-color: $nypl-blue-dark;
+      // color: white;
+      // border: 0.04167rem solid blue;
+      // background: blue;
 
       svg {
-        fill: $nypl-blue-dark;
-      }
-    }
-
-    &.active {
-      color: $nypl-white;
-      border: 0.04167rem solid $nypl-blue;
-      background: $nypl-blue;
-
-      svg {
-        fill: $nypl-white;
+        fill: white;
       }
     }
   }

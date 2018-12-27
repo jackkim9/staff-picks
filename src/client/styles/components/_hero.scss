@@ -40,6 +40,7 @@
   }
 
   &-content {
+    padding-top: 60px;
     line-height: normal;
     white-space: normal;
 
@@ -59,14 +60,15 @@
       line-height: 1.5;
       width: 50%;
 
-      @include media($mobile-breakpoint) {
+      @include min-screen($mobile-breakpoint) {
         width: 75%;
       }
     }
   }
 
   &.staff-picks-hero {
-    background-color: $nypl-red;
+    // background-color: $nypl-red;
+    background-color: #d0343a;
     color: #fff;
     height: 250px;
     width: 100%;
@@ -75,13 +77,13 @@
       background-color: transparent;
     }
 
-    @include media($mobile-breakpoint) {
-      background-color: #fff;
-      color: #000;
+    @include min-screen($mobile-breakpoint) {
+      // background-color: #fff;
+      // color: #000;
 
-      .hero-section-title {
-        @include visuallyHidden;
-      }
+      // .hero-section-title {
+      //   @include visuallyHidden;
+      // }
     }
   }
 }

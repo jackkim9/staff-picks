@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { EReaderIcon, BookIcon } from '@nypl/dgx-svg-icons';
 import { isEmpty as _isEmpty, isString as _isString } from 'underscore';
 import { Lazy } from 'react-lazy';
+import { Button } from 'carbon-components-react';
 
 import config from '../../../../appConfig';
 import utils from '../../utils/utils';
@@ -61,7 +62,7 @@ const Book = ({ pick, isJsEnabled, displayType }) => {
 
   const renderCatalogLinks = (catalogUrl, ebookUrl, listType) => {
     const catalogLink = !isStringEmpty(catalogUrl) ? (
-      <a
+      <Button
         href={catalogUrl}
         className="catalog-url"
         onClick={() => gaEvent('Book', listType)}
@@ -69,10 +70,10 @@ const Book = ({ pick, isJsEnabled, displayType }) => {
       >
         <BookIcon width="32px" height="32px" ariaHidden />
         <span aria-label={`Request Book: ${book.title}`}>{config.requestUrlsText.catalog}</span>
-      </a>) : null;
+      </Button>) : null;
 
     const ebookLink = !isStringEmpty(ebookUrl) ? (
-      <a
+      <Button
         href={ebookUrl}
         className="ebook-url"
         onClick={() => gaEvent('E-Book', listType)}
@@ -80,7 +81,7 @@ const Book = ({ pick, isJsEnabled, displayType }) => {
       >
         <EReaderIcon ariaHidden />
         <span aria-label={`Request E-Book: ${book.title}`}>{config.requestUrlsText.ebook}</span>
-      </a>) : null;
+      </Button>) : null;
 
     return (catalogLink || ebookLink) ?
       <div className="book-item-catalog-links">

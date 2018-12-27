@@ -3,7 +3,8 @@
     position: relative;
 
     @include min-screen($mobile-breakpoint) {
-      border-top: 4px solid $nypl-red;
+      // border-top: 4px solid $nypl-red;
+      border-top: 4px solid red;
     }
 
     h3 {
@@ -49,7 +50,7 @@
 
   &-toggleButton {
     -webkit-appearance: none;
-    background-color: $nypl-white;
+    background-color: #fff;
     border: none;
     position: absolute;
     right: .2em;
@@ -118,14 +119,14 @@
       float: left;
       height: 2rem;
       width: 2rem;
-      margin: -2px 0 0;
-      fill: $nypl-white;
+      margin: -7px 0 0;
+      fill: white;
     }
 
-    &:hover {
-      svg {
-        fill: $nypl-blue;
-      }
-    }
+    // &:hover {
+    //   svg {
+    //     fill: blue;
+    //   }
+    // }
   }
 }

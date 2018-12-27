@@ -2,7 +2,7 @@ $book-card-smallscreen-gutter: 2.5%;
 $book-card-largescreen-gutter: 3.5%;
 
 .book-item {
-  border-bottom: 2px solid $nypl-gray-cool;
+  border-bottom: 2px solid gray;
   margin: .5em .25em 1.5em .25em;
   padding-bottom: 1em;
   padding-top: .75em;
@@ -12,7 +12,7 @@ $book-card-largescreen-gutter: 3.5%;
 
   &:focus {
     // From @nypl/design-toolkit
-    @include box-shadow(inset 0 0 0 0.125rem $focus-color);
+    // @include box-shadow(inset 0 0 0 0.125rem $focus-color);
     outline: none;
   }
 
@@ -134,15 +134,15 @@ $book-card-largescreen-gutter: 3.5%;
     }
 
     a {
-      @include basic-button(
-        $background-color: $nypl-blue,
-        $border-color: $nypl-blue,
-        $border-radius: .25rem,
-        $hover-text-color: $nypl-blue,
-        $hover-background-color: $nypl-white,
-        $padding-vertical: .25rem,
-        $text-color: $nypl-white
-      );
+      // @include basic-button(
+      //   $background-color: blue,
+      //   $border-color: blue,
+      //   $border-radius: .25rem,
+      //   $hover-text-color: blue,
+      //   $hover-background-color: white,
+      //   $padding-vertical: .25rem,
+      //   $text-color: white
+      // );
       // overrides
       font-size: 14px;
       margin: 12.5px 0 12.5px 1%;
@@ -162,9 +162,9 @@ $book-card-largescreen-gutter: 3.5%;
 
       svg {
         fill: #fff;
-        height: 32px;
-        position: relative;
-        width: 32px;
+        // height: 32px;
+        // position: relative;
+        // width: 32px;
       }
 
       .book-icon {
@@ -176,16 +176,16 @@ $book-card-largescreen-gutter: 3.5%;
       }
 
       span {
-        bottom: 7px;
+        // bottom: 7px;
         margin: 0 0 0 3px;
         position: relative;
       }
 
-      &:hover {
-        svg {
-          fill: $nypl-blue;
-        }
-      }
+      // &:hover {
+      //   svg {
+      //     fill: blue;
+      //   }
+      // }
     }
   }
 
@@ -212,7 +212,7 @@ $book-card-largescreen-gutter: 3.5%;
 
   &-tags {
     clear: left;
-    color: $nypl-red;
+    color: red;
     font-size: .75rem;
     margin: 0 1%;
     padding: 0;

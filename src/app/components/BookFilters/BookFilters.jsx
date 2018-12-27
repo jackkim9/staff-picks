@@ -6,6 +6,7 @@ import {
   LeftWedgeIcon,
 } from '@nypl/dgx-svg-icons';
 import { contains as _contains } from 'underscore';
+import { Button } from 'carbon-components-react';
 
 import Filter from './Filter';
 import utils from '../../utils/utils';
@@ -152,14 +153,14 @@ class BookFilters extends React.Component {
           {
             !!this.state.selectedFilters.length &&
               (
-                <button
+                <Button
                   onClick={() => this.props.clearFilters()}
                   className="nypl-primary-button clear-button"
                   ref="clearFilters"
                 >
                   <ResetIcon />
                   Clear All Filters
-                </button>
+                </Button>
               )
           }
         </div>

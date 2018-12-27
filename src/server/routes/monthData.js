@@ -14,7 +14,7 @@ const STAFF_PICKS = 'staff-picks';
  * @param {string} endpoint
  */
 const nyplApiClientGet = endpoint =>
-  nyplApiClient().then(client => client.get(endpoint, { cache: false }));
+  nyplApiClient().then(client => client.get(endpoint, { cache: false, authenticate: false }));
 
 /* currentMonthData
  * Gets the default/latest monthly staff pick list.

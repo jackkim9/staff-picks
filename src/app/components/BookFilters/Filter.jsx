@@ -5,6 +5,7 @@ import {
   XIcon,
 } from '@nypl/dgx-svg-icons';
 import { isEmpty as _isEmpty } from 'underscore';
+import { Button } from 'carbon-components-react';
 
 import utils from '../../utils/utils';
 import appConfig from '../../../../appConfig';
@@ -93,14 +94,14 @@ class Filter extends React.Component {
 
     return (
       <li className="filter-item">
-        <button
+        <Button
           className={`nypl-primary-button ${activeClass}`}
           onClick={this.onClick}
           aria-label={arialLabel}
           disabled={this.props.disabled}
         >
           {icon}<span>{filter.label}</span>
-        </button>
+        </Button>
       </li>
     );
   }

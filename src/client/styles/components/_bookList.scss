@@ -1,6 +1,6 @@
 .booklist {
   @import 'bookItem';
-  border-top: 4px solid $nypl-red;
+  border-top: 4px solid red;
 
   @include min-screen($mobile-breakpoint) {
     margin-left: 0;

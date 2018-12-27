@@ -3,7 +3,7 @@
   .nypl-column-one-quarter,
   .nypl-column-three-quarters {
     margin-bottom: 0;
-    border-top: 4px solid $nypl-red;
+    border-top: 4px solid red;
 
     @include min-screen($mobile-breakpoint) {
       border-top: 0;
@@ -11,7 +11,7 @@
   }
 
   h2#list-title {
-    color: $nypl-red;
+    color: red;
     background: #fff;
     width: 100%;
     position: relative;

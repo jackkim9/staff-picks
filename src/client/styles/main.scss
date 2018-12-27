@@ -1,8 +1,9 @@
 /*
 Import style rules from NYPL Design Toolkit
 */
-@import "nypl-normalize";
-@import "toolkit";
+// @import "nypl-normalize";
+// @import "toolkit";
+@import "~carbon-components/scss/globals/scss/styles";
 
 /*
 App-specific utilities and defaults
@@ -18,6 +19,13 @@ Import style rules from NYPL React module components
 */
 @import "~@nypl/dgx-header-component/dist/styles/main";
 @import "~@nypl/dgx-react-footer/dist/styles/styles.scss";
+
+$xtrasmall-breakpoint: 320px;
+$mobile-breakpoint: 640px;
+
+.bx--select-input {
+  -webkit-appearance: listbox;
+}
 
 @import 'components/about';
 @import 'components/bookList';
@@ -40,11 +48,11 @@ body {
   max-width: $container-width;
   padding: 0.5rem 1rem;
   margin: 0 auto;
-  @include box-sizing(border-box);
+  // @include box-sizing(border-box);
 }
 
 .content-wrapper {
-  @include full-width-wrapper;
+  // @include full-width-wrapper;
 }
 
 li {
