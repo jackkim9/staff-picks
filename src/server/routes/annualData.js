@@ -8,7 +8,7 @@ import modelListOptions from '../../app/utils/ModelListOptionsService';
 import { matchListDate } from '../../app/utils/DateService';
 
 const nyplApiClientGet = endpoint =>
-  nyplApiClient().then(client => client.get(endpoint, { cache: false }));
+  nyplApiClient().then(client => client.get(endpoint, { cache: false, authenticate: false }));
 
 /**
  * annualCurrentListData(req, res, next)

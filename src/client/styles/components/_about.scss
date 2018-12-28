@@ -1,4 +1,7 @@
 .about {
+  position: relative;
+  float: left;
+
   h2 {
     margin: 0.8rem 0;
   }
@@ -19,12 +22,12 @@
   }
 
   a {
-    color: $nypl-blue;
-    background: $nypl-white;
+    color: blue;
+    background: white;
   }
 
   svg {
-    fill: $nypl-blue;
+    fill: blue;
     height: 30px;
   }
 
@@ -33,6 +36,6 @@
   }
 
   @include min-screen($mobile-breakpoint) {
-    border-top: 2px solid $nypl-gray-cool;
+    border-top: 2px solid gray;
   }
 }

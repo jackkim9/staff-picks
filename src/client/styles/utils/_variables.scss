@@ -1,10 +1,11 @@
 $staffPicksUrl: '/books-music-dvds/recommendations/staff-picks/';
 
 // buttons
-$button-background-color: $nypl-search-color-dark;
+// $button-background-color: $nypl-search-color-dark;
+$button-background-color: blue;
 
 // misc
-$border-color: $page-text-color;
+$border-color: blue;
 $focus-width: 3px;
 $logo-width: 5rem;
 $logo-height: 3rem;
@@ -13,4 +14,4 @@ $logo-height: 3rem;
 $container-width: 1200px;
 $header-height: 60px;
 $header-component-height: 40px;
-$header-component-margin: ($header-height - $header-component-height)/2;
+$header-component-margin: (40px - 10px)/2;

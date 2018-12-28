@@ -3,7 +3,7 @@
   .nypl-column-one-quarter,
   .nypl-column-three-quarters {
     margin-bottom: 0;
-    border-top: 4px solid $nypl-red;
+    border-top: 4px solid #d0343a;
 
     @include min-screen($mobile-breakpoint) {
       border-top: 0;
@@ -11,12 +11,10 @@
   }
 
   h2#list-title {
-    color: $nypl-red;
+    color: #d0343a;
     background: #fff;
     width: 100%;
     position: relative;
-    font-size: 1.2rem;
-    font-weight: 700;
     margin-top: 15px;
 
     span {
@@ -29,9 +27,7 @@
     }
 
     @include min-screen($mobile-breakpoint) {
-      font-size: 1.6rem;
       margin: 10px 0;
-      letter-spacing: -0.3px;
 
       span {
         font-size: 1rem;
@@ -47,8 +43,6 @@
       display: block;
       background: #fff;
       color: #000;
-      font-size: 1.2rem;
-      font-weight: 700;
       margin: 12px 0;
 
       svg {

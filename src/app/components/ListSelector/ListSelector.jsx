@@ -177,7 +177,7 @@ class ListSelector extends React.Component {
     return (
       <div>
         <h3><ListIcon ariaHidden /><span>Select a List</span></h3>
-        <form action={`${config.baseApiUrl}post`} method="post">
+        <form action={`${config.baseApiUrl}post`} method="post" className="usa-form">
           {this.renderFieldset(this.props.fieldsetProps.audience)}
           {this.renderFieldset(this.props.fieldsetProps.season)}
           <input

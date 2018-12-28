@@ -218,7 +218,7 @@ class Main extends React.Component {
           picksCount={picksCount}
         />
 
-        <div className="nypl-row">
+        <div className="usa-width-one-whole">
           <Sidebar
             filters={this.props.filters}
             selectableFilters={utils.getSelectableTags(this.state.picks)}

@@ -6,8 +6,8 @@ import appConfig from '../../../../appConfig';
 import ListTitle from '../ListTitle/ListTitle';
 
 const TopHeading = ({ displayInfo, displayType, picksCount }) => (
-  <div className="nypl-row top-headings">
-    <div className="nypl-column-one-quarter">
+  <div className="nypl-row top-headings usa-width-one-whole">
+    <div className="nypl-column-one-quarter usa-width-one-third">
       <nav aria-label="Breadcrumbs" className="book-filters-heading-top">
         <a href={appConfig.recommendationsLink.url} className="back-link">
           <LeftWedgeIcon ariaHidden />
@@ -16,7 +16,7 @@ const TopHeading = ({ displayInfo, displayType, picksCount }) => (
       </nav>
     </div>
 
-    <div className="nypl-column-three-quarters">
+    <div className="nypl-column-three-quarters usa-width-two-thirds">
       <ListTitle
         displayInfo={displayInfo}
         displayType={displayType}

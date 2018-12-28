@@ -154,7 +154,7 @@ class BookFilters extends React.Component {
               (
                 <button
                   onClick={() => this.props.clearFilters()}
-                  className="nypl-primary-button clear-button"
+                  className="nypl-primary-button clear-button usa-button"
                   ref="clearFilters"
                 >
                   <ResetIcon />

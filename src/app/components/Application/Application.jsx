@@ -63,10 +63,10 @@ class App extends React.Component {
           skipNav={{ target: 'app-content' }}
         />
 
-        <main className="main-page">
+        <main className="main-page usa-grid-full">
           {heroDOM}
 
-          <div id="app-content" className="nypl-full-width-wrapper">
+          <div id="app-content" className="nypl-full-width-wrapper usa-width-one-whole">
             {React.cloneElement(this.props.children, this.state)}
           </div>
         </main>

@@ -3,7 +3,7 @@
     position: relative;
 
     @include min-screen($mobile-breakpoint) {
-      border-top: 4px solid $nypl-red;
+      border-top: 4px solid #d0343a;
     }
 
     h3 {
@@ -13,11 +13,6 @@
 
       @include min-screen($mobile-breakpoint) {
         padding-left: 0;
-        font-size: .85rem;
-      }
-
-      @include min-screen($mobile-breakpoint + 85px) {
-        font-size: .9rem;
       }
 
       svg {
@@ -49,7 +44,7 @@
 
   &-toggleButton {
     -webkit-appearance: none;
-    background-color: $nypl-white;
+    background-color: white;
     border: none;
     position: absolute;
     right: .2em;
@@ -119,12 +114,12 @@
       height: 2rem;
       width: 2rem;
       margin: -2px 0 0;
-      fill: $nypl-white;
+      fill: white;
     }
 
     &:hover {
       svg {
-        fill: $nypl-blue;
+        fill: white;
       }
     }
   }

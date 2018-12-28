@@ -89,12 +89,12 @@ class Filter extends React.Component {
       return null;
     }
 
-    const arialLabel = activeClass === 'active' ? `${filter.label} tag applied` : filter.label;
+    const arialLabel = activeClass === 'active' ? `${filter.label} tag applied usa-button-active` : filter.label;
 
     return (
       <li className="filter-item">
         <button
-          className={`nypl-primary-button ${activeClass}`}
+          className={`usa-button-secondary ${activeClass}`}
           onClick={this.onClick}
           aria-label={arialLabel}
           disabled={this.props.disabled}

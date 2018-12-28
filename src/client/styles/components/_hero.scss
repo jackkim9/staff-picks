@@ -66,7 +66,7 @@
   }
 
   &.staff-picks-hero {
-    background-color: $nypl-red;
+    background-color: #d0343a;
     color: #fff;
     height: 250px;
     width: 100%;
@@ -76,8 +76,8 @@
     }
 
     @include media($mobile-breakpoint) {
-      background-color: #fff;
-      color: #000;
+      // background-color: #fff;
+      // color: #000;
 
       .hero-section-title {
         @include visuallyHidden;

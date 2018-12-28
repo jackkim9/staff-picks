@@ -21,17 +21,16 @@ const Hero = ({ heroData, isStaffPicksHero = true }) => {
   }
 
   return (
-    <div className={`hero${staffPicksHeroClassName}`}>
+    <div className={`hero${staffPicksHeroClassName} usa-width-one-whole`}>
       {heroImageDOM}
       <div className="hero-container">
-        <div className="nypl-full-width-wrapper">
-          <div className="hero-content nypl-column-three-quarters nypl-column-offset-one">
-            {sectionTitleDOM}
-            <h1>{heroData.header}</h1>
-            <p className="hero-content-description">
-              {heroData.description}
-            </p>
-          </div>
+        <div className="usa-width-one-third">empty</div>
+        <div className="usa-width-two-thirds usa-width-offset-one-third">
+          {sectionTitleDOM}
+          <h1>{heroData.header}</h1>
+          <p className="hero-content-description">
+            {heroData.description}
+          </p>
         </div>
       </div>
     </div>

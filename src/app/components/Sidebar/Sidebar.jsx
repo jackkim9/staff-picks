@@ -58,7 +58,7 @@ const Sidebar = (props) => {
     <ListSelector fieldsetProps={data} isJsEnabled={props.isJsEnabled} displayType={props.type} />;
 
   return (
-    <div className="sidebar nypl-column-one-quarter">
+    <div className="sidebar usa-width-one-third">
       <div className="book-filters-heading">
         {renderListSelector(updateCurrentListSelectorValues(props))}
         {renderBookFilters(props.isJsEnabled)}
