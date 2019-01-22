@@ -11,13 +11,14 @@ li.filter-item {
   }
 
   button {
-    border-radius: 25px;
-    width: 14rem;
+    //border-radius: 25px;
+    //width: 14rem;
+    width: 100%;
     text-align: center;
-    padding-left: 20px;
-    white-space: pre-line;
-    min-height: 2.5rem;
-    padding: 0.75rem;
+    //padding-left: 20px;
+    //white-space: pre-line;
+    //min-height: 2.5rem;
+    //padding: 0.75rem;
     position: relative;
 
     svg {
@@ -39,7 +40,7 @@ li.filter-item {
 
     span {
       display: inline-block;
-      width: 8rem;
+      //width: 8rem;
     }
 
     &:disabled {

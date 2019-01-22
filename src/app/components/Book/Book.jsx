@@ -63,7 +63,7 @@ const Book = ({ pick, isJsEnabled, displayType }) => {
     const catalogLink = !isStringEmpty(catalogUrl) ? (
       <a
         href={catalogUrl}
-        className="catalog-url usa-button"
+        className="catalog-url usa-button usa-button-big"
         onClick={() => gaEvent('Book', listType)}
         aria-label={`Request Book: ${book.title}`}
       >
@@ -74,7 +74,7 @@ const Book = ({ pick, isJsEnabled, displayType }) => {
     const ebookLink = !isStringEmpty(ebookUrl) ? (
       <a
         href={ebookUrl}
-        className="ebook-url usa-button"
+        className="ebook-url usa-button usa-button-secondary"
         onClick={() => gaEvent('E-Book', listType)}
         aria-label={`Request E-Book: ${book.title}`}
       >
